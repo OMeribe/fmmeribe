@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futebol Manager 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .player-card {
+            cursor: grab;
+        }
+        .pitch {
+            /* Imagem de fundo do campo atualizada */
+            background-image: url('http://googleusercontent.com/file_content/1');
+            background-size: cover;
+            background-position: center;
+            height: 600px;
+            position: relative;
+        }
+        .player-position {
+            position: absolute;
+            width: 80px;
+            height: 100px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            font-size: 12px;
+            background-color: rgba(0,0,0,0.2);
+            transition: background-color 0.2s ease;
+        }
+        .player-position.over {
+            background-color: rgba(0, 255, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+        .player-list-container {
+            min-height: 150px; /* Altura mínima para a área de drop */
+            border: 2px dashed #4a5568;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: 8px; /* Espaçamento entre os jogadores */
+        }
+        .player-list-container.over {
+             background-color: rgba(0, 255, 0, 0.2);
+        }
+        .player-token {
+            width: 70px;
+            height: 90px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #1a202c;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: grab;
+        }
+        .player-token .position {
+            font-size: 10px;
+            font-weight: 500;
+            background-color: #2d3748;
+            color: white;
+            padding: 1px 4px;
+            border-radius: 4px;
+            margin-bottom: 2px;
+        }
+        .formation-btn.active {
+            background-color: #facc15; /* Amarelo */
+            color: #1f2937; /* Cinza escuro */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div id="game-container" class="max-w-7xl mx-auto p-4">
+
+        <!-- Tela de Seleção de Time -->
+        <div id="team-selection-screen" class="screen">
+            <h1 class="text-4xl font-bold text-center mb-2 text-yellow-300">Futebol Manager 2025</h1>
+            <p class="text-center text-gray-300 mb-8">Escolha seu time para começar a temporada</p>
+            <div id="team-list" class="grid grid-cols-2 sm-grid-cols-4 lg:grid-cols-5 gap-4">
+                <!-- Times serão inseridos aqui pelo JS -->
+            </div>
+        </div>
+
+        <!-- Tela Principal do Jogo (Hub) -->
+        <div id="main-hub-screen" class="screen hidden">
+            <header class="flex justify-between items-center bg-gray-800 p-4 rounded-lg mb-6">
+                <div class="flex items-center space-x-4">
+                    <img id="hub-team-logo" src="" alt="Logo do Time" class="h-12 w-12 object-contain">
+                    <div>
+                        <h1 id="hub-team-name" class="text-2xl font-bold">Nome do Time</h1>
+                        <p id="hub-team-finances" class="text-sm text-green-400">Financeiro: R$ 50.0M</p>
+                    </div>
+                </div>
+                <div>
+                    <p id="hub-current-date" class="text-lg">Rodada: 1</p>
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Coluna Esquerda: Próximo Jogo e Notícias -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-3">Próxima Partida</h2>
+                        <div id="next-match-card" class="text-center bg-gray-700 p-4 rounded-md">
+                            <!-- Info da próxima partida -->
+                        </div>
+                    </div>
+                     <div class="bg-gray-800 p-4 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-3">Ações do Clube</h2>
+                        <div class="space-y-2">
+                             <button onclick="showScreen('squad-screen')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Gerenciar Elenco</button>
+                             <button onclick="showScreen('tactics-screen')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Táticas</button>
+                             <button onclick="showScreen('table-screen')" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Ver Tabela</button>
+                             <button onclick="advanceWeek()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mt-4">Avançar para Próxima Rodada</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna Direita: Tabela -->
+                <div class="lg:col-span-2 bg-gray-800 p-4 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-3">Tabela do Campeonato</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-gray-700">
+                                <tr>
+                                    <th class="p-2">Pos</th>
+                                    <th class="p-2">Clube</th>
+                                    <th class="p-2">P</th>
+                                    <th class="p-2">J</th>
+                                    <th class="p-2">V</th>
+                                    <th class="p-2">E</th>
+                                    <th class="p-2">D</th>
+                                    <th class="p-2">GP</th>
+                                    <th class="p-2">GC</th>
+                                    <th class="p-2">SG</th>
+                                </tr>
+                            </thead>
+                            <tbody id="main-hub-table">
+                                <!-- Tabela será preenchida aqui -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Gerenciamento de Elenco -->
+        <div id="squad-screen" class="screen hidden">
+            <div class="flex justify-between items-center mb-6">
+                 <h1 class="text-3xl font-bold">Gerenciamento de Elenco</h1>
+                 <button onclick="showScreen('main-hub-screen')" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg">Voltar ao Menu</button>
+            </div>
+            <div id="squad-list" class="bg-gray-800 p-4 rounded-lg">
+                 <!-- Lista de jogadores será inserida aqui -->
+            </div>
+        </div>
+        
+        <!-- Tela de Táticas -->
+        <div id="tactics-screen" class="screen hidden">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-3xl font-bold">Esquema Tático</h1>
+                    <p id="squad-count" class="text-gray-400"></p>
+                </div>
+                 <button onclick="showScreen('main-hub-screen')" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg">Voltar ao Menu</button>
+            </div>
+            
+            <!-- Seletor de Formação -->
+            <div class="mb-4">
+                <h3 class="text-lg font-semibold mb-2">Formação</h3>
+                <div id="formation-selector" class="flex flex-wrap gap-2">
+                    <button onclick="changeFormation('4-3-3')" class="formation-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">4-3-3</button>
+                    <button onclick="changeFormation('4-4-2')" class="formation-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">4-4-2</button>
+                    <button onclick="changeFormation('3-5-2')" class="formation-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">3-5-2</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 pitch rounded-lg" id="pitch">
+                    <!-- Posições dos jogadores (Titulares) -->
+                </div>
+                <div class="space-y-6">
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-3">Reservas</h2>
+                        <div id="reserves-list" class="player-list-container p-2 h-64 overflow-y-auto">
+                            <!-- Jogadores reservas aqui -->
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-3">Não Relacionados</h2>
+                        <div id="unlisted-list" class="player-list-container p-2 h-48 overflow-y-auto">
+                            <!-- Jogadores não relacionados aqui -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tela da Tabela Completa -->
+        <div id="table-screen" class="screen hidden">
+            <div class="flex justify-between items-center mb-6">
+                 <h1 class="text-3xl font-bold">Tabela do Campeonato Brasileiro</h1>
+                 <button onclick="showScreen('main-hub-screen')" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg">Voltar ao Menu</button>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-gray-700">
+                        <tr>
+                            <th class="p-2">Pos</th>
+                            <th class="p-2">Clube</th>
+                            <th class="p-2">P</th>
+                            <th class="p-2">J</th>
+                            <th class="p-2">V</th>
+                            <th class="p-2">E</th>
+                            <th class="p-2">D</th>
+                            <th class="p-2">GP</th>
+                            <th class="p-2">GC</th>
+                            <th class="p-2">SG</th>
+                        </tr>
+                    </thead>
+                    <tbody id="full-league-table">
+                        <!-- Tabela completa será preenchida aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Modal de Resultado da Rodada -->
+        <div id="round-results-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 screen hidden">
+            <div class="bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <h2 id="round-results-title" class="text-2xl font-bold mb-4 text-center text-yellow-300">Resultados da Rodada</h2>
+                <div id="round-results-content" class="space-y-3">
+                    <!-- Resultados dos jogos aqui -->
+                </div>
+                <div class="text-center mt-6">
+                    <button onclick="closeModal('round-results-modal')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg">Fechar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- BANCO DE DADOS E ESTADO DO JOGO ---
+
+        const POSITIONS = {
+            GK: 'Goleiro',
+            DF: 'Defensor',
+            MF: 'Meio-campo',
+            FW: 'Atacante'
+        };
+
+        const formations = {
+            '4-3-3': [
+                { top: '85%', left: '50%', translateX: '-50%', position: POSITIONS.GK },
+                { top: '70%', left: '20%', translateX: '-50%', position: POSITIONS.DF },
+                { top: '75%', left: '40%', translateX: '-50%', position: POSITIONS.DF },
+                { top: '75%', left: '60%', translateX: '-50%', position: POSITIONS.DF },
+                { top: '70%', left: '80%', translateX: '-50%', position: POSITIONS.DF },
+                { top: '50%', left: '30%', translateX: '-50%', position: POSITIONS.MF },
+                { top: '55%', left: '50%', translateX: '-50%', position: POSITIONS.MF },
+                { top: '50%', left: '70%', translateX: '-50%', position: POSITIONS.MF },
+                { top: '25%', left: '25%', translateX: '-50%', position: POSITIONS.FW },
+                { top: '20%', left: '50%', translateX: '-50%', position: POSITIONS.FW },
+                { top: '25%', left: '75%', translateX: '-50%', position: POSITIONS.FW }
+            ],
+            '4-4-2': [
+                { top: '85%', left: '50%', translateX: '-50%', position: POSITIONS.GK },
+                { top: '70%', left: '15%', translateX: '-50%', position: POSITIONS.DF },
+                { top: '75%', left: '40%', translateX: '-50%', position: POSITIONS.DF },
+                { top: '75%', left: '60%', translateX: '-50%', position: POSITIONS.DF },
+                { top: '70%', left: '85%', translateX: '-50%', position: POSITIONS.DF },
+                { top: '50%', left: '15%', translateX: '-50%', position: POSITIONS.MF },
+                { top: '55%', left: '40%', translateX: '-50%', position: POSITIONS.MF },
+                { top: '55%', left: '60%', translateX: '-50%', position: POSITIONS.MF },
+                { top: '50%', left: '85%', translateX: '-50%', position: POSITIONS.MF },
+                { top: '25%', left: '40%', translateX: '-50%', position: POSITIONS.FW },
+                { top: '25%', left: '60%', translateX: '-50%', position: POSITIONS.FW }
+            ],
+            '3-5-2': [
+                { top: '85%', left: '50%', translateX: '-50%', position: POSITIONS.GK },
+                { top: '75%', left: '30%', translateX: '-50%', position: POSITIONS.DF },
+                { top: '78%', left: '50%', translateX: '-50%', position: POSITIONS.DF },
+                { top: '75%', left: '70%', translateX: '-50%', position: POSITIONS.DF },
+                { top: '50%', left: '15%', translateX: '-50%', position: POSITIONS.MF },
+                { top: '60%', left: '35%', translateX: '-50%', position: POSITIONS.MF },
+                { top: '55%', left: '50%', translateX: '-50%', position: POSITIONS.MF },
+                { top: '60%', left: '65%', translateX: '-50%', position: POSITIONS.MF },
+                { top: '50%', left: '85%', translateX: '-50%', position: POSITIONS.MF },
+                { top: '25%', left: '40%', translateX: '-50%', position: POSITIONS.FW },
+                { top: '25%', left: '60%', translateX: '-50%', position: POSITIONS.FW }
+            ]
+        };
+
+        // URLs dos logos atualizadas para fontes mais estáveis
+        const teamsData = [
+            { id: 0, name: "Athletico-PR", logo: "https://upload.wikimedia.org/wikipedia/pt/thumb/1/19/Athletico-PR-2019.svg/1200px-Athletico-PR-2019.svg.png", players: [], finances: 50, overall: 0 },
+            { id: 1, name: "Atlético-GO", logo: "https://logodetimes.com/wp-content/uploads/atletico-goianiense.png", players: [], finances: 50, overall: 0 },
+            { id: 2, name: "Atlético-MG", logo: "https://logodetimes.com/wp-content/uploads/atletico-mineiro.png", players: [], finances: 50, overall: 0 },
+            { id: 3, name: "Bahia", logo: "https://logodetimes.com/wp-content/uploads/bahia.png", players: [], finances: 50, overall: 0 },
+            { id: 4, name: "Botafogo", logo: "https://logodetimes.com/wp-content/uploads/botafogo.png", players: [], finances: 50, overall: 0 },
+            { id: 5, name: "Bragantino", logo: "https://logodetimes.com/wp-content/uploads/red-bull-bragantino.png", players: [], finances: 50, overall: 0 },
+            { id: 6, name: "Corinthians", logo: "https://logodetimes.com/wp-content/uploads/corinthians.png", players: [], finances: 50, overall: 0 },
+            { id: 7, name: "Criciúma", logo: "https://logodetimes.com/wp-content/uploads/criciuma.png", players: [], finances: 50, overall: 0 },
+            { id: 8, name: "Cruzeiro", logo: "https://logodetimes.com/wp-content/uploads/cruzeiro.png", players: [], finances: 50, overall: 0 },
+            { id: 9, name: "Cuiabá", logo: "https://logodownload.org/wp-content/uploads/2021/09/cuiaba-esporte-clube-logo.png", players: [], finances: 50, overall: 0 },
+            { id: 10, name: "Flamengo", logo: "https://logodetimes.com/wp-content/uploads/flamengo.png", players: [], finances: 50, overall: 0 },
+            { id: 11, name: "Fluminense", logo: "https://logodetimes.com/wp-content/uploads/fluminense.png", players: [], finances: 50, overall: 0 },
+            { id: 12, name: "Fortaleza", logo: "https://logodetimes.com/wp-content/uploads/fortaleza.png", players: [], finances: 50, overall: 0 },
+            { id: 13, name: "Grêmio", logo: "https://logodetimes.com/wp-content/uploads/gremio.png", players: [], finances: 50, overall: 0 },
+            { id: 14, name: "Internacional", logo: "https://logodetimes.com/wp-content/uploads/internacional.png", players: [], finances: 50, overall: 0 },
+            { id: 15, name: "Juventude", logo: "https://upload.wikimedia.org/wikipedia/pt/thumb/d/d8/EC_Juventude_logo.svg/1200px-EC_Juventude_logo.svg.png", players: [], finances: 50, overall: 0 },
+            { id: 16, name: "Palmeiras", logo: "https://logodetimes.com/wp-content/uploads/palmeiras.png", players: [], finances: 50, overall: 0 },
+            { id: 17, name: "São Paulo", logo: "https://logodetimes.com/wp-content/uploads/sao-paulo.png", players: [], finances: 50, overall: 0 },
+            { id: 18, name: "Vasco da Gama", logo: "https://logodetimes.com/wp-content/uploads/vasco-da-gama.png", players: [], finances: 50, overall: 0 },
+            { id: 19, name: "Vitória", logo: "https://logodetimes.com/wp-content/uploads/vitoria.png", players: [], finances: 50, overall: 0 },
+        ];
+        
+        const playerNames = ["Lucas", "Gabriel", "Matheus", "Pedro", "Enzo", "Arthur", "Davi", "Miguel", "Bruno", "Felipe", "João", "Carlos", "Rafael", "Daniel", "Thiago", "Vinicius", "André", "Ricardo", "Eduardo", "Leonardo"];
+        const playerSurnames = ["Silva", "Santos", "Oliveira", "Souza", "Pereira", "Costa", "Carvalho", "Almeida", "Ferreira", "Ribeiro", "Gomes", "Lima", "Martins", "Rocha", "Alves"];
+
+        let gameState = {
+            playerTeam: null,
+            currentRound: 1,
+            schedule: [],
+            leagueTable: [],
+            currentFormation: '4-3-3',
+        };
+
+        // --- INICIALIZAÇÃO DO JOGO ---
+
+        function generatePlayers() {
+            teamsData.forEach(team => {
+                // Plantel com 28 jogadores
+                for (let i = 0; i < 3; i++) team.players.push(createPlayer(POSITIONS.GK));
+                for (let i = 0; i < 9; i++) team.players.push(createPlayer(POSITIONS.DF));
+                for (let i = 0; i < 9; i++) team.players.push(createPlayer(POSITIONS.MF));
+                for (let i = 0; i < 7; i++) team.players.push(createPlayer(POSITIONS.FW));
+                
+                autoSelectStarters(team, '4-3-3');
+            });
+        }
+
+        function createPlayer(position) {
+            const name = playerNames[Math.floor(Math.random() * playerNames.length)] + " " + playerSurnames[Math.floor(Math.random() * playerSurnames.length)];
+            const age = Math.floor(Math.random() * 18) + 18; // 18-35
+            const skill = Math.floor(Math.random() * 50) + 40; // 40-89
+            return {
+                id: Date.now() + Math.random(),
+                name,
+                age,
+                position,
+                skill,
+                isStarter: false,
+            };
+        }
+
+        function initializeGame() {
+            generatePlayers();
+            calculateTeamOveralls();
+            renderTeamSelection();
+        }
+        
+        function calculateTeamOveralls() {
+            teamsData.forEach(team => {
+                const starters = team.players.filter(p => p.isStarter);
+                if (starters.length > 0) {
+                    const totalSkill = starters.reduce((acc, p) => acc + p.skill, 0);
+                    team.overall = Math.round(totalSkill / starters.length);
+                } else {
+                    team.overall = 50; // Default
+                }
+            });
+        }
+
+        function selectTeam(teamId) {
+            gameState.playerTeam = teamsData.find(t => t.id === teamId);
+            createLeagueTable();
+            createSchedule();
+            showScreen('main-hub-screen');
+            updateHub();
+        }
+
+        function createLeagueTable() {
+            gameState.leagueTable = teamsData.map(team => ({
+                teamId: team.id,
+                teamName: team.name,
+                logo: team.logo,
+                played: 0,
+                points: 0,
+                wins: 0,
+                draws: 0,
+                losses: 0,
+                goalsFor: 0,
+                goalsAgainst: 0,
+            })).sort((a, b) => b.points - a.points);
+        }
+
+        function createSchedule() {
+            const teams = [...teamsData];
+            const schedule = [];
+            const numRounds = (teams.length - 1) * 2;
+
+            for (let round = 0; round < numRounds; round++) {
+                const roundMatches = [];
+                for (let i = 0; i < teams.length / 2; i++) {
+                    const home = teams[i];
+                    const away = teams[teams.length - 1 - i];
+                    if (round % 2 === 0) {
+                        roundMatches.push({ home, away });
+                    } else {
+                        roundMatches.push({ home: away, away: home });
+                    }
+                }
+                schedule.push(roundMatches);
+                
+                teams.splice(1, 0, teams.pop());
+            }
+            gameState.schedule = schedule;
+        }
+
+        // --- LÓGICA DE NAVEGAÇÃO E RENDERIZAÇÃO ---
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.add('hidden');
+            });
+            document.getElementById(screenId).classList.remove('hidden');
+            
+            if (screenId === 'squad-screen') renderSquadList();
+            if (screenId === 'tactics-screen') renderTacticsScreen();
+            if (screenId === 'table-screen') renderFullLeagueTable();
+        }
+        
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        function renderTeamSelection() {
+            const teamListEl = document.getElementById('team-list');
+            teamListEl.innerHTML = '';
+            teamsData.forEach(team => {
+                teamListEl.innerHTML += `
+                    <div onclick="selectTeam(${team.id})" class="bg-gray-800 p-4 rounded-lg text-center hover:bg-gray-700 cursor-pointer transition duration-300 transform hover:scale-105">
+                        <img src="${team.logo}" alt="${team.name}" class="h-20 w-20 mx-auto mb-2 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/96x96/2d3748/ffffff?text=?';">
+                        <p class="font-semibold">${team.name}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function updateHub() {
+            const team = gameState.playerTeam;
+            document.getElementById('hub-team-logo').src = team.logo;
+            document.getElementById('hub-team-name').textContent = team.name;
+            document.getElementById('hub-team-finances').textContent = `Financeiro: R$ ${team.finances.toFixed(1)}M`;
+            document.getElementById('hub-current-date').textContent = `Rodada: ${gameState.currentRound}`;
+            renderHubTable();
+            renderNextMatch();
+        }
+
+        function renderHubTable() {
+            const tableBody = document.getElementById('main-hub-table');
+            tableBody.innerHTML = '';
+            const sortedTable = sortLeagueTable(gameState.leagueTable);
+            sortedTable.slice(0, 10).forEach((entry, index) => {
+                const isPlayerTeam = entry.teamId === gameState.playerTeam.id;
+                tableBody.innerHTML += `
+                    <tr class="${isPlayerTeam ? 'bg-blue-900' : 'bg-gray-800'}">
+                        <td class="p-2">${index + 1}</td>
+                        <td class="p-2 flex items-center"><img src="${entry.logo}" class="h-5 w-5 mr-2 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/20x20/2d3748/ffffff?text=?';">${entry.teamName}</td>
+                        <td class="p-2 font-bold">${entry.points}</td>
+                        <td class="p-2">${entry.played}</td>
+                        <td class="p-2">${entry.wins}</td>
+                        <td class="p-2">${entry.draws}</td>
+                        <td class="p-2">${entry.losses}</td>
+                        <td class="p-2">${entry.goalsFor}</td>
+                        <td class="p-2">${entry.goalsAgainst}</td>
+                        <td class="p-2">${entry.goalsFor - entry.goalsAgainst}</td>
+                    </tr>
+                `;
+            });
+        }
+        
+        function renderFullLeagueTable() {
+            const tableBody = document.getElementById('full-league-table');
+            tableBody.innerHTML = '';
+            const sortedTable = sortLeagueTable(gameState.leagueTable);
+            sortedTable.forEach((entry, index) => {
+                const isPlayerTeam = entry.teamId === gameState.playerTeam.id;
+                tableBody.innerHTML += `
+                    <tr class="${isPlayerTeam ? 'bg-blue-900' : 'bg-gray-800'}">
+                        <td class="p-2">${index + 1}</td>
+                        <td class="p-2 flex items-center"><img src="${entry.logo}" class="h-5 w-5 mr-2 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/20x20/2d3748/ffffff?text=?';">${entry.teamName}</td>
+                        <td class="p-2 font-bold">${entry.points}</td>
+                        <td class="p-2">${entry.played}</td>
+                        <td class="p-2">${entry.wins}</td>
+                        <td class="p-2">${entry.draws}</td>
+                        <td class="p-2">${entry.losses}</td>
+                        <td class="p-2">${entry.goalsFor}</td>
+                        <td class="p-2">${entry.goalsAgainst}</td>
+                        <td class="p-2">${entry.goalsFor - entry.goalsAgainst}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function renderNextMatch() {
+            const nextMatchCard = document.getElementById('next-match-card');
+            if (gameState.currentRound > gameState.schedule.length) {
+                nextMatchCard.innerHTML = `<p class="text-lg font-semibold">Fim da Temporada!</p>`;
+                return;
+            }
+
+            const currentRoundMatches = gameState.schedule[gameState.currentRound - 1];
+            const playerMatch = currentRoundMatches.find(m => m.home.id === gameState.playerTeam.id || m.away.id === gameState.playerTeam.id);
+
+            if (playerMatch) {
+                nextMatchCard.innerHTML = `
+                    <div class="flex justify-around items-center">
+                        <div class="text-center">
+                            <img src="${playerMatch.home.logo}" class="h-16 w-16 mx-auto mb-2 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/2d3748/ffffff?text=?';">
+                            <p class="font-bold">${playerMatch.home.name}</p>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-400">VS</p>
+                        <div class="text-center">
+                            <img src="${playerMatch.away.logo}" class="h-16 w-16 mx-auto mb-2 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/2d3748/ffffff?text=?';">
+                            <p class="font-bold">${playerMatch.away.name}</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        function renderSquadList() {
+            const squadListEl = document.getElementById('squad-list');
+            const team = gameState.playerTeam;
+            squadListEl.innerHTML = `
+                <table class="w-full text-left">
+                    <thead class="bg-gray-700">
+                        <tr>
+                            <th class="p-2">Nome</th>
+                            <th class="p-2">Posição</th>
+                            <th class="p-2">Idade</th>
+                            <th class="p-2">Habilidade</th>
+                            <th class="p-2">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${team.players.sort((a, b) => {
+                            const posOrder = { [POSITIONS.GK]: 0, [POSITIONS.DF]: 1, [POSITIONS.MF]: 2, [POSITIONS.FW]: 3 };
+                            return posOrder[a.position] - posOrder[b.position];
+                        }).map(p => `
+                            <tr class="border-b border-gray-700">
+                                <td class="p-2">${p.name}</td>
+                                <td class="p-2">${p.position}</td>
+                                <td class="p-2">${p.age}</td>
+                                <td class="p-2 font-bold text-yellow-300">${p.skill}</td>
+                                <td class="p-2">${p.isStarter ? '<span class="text-green-400 font-semibold">Titular</span>' : '<span class="text-gray-400">Reserva</span>'}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+        
+        function renderTacticsScreen() {
+            const pitchEl = document.getElementById('pitch');
+            const reservesEl = document.getElementById('reserves-list');
+            const unlistedEl = document.getElementById('unlisted-list');
+            pitchEl.innerHTML = '';
+            reservesEl.innerHTML = '';
+            unlistedEl.innerHTML = '';
+
+            document.getElementById('squad-count').textContent = `Total de jogadores no plantel: ${gameState.playerTeam.players.length}`;
+            
+            document.querySelectorAll('.formation-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === gameState.currentFormation) {
+                    btn.classList.add('active');
+                }
+            });
+
+            const formationLayout = formations[gameState.currentFormation];
+            formationLayout.forEach((pos, index) => {
+                const posEl = document.createElement('div');
+                posEl.classList.add('player-position');
+                posEl.style.top = pos.top;
+                posEl.style.left = pos.left;
+                posEl.style.transform = `translateX(${pos.translateX})`;
+                posEl.dataset.positionType = pos.position;
+                posEl.dataset.positionIndex = index;
+                posEl.innerHTML = `<span>${pos.position}</span>`;
+                pitchEl.appendChild(posEl);
+                addDropTargetListeners(posEl);
+            });
+
+            const starters = gameState.playerTeam.players.filter(p => p.isStarter);
+            const nonStarters = gameState.playerTeam.players.filter(p => !p.isStarter).sort((a,b) => b.skill - a.skill);
+            
+            const reserves = nonStarters.slice(0, 7);
+            const unlisted = nonStarters.slice(7);
+
+            const positionSlots = Array.from(document.querySelectorAll('.player-position'));
+            starters.forEach(player => {
+                const availableSlot = positionSlots.find(slot => slot.dataset.positionType === player.position && slot.children.length === 0);
+                if (availableSlot) {
+                    availableSlot.appendChild(createPlayerToken(player));
+                } else {
+                    player.isStarter = false;
+                    unlisted.push(player);
+                }
+            });
+            
+            reserves.forEach(player => reservesEl.appendChild(createPlayerToken(player)));
+            unlisted.forEach(player => unlistedEl.appendChild(createPlayerToken(player)));
+        }
+        
+        function createPlayerToken(player) {
+            const token = document.createElement('div');
+            token.classList.add('player-token');
+            token.draggable = true;
+            token.dataset.playerId = player.id;
+            token.innerHTML = `<span class="position">${player.position}</span> ${player.name.split(' ')[1]} <span class="font-bold">${player.skill}</span>`;
+            token.addEventListener('dragstart', handleDragStart);
+            return token;
+        }
+
+
+        // --- LÓGICA DE JOGO ---
+
+        function changeFormation(formationName) {
+            gameState.currentFormation = formationName;
+            autoSelectStarters(gameState.playerTeam, formationName);
+            renderTacticsScreen();
+        }
+
+        function autoSelectStarters(team, formationName) {
+            team.players.forEach(p => p.isStarter = false);
+            const formationSlots = formations[formationName];
+            const availablePlayers = [...team.players];
+
+            formationSlots.forEach(slot => {
+                const bestPlayerForSlot = availablePlayers
+                    .filter(p => p.position === slot.position && !p.isStarter)
+                    .sort((a, b) => b.skill - a.skill)[0];
+                
+                if (bestPlayerForSlot) {
+                    bestPlayerForSlot.isStarter = true;
+                }
+            });
+        }
+
+        function advanceWeek() {
+            if (gameState.currentRound > gameState.schedule.length) {
+                alert("A temporada acabou!");
+                return;
+            }
+            
+            calculateTeamOveralls(); 
+            const roundMatches = gameState.schedule[gameState.currentRound - 1];
+            const results = [];
+
+            roundMatches.forEach(match => {
+                const result = simulateMatch(match.home, match.away);
+                results.push(result);
+                updateTableWithResult(result);
+            });
+
+            renderMatchResultsModal(results);
+            gameState.currentRound++;
+            updateHub();
+        }
+
+        function simulateMatch(homeTeam, awayTeam) {
+            const homeAdvantage = 5;
+            const homeScorePower = homeTeam.overall + homeAdvantage;
+            const awayScorePower = awayTeam.overall;
+            
+            let homeGoals = 0;
+            let awayGoals = 0;
+
+            for(let i = 0; i < 5; i++) {
+                if (Math.random() * 100 < homeScorePower) homeGoals++;
+                if (Math.random() * 100 < awayScorePower) awayGoals++;
+            }
+            
+            homeGoals = Math.floor(homeGoals / 1.5 + (Math.random() > 0.8 ? 1 : 0));
+            awayGoals = Math.floor(awayGoals / 1.5 + (Math.random() > 0.8 ? 1 : 0));
+
+            return { homeTeam, awayTeam, homeGoals, awayGoals };
+        }
+
+        function updateTableWithResult(result) {
+            const homeEntry = gameState.leagueTable.find(e => e.teamId === result.homeTeam.id);
+            const awayEntry = gameState.leagueTable.find(e => e.teamId === result.awayTeam.id);
+
+            homeEntry.played++;
+            awayEntry.played++;
+            homeEntry.goalsFor += result.homeGoals;
+            homeEntry.goalsAgainst += result.awayGoals;
+            awayEntry.goalsFor += result.awayGoals;
+            awayEntry.goalsAgainst += result.homeGoals;
+
+            if (result.homeGoals > result.awayGoals) {
+                homeEntry.points += 3;
+                homeEntry.wins++;
+                awayEntry.losses++;
+            } else if (result.awayGoals > result.homeGoals) {
+                awayEntry.points += 3;
+                awayEntry.wins++;
+                homeEntry.losses++;
+            } else {
+                homeEntry.points += 1;
+                awayEntry.points += 1;
+                homeEntry.draws++;
+                awayEntry.draws++;
+            }
+        }
+        
+        function sortLeagueTable(table) {
+            return table.sort((a, b) => {
+                if (b.points !== a.points) return b.points - a.points;
+                const sgA = a.goalsFor - a.goalsAgainst;
+                const sgB = b.goalsFor - b.goalsAgainst;
+                if (sgB !== sgA) return sgB - sgA;
+                if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
+                return a.teamName.localeCompare(b.teamName);
+            });
+        }
+        
+        function renderMatchResultsModal(results) {
+            const modalContent = document.getElementById('round-results-content');
+            const modalTitle = document.getElementById('round-results-title');
+            
+            modalTitle.textContent = `Resultados da Rodada ${gameState.currentRound}`;
+            modalContent.innerHTML = '';
+            
+            results.forEach(res => {
+                const isPlayerMatch = res.homeTeam.id === gameState.playerTeam.id || res.awayTeam.id === gameState.playerTeam.id;
+                let bgColor = isPlayerMatch ? 'bg-blue-900' : 'bg-gray-700';
+                
+                if(isPlayerMatch) {
+                    const playerIsHome = res.homeTeam.id === gameState.playerTeam.id;
+                    if((playerIsHome && res.homeGoals > res.awayGoals) || (!playerIsHome && res.awayGoals > res.homeGoals)) {
+                        bgColor = 'bg-green-800'; // Vitória
+                    } else if (res.homeGoals === res.awayGoals) {
+                        bgColor = 'bg-yellow-800'; // Empate
+                    } else {
+                        bgColor = 'bg-red-800'; // Derrota
+                    }
+                }
+
+                modalContent.innerHTML += `
+                    <div class="flex items-center justify-between p-3 rounded-lg ${bgColor}">
+                        <div class="flex items-center text-right w-2/5 justify-end">
+                            <span class="font-semibold mr-2">${res.homeTeam.name}</span>
+                            <img src="${res.homeTeam.logo}" class="h-6 w-6 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/24x24/2d3748/ffffff?text=?';">
+                        </div>
+                        <div class="font-bold text-xl mx-4 p-2 bg-gray-900 rounded-md">
+                            <span>${res.homeGoals}</span> - <span>${res.awayGoals}</span>
+                        </div>
+                        <div class="flex items-center text-left w-2/5">
+                            <img src="${res.awayTeam.logo}" class="h-6 w-6 object-contain mr-2" onerror="this.onerror=null;this.src='https://placehold.co/24x24/2d3748/ffffff?text=?';">
+                            <span class="font-semibold">${res.awayTeam.name}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            openModal('round-results-modal');
+        }
+        
+        // --- DRAG AND DROP ---
+        let draggedItem = null;
+        let originalParent = null;
+
+        function handleDragStart(e) {
+            draggedItem = e.target;
+            originalParent = e.target.parentElement;
+            setTimeout(() => {
+                e.target.style.display = 'none';
+            }, 0);
+        }
+
+        function addDropTargetListeners(target) {
+            target.addEventListener('dragover', handleDragOver);
+            target.addEventListener('dragenter', handleDragEnter);
+            target.addEventListener('dragleave', handleDragLeave);
+            target.addEventListener('drop', handleDrop);
+        }
+        
+        const reservesListEl = document.getElementById('reserves-list');
+        const unlistedListEl = document.getElementById('unlisted-list');
+        addDropTargetListeners(reservesListEl);
+        addDropTargetListeners(unlistedListEl);
+
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            const target = e.target.closest('.player-position, .player-list-container');
+            if(target) {
+                target.classList.add('over');
+            }
+        }
+
+        function handleDragLeave(e) {
+             const target = e.target.closest('.player-position, .player-list-container');
+             if(target) {
+                target.classList.remove('over');
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            if (!draggedItem) return;
+
+            const dropTarget = e.target.closest('.player-position, .player-list-container');
+            
+            if(dropTarget) {
+                dropTarget.classList.remove('over');
+            }
+
+            draggedItem.style.display = 'flex';
+
+            const playerId = draggedItem.dataset.playerId;
+            const player = gameState.playerTeam.players.find(p => p.id == playerId);
+
+            if (!player) {
+                originalParent.appendChild(draggedItem);
+                draggedItem = null;
+                originalParent = null;
+                return;
+            }
+
+            if (!dropTarget) {
+                originalParent.appendChild(draggedItem);
+                draggedItem = null;
+                originalParent = null;
+                return;
+            }
+
+            if (dropTarget.classList.contains('player-position')) {
+                // Movendo para uma posição no campo (titular)
+                if (dropTarget.children.length === 0) { 
+                    dropTarget.appendChild(draggedItem);
+                    player.isStarter = true;
+                } else { // Troca de jogadores
+                    const existingToken = dropTarget.children[0];
+                    const otherPlayerId = existingToken.dataset.playerId;
+                    const otherPlayer = gameState.playerTeam.players.find(p => p.id == otherPlayerId);
+
+                    if (otherPlayer) {
+                        // O jogador que estava no campo vai para os não relacionados
+                        document.getElementById('unlisted-list').appendChild(existingToken);
+                        otherPlayer.isStarter = false;
+
+                        // O jogador arrastado ocupa a posição
+                        dropTarget.appendChild(draggedItem);
+                        player.isStarter = true;
+                    } else {
+                         originalParent.appendChild(draggedItem);
+                    }
+                }
+            } else if (dropTarget.classList.contains('player-list-container')) {
+                // Movendo para Reservas ou Não Relacionados
+                dropTarget.appendChild(draggedItem);
+                player.isStarter = false;
+            }
+
+            draggedItem = null;
+            originalParent = null;
+            calculateTeamOveralls();
+        }
+
+
+        // --- INICIAR O JOGO ---
+        window.onload = initializeGame;
+    </script>
+</body>
+</html>
