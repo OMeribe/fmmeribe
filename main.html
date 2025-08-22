@@ -15,7 +15,7 @@
         }
         .pitch {
             /* Imagem de fundo do campo atualizada */
-            background-image: url('http://googleusercontent.com/file_content/1');
+            background-image: url('https://img.freepik.com/premium-vector/green-football-field-background_23-2147820620.jpg');
             background-size: cover;
             background-position: center;
             height: 600px;
@@ -261,55 +261,83 @@
         // --- BANCO DE DADOS E ESTADO DO JOGO ---
 
         const POSITIONS = {
-            GK: 'Goleiro',
-            DF: 'Defensor',
-            MF: 'Meio-campo',
-            FW: 'Atacante'
+            GOL: { name: 'Goleiro', group: 'GK' },
+            ZAG: { name: 'Zagueiro', group: 'DF' },
+            LE: { name: 'Lateral Esquerdo', group: 'DF' },
+            LD: { name: 'Lateral Direito', group: 'DF' },
+            VOL: { name: 'Volante', group: 'MF' },
+            MC: { name: 'Meia Central', group: 'MF' },
+            MEI: { name: 'Meia Atacante', group: 'MF' },
+            PE: { name: 'Ponta Esquerda', group: 'FW' },
+            PD: { name: 'Ponta Direita', group: 'FW' },
+            SA: { name: 'Segundo Atacante', group: 'FW' },
+            ATA: { name: 'Atacante', group: 'FW' },
+        };
+
+        const ATTRIBUTE_WEIGHTS = {
+            GOL: { reflexes: 3, handling: 3, positioning_gk: 2, kicking: 1 },
+            ZAG: { tackling: 3, marking: 3, heading: 2, strength: 2, speed: 1 },
+            LE: { tackling: 2, marking: 2, crossing: 2, speed: 2, dribbling: 1, passing: 1 },
+            LD: { tackling: 2, marking: 2, crossing: 2, speed: 2, dribbling: 1, passing: 1 },
+            VOL: { passing: 3, tackling: 3, marking: 2, strength: 1, long_shots: 1 },
+            MC: { passing: 3, dribbling: 2, vision: 2, long_shots: 1, tackling: 1 },
+            MEI: { vision: 3, passing: 3, dribbling: 2, finishing: 2, long_shots: 1 },
+            PE: { speed: 3, dribbling: 3, crossing: 2, finishing: 2, passing: 1 },
+            PD: { speed: 3, dribbling: 3, crossing: 2, finishing: 2, passing: 1 },
+            SA: { finishing: 3, speed: 2, dribbling: 2, passing: 1, vision: 1 },
+            ATA: { finishing: 3, heading: 2, shot_power: 2, strength: 2, speed: 1 }
+        };
+        
+        const teamQualityLevels = {
+            "Flamengo": 82, "Palmeiras": 82, "Botafogo": 80, "Cruzeiro": 80, 
+            "São Paulo": 78, "Atlético-MG": 78, "Internacional": 78, "Bahia": 77,
+            "Fluminense": 76, "Corinthians": 75, "Vasco da Gama": 75, "Fortaleza": 75,
+            "Grêmio": 75, "Athletico-PR": 74, "Vitória": 73, "Juventude": 72,
+            "Bragantino": 72, "Criciúma": 72, "Cuiabá": 68, "Atlético-GO": 65
         };
 
         const formations = {
             '4-3-3': [
-                { top: '85%', left: '50%', translateX: '-50%', position: POSITIONS.GK },
-                { top: '70%', left: '20%', translateX: '-50%', position: POSITIONS.DF },
-                { top: '75%', left: '40%', translateX: '-50%', position: POSITIONS.DF },
-                { top: '75%', left: '60%', translateX: '-50%', position: POSITIONS.DF },
-                { top: '70%', left: '80%', translateX: '-50%', position: POSITIONS.DF },
-                { top: '50%', left: '30%', translateX: '-50%', position: POSITIONS.MF },
-                { top: '55%', left: '50%', translateX: '-50%', position: POSITIONS.MF },
-                { top: '50%', left: '70%', translateX: '-50%', position: POSITIONS.MF },
-                { top: '25%', left: '25%', translateX: '-50%', position: POSITIONS.FW },
-                { top: '20%', left: '50%', translateX: '-50%', position: POSITIONS.FW },
-                { top: '25%', left: '75%', translateX: '-50%', position: POSITIONS.FW }
+                { top: '85%', left: '50%', translateX: '-50%', position: 'GOL' },
+                { top: '70%', left: '20%', translateX: '-50%', position: 'LE' },
+                { top: '75%', left: '40%', translateX: '-50%', position: 'ZAG' },
+                { top: '75%', left: '60%', translateX: '-50%', position: 'ZAG' },
+                { top: '70%', left: '80%', translateX: '-50%', position: 'LD' },
+                { top: '55%', left: '50%', translateX: '-50%', position: 'VOL' },
+                { top: '50%', left: '30%', translateX: '-50%', position: 'MC' },
+                { top: '50%', left: '70%', translateX: '-50%', position: 'MC' },
+                { top: '25%', left: '25%', translateX: '-50%', position: 'PE' },
+                { top: '20%', left: '50%', translateX: '-50%', position: 'ATA' },
+                { top: '25%', left: '75%', translateX: '-50%', position: 'PD' }
             ],
             '4-4-2': [
-                { top: '85%', left: '50%', translateX: '-50%', position: POSITIONS.GK },
-                { top: '70%', left: '15%', translateX: '-50%', position: POSITIONS.DF },
-                { top: '75%', left: '40%', translateX: '-50%', position: POSITIONS.DF },
-                { top: '75%', left: '60%', translateX: '-50%', position: POSITIONS.DF },
-                { top: '70%', left: '85%', translateX: '-50%', position: POSITIONS.DF },
-                { top: '50%', left: '15%', translateX: '-50%', position: POSITIONS.MF },
-                { top: '55%', left: '40%', translateX: '-50%', position: POSITIONS.MF },
-                { top: '55%', left: '60%', translateX: '-50%', position: POSITIONS.MF },
-                { top: '50%', left: '85%', translateX: '-50%', position: POSITIONS.MF },
-                { top: '25%', left: '40%', translateX: '-50%', position: POSITIONS.FW },
-                { top: '25%', left: '60%', translateX: '-50%', position: POSITIONS.FW }
+                { top: '85%', left: '50%', translateX: '-50%', position: 'GOL' },
+                { top: '70%', left: '15%', translateX: '-50%', position: 'LE' },
+                { top: '75%', left: '40%', translateX: '-50%', position: 'ZAG' },
+                { top: '75%', left: '60%', translateX: '-50%', position: 'ZAG' },
+                { top: '70%', left: '85%', translateX: '-50%', position: 'LD' },
+                { top: '50%', left: '15%', translateX: '-50%', position: 'MC' },
+                { top: '55%', left: '40%', translateX: '-50%', position: 'VOL' },
+                { top: '55%', left: '60%', translateX: '-50%', position: 'VOL' },
+                { top: '50%', left: '85%', translateX: '-50%', position: 'MC' },
+                { top: '25%', left: '40%', translateX: '-50%', position: 'SA' },
+                { top: '25%', left: '60%', translateX: '-50%', position: 'ATA' }
             ],
             '3-5-2': [
-                { top: '85%', left: '50%', translateX: '-50%', position: POSITIONS.GK },
-                { top: '75%', left: '30%', translateX: '-50%', position: POSITIONS.DF },
-                { top: '78%', left: '50%', translateX: '-50%', position: POSITIONS.DF },
-                { top: '75%', left: '70%', translateX: '-50%', position: POSITIONS.DF },
-                { top: '50%', left: '15%', translateX: '-50%', position: POSITIONS.MF },
-                { top: '60%', left: '35%', translateX: '-50%', position: POSITIONS.MF },
-                { top: '55%', left: '50%', translateX: '-50%', position: POSITIONS.MF },
-                { top: '60%', left: '65%', translateX: '-50%', position: POSITIONS.MF },
-                { top: '50%', left: '85%', translateX: '-50%', position: POSITIONS.MF },
-                { top: '25%', left: '40%', translateX: '-50%', position: POSITIONS.FW },
-                { top: '25%', left: '60%', translateX: '-50%', position: POSITIONS.FW }
+                { top: '85%', left: '50%', translateX: '-50%', position: 'GOL' },
+                { top: '75%', left: '30%', translateX: '-50%', position: 'ZAG' },
+                { top: '78%', left: '50%', translateX: '-50%', position: 'ZAG' },
+                { top: '75%', left: '70%', translateX: '-50%', position: 'ZAG' },
+                { top: '50%', left: '15%', translateX: '-50%', position: 'LE' }, // Ala Esquerdo
+                { top: '60%', left: '35%', translateX: '-50%', position: 'VOL' },
+                { top: '55%', left: '50%', translateX: '-50%', position: 'MEI' },
+                { top: '60%', left: '65%', translateX: '-50%', position: 'VOL' },
+                { top: '50%', left: '85%', translateX: '-50%', position: 'LD' }, // Ala Direito
+                { top: '25%', left: '40%', translateX: '-50%', position: 'SA' },
+                { top: '25%', left: '60%', translateX: '-50%', position: 'ATA' }
             ]
         };
 
-        // URLs dos logos atualizadas para fontes mais estáveis
         const teamsData = [
             { id: 0, name: "Athletico-PR", logo: "https://escudosfc.com.br/images/atlpr.png", players: [], finances: 50, overall: 0 },
             { id: 1, name: "Atlético-GO", logo: "https://escudosfc.com.br/images/atlego.png", players: [], finances: 50, overall: 0 },
@@ -346,31 +374,97 @@
 
         // --- INICIALIZAÇÃO DO JOGO ---
 
+        function calculateOverallRating(player, position) {
+            const weights = ATTRIBUTE_WEIGHTS[position];
+            if (!weights) return 50; 
+
+            let totalWeight = 0;
+            let weightedSum = 0;
+
+            for (const attr in weights) {
+                weightedSum += (player.attributes[attr] || 50) * weights[attr];
+                totalWeight += weights[attr];
+            }
+
+            return Math.round(weightedSum / totalWeight);
+        }
+
         function generatePlayers() {
+            const squadComposition = { GOL: 3, ZAG: 5, LE: 2, LD: 2, VOL: 4, MC: 4, MEI: 2, PE: 2, PD: 2, SA: 1, ATA: 2 };
+
             teamsData.forEach(team => {
-                // Plantel com 28 jogadores
-                for (let i = 0; i < 3; i++) team.players.push(createPlayer(POSITIONS.GK));
-                for (let i = 0; i < 9; i++) team.players.push(createPlayer(POSITIONS.DF));
-                for (let i = 0; i < 9; i++) team.players.push(createPlayer(POSITIONS.MF));
-                for (let i = 0; i < 7; i++) team.players.push(createPlayer(POSITIONS.FW));
-                
+                const targetRating = teamQualityLevels[team.name] || 70;
+                for (const pos in squadComposition) {
+                    for (let i = 0; i < squadComposition[pos]; i++) {
+                        team.players.push(createPlayer(pos, targetRating));
+                    }
+                }
                 autoSelectStarters(team, '4-3-3');
             });
         }
 
-        function createPlayer(position) {
+        function createPlayer(primaryPosition, targetRating) {
             const name = playerNames[Math.floor(Math.random() * playerNames.length)] + " " + playerSurnames[Math.floor(Math.random() * playerSurnames.length)];
-            const age = Math.floor(Math.random() * 18) + 18; // 18-35
-            const skill = Math.floor(Math.random() * 50) + 40; // 40-89
-            return {
-                id: Date.now() + Math.random(),
-                name,
-                age,
-                position,
-                skill,
-                isStarter: false,
+            const age = Math.floor(Math.random() * 18) + 18;
+            
+            const qualityModifier = (targetRating - 75) / 1.5;
+            const baseMin = 40 + qualityModifier;
+            const baseMax = 60 + qualityModifier;
+
+            const attributes = {
+                passing: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                finishing: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                dribbling: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                tackling: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                marking: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                heading: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                crossing: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                long_shots: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                vision: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                speed: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                strength: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                shot_power: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                reflexes: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                handling: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                kicking: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
+                positioning_gk: Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin,
             };
+
+            const positionWeights = ATTRIBUTE_WEIGHTS[primaryPosition];
+            for (const attr in positionWeights) {
+                if (attributes[attr]) {
+                    const boost = (Math.floor(Math.random() * 16) + 15) * (positionWeights[attr] / 2);
+                    attributes[attr] += boost;
+                }
+            }
+
+            for (const attr in attributes) {
+                if (attributes[attr] > 99) attributes[attr] = 99;
+                if (attributes[attr] < 1) attributes[attr] = 1;
+                attributes[attr] = Math.round(attributes[attr]);
+            }
+            
+            const secondaryPositions = getSecondaryPositions(primaryPosition);
+
+            const player = {
+                id: Date.now() + Math.random(), name, age, primaryPosition,
+                secondaryPositions, attributes, isStarter: false,
+            };
+
+            player.overallRating = calculateOverallRating(player, player.primaryPosition);
+            return player;
         }
+        
+        function getSecondaryPositions(primary) {
+            const mapping = {
+                GOL: [], ZAG: ['VOL'], LE: ['PE', 'ZAG'], LD: ['PD', 'ZAG'],
+                VOL: ['ZAG', 'MC'], MC: ['VOL', 'MEI'], MEI: ['MC', 'SA'],
+                PE: ['LE', 'SA'], PD: ['LD', 'SA'], SA: ['ATA', 'MEI', 'PE', 'PD'],
+                ATA: ['SA']
+            };
+            return mapping[primary] || [];
+        }
+
 
         function initializeGame() {
             generatePlayers();
@@ -382,10 +476,12 @@
             teamsData.forEach(team => {
                 const starters = team.players.filter(p => p.isStarter);
                 if (starters.length > 0) {
-                    const totalSkill = starters.reduce((acc, p) => acc + p.skill, 0);
+                    const totalSkill = starters.reduce((acc, p) => acc + p.overallRating, 0);
                     team.overall = Math.round(totalSkill / starters.length);
                 } else {
-                    team.overall = 50; // Default
+                    const top11 = [...team.players].sort((a,b) => b.overallRating - a.overallRating).slice(0, 11);
+                    const totalSkill = top11.reduce((acc, p) => acc + p.overallRating, 0);
+                    team.overall = Math.round(totalSkill / top11.length);
                 }
             });
         }
@@ -400,16 +496,9 @@
 
         function createLeagueTable() {
             gameState.leagueTable = teamsData.map(team => ({
-                teamId: team.id,
-                teamName: team.name,
-                logo: team.logo,
-                played: 0,
-                points: 0,
-                wins: 0,
-                draws: 0,
-                losses: 0,
-                goalsFor: 0,
-                goalsAgainst: 0,
+                teamId: team.id, teamName: team.name, logo: team.logo,
+                played: 0, points: 0, wins: 0, draws: 0, losses: 0,
+                goalsFor: 0, goalsAgainst: 0,
             })).sort((a, b) => b.points - a.points);
         }
 
@@ -430,7 +519,6 @@
                     }
                 }
                 schedule.push(roundMatches);
-                
                 teams.splice(1, 0, teams.pop());
             }
             gameState.schedule = schedule;
@@ -439,9 +527,7 @@
         // --- LÓGICA DE NAVEGAÇÃO E RENDERIZAÇÃO ---
 
         function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.add('hidden');
-            });
+            document.querySelectorAll('.screen').forEach(screen => screen.classList.add('hidden'));
             document.getElementById(screenId).classList.remove('hidden');
             
             if (screenId === 'squad-screen') renderSquadList();
@@ -449,18 +535,13 @@
             if (screenId === 'table-screen') renderFullLeagueTable();
         }
         
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.remove('hidden');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-        }
+        function openModal(modalId) { document.getElementById(modalId).classList.remove('hidden'); }
+        function closeModal(modalId) { document.getElementById(modalId).classList.add('hidden'); }
 
         function renderTeamSelection() {
             const teamListEl = document.getElementById('team-list');
             teamListEl.innerHTML = '';
-            teamsData.forEach(team => {
+            teamsData.sort((a,b) => (teamQualityLevels[b.name] || 0) - (teamQualityLevels[a.name] || 0)).forEach(team => {
                 teamListEl.innerHTML += `
                     <div onclick="selectTeam(${team.id})" class="bg-gray-800 p-4 rounded-lg text-center hover:bg-gray-700 cursor-pointer transition duration-300 transform hover:scale-105">
                         <img src="${team.logo}" alt="${team.name}" class="h-20 w-20 mx-auto mb-2 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/96x96/2d3748/ffffff?text=?';">
@@ -491,15 +572,11 @@
                         <td class="p-2">${index + 1}</td>
                         <td class="p-2 flex items-center"><img src="${entry.logo}" class="h-5 w-5 mr-2 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/20x20/2d3748/ffffff?text=?';">${entry.teamName}</td>
                         <td class="p-2 font-bold">${entry.points}</td>
-                        <td class="p-2">${entry.played}</td>
-                        <td class="p-2">${entry.wins}</td>
-                        <td class="p-2">${entry.draws}</td>
-                        <td class="p-2">${entry.losses}</td>
-                        <td class="p-2">${entry.goalsFor}</td>
-                        <td class="p-2">${entry.goalsAgainst}</td>
+                        <td class="p-2">${entry.played}</td><td class="p-2">${entry.wins}</td>
+                        <td class="p-2">${entry.draws}</td><td class="p-2">${entry.losses}</td>
+                        <td class="p-2">${entry.goalsFor}</td><td class="p-2">${entry.goalsAgainst}</td>
                         <td class="p-2">${entry.goalsFor - entry.goalsAgainst}</td>
-                    </tr>
-                `;
+                    </tr>`;
             });
         }
         
@@ -514,15 +591,11 @@
                         <td class="p-2">${index + 1}</td>
                         <td class="p-2 flex items-center"><img src="${entry.logo}" class="h-5 w-5 mr-2 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/20x20/2d3748/ffffff?text=?';">${entry.teamName}</td>
                         <td class="p-2 font-bold">${entry.points}</td>
-                        <td class="p-2">${entry.played}</td>
-                        <td class="p-2">${entry.wins}</td>
-                        <td class="p-2">${entry.draws}</td>
-                        <td class="p-2">${entry.losses}</td>
-                        <td class="p-2">${entry.goalsFor}</td>
-                        <td class="p-2">${entry.goalsAgainst}</td>
+                        <td class="p-2">${entry.played}</td><td class="p-2">${entry.wins}</td>
+                        <td class="p-2">${entry.draws}</td><td class="p-2">${entry.losses}</td>
+                        <td class="p-2">${entry.goalsFor}</td><td class="p-2">${entry.goalsAgainst}</td>
                         <td class="p-2">${entry.goalsFor - entry.goalsAgainst}</td>
-                    </tr>
-                `;
+                    </tr>`;
             });
         }
 
@@ -532,10 +605,7 @@
                 nextMatchCard.innerHTML = `<p class="text-lg font-semibold">Fim da Temporada!</p>`;
                 return;
             }
-
-            const currentRoundMatches = gameState.schedule[gameState.currentRound - 1];
-            const playerMatch = currentRoundMatches.find(m => m.home.id === gameState.playerTeam.id || m.away.id === gameState.playerTeam.id);
-
+            const playerMatch = gameState.schedule[gameState.currentRound - 1].find(m => m.home.id === gameState.playerTeam.id || m.away.id === gameState.playerTeam.id);
             if (playerMatch) {
                 nextMatchCard.innerHTML = `
                     <div class="flex justify-around items-center">
@@ -548,66 +618,57 @@
                             <img src="${playerMatch.away.logo}" class="h-16 w-16 mx-auto mb-2 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/2d3748/ffffff?text=?';">
                             <p class="font-bold">${playerMatch.away.name}</p>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             }
         }
         
         function renderSquadList() {
             const squadListEl = document.getElementById('squad-list');
             const team = gameState.playerTeam;
+            const posOrder = ['GOL', 'ZAG', 'LE', 'LD', 'VOL', 'MC', 'MEI', 'PE', 'PD', 'SA', 'ATA'];
             squadListEl.innerHTML = `
-                <table class="w-full text-left">
+                <table class="w-full text-left text-sm">
                     <thead class="bg-gray-700">
                         <tr>
-                            <th class="p-2">Nome</th>
-                            <th class="p-2">Posição</th>
-                            <th class="p-2">Idade</th>
-                            <th class="p-2">Habilidade</th>
+                            <th class="p-2">Nome</th><th class="p-2">Posição</th>
+                            <th class="p-2">Idade</th><th class="p-2">Rating</th>
                             <th class="p-2">Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        ${team.players.sort((a, b) => {
-                            const posOrder = { [POSITIONS.GK]: 0, [POSITIONS.DF]: 1, [POSITIONS.MF]: 2, [POSITIONS.FW]: 3 };
-                            return posOrder[a.position] - posOrder[b.position];
-                        }).map(p => `
+                        ${team.players.sort((a, b) => posOrder.indexOf(a.primaryPosition) - posOrder.indexOf(b.primaryPosition))
+                        .map(p => `
                             <tr class="border-b border-gray-700">
                                 <td class="p-2">${p.name}</td>
-                                <td class="p-2">${p.position}</td>
+                                <td class="p-2">
+                                    <span class="font-bold">${p.primaryPosition}</span>
+                                    ${p.secondaryPositions.length > 0 ? `<span class="text-xs text-gray-400">, ${p.secondaryPositions.join(', ')}</span>` : ''}
+                                </td>
                                 <td class="p-2">${p.age}</td>
-                                <td class="p-2 font-bold text-yellow-300">${p.skill}</td>
+                                <td class="p-2 font-bold text-yellow-300">${p.overallRating}</td>
                                 <td class="p-2">${p.isStarter ? '<span class="text-green-400 font-semibold">Titular</span>' : '<span class="text-gray-400">Reserva</span>'}</td>
-                            </tr>
-                        `).join('')}
+                            </tr>`).join('')}
                     </tbody>
-                </table>
-            `;
+                </table>`;
         }
         
         function renderTacticsScreen() {
             const pitchEl = document.getElementById('pitch');
             const reservesEl = document.getElementById('reserves-list');
             const unlistedEl = document.getElementById('unlisted-list');
-            pitchEl.innerHTML = '';
-            reservesEl.innerHTML = '';
-            unlistedEl.innerHTML = '';
+            pitchEl.innerHTML = ''; reservesEl.innerHTML = ''; unlistedEl.innerHTML = '';
 
             document.getElementById('squad-count').textContent = `Total de jogadores no plantel: ${gameState.playerTeam.players.length}`;
-            
             document.querySelectorAll('.formation-btn').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.textContent === gameState.currentFormation) {
-                    btn.classList.add('active');
-                }
+                if (btn.textContent === gameState.currentFormation) btn.classList.add('active');
             });
 
             const formationLayout = formations[gameState.currentFormation];
             formationLayout.forEach((pos, index) => {
                 const posEl = document.createElement('div');
                 posEl.classList.add('player-position');
-                posEl.style.top = pos.top;
-                posEl.style.left = pos.left;
+                posEl.style.top = pos.top; posEl.style.left = pos.left;
                 posEl.style.transform = `translateX(${pos.translateX})`;
                 posEl.dataset.positionType = pos.position;
                 posEl.dataset.positionIndex = index;
@@ -617,19 +678,22 @@
             });
 
             const starters = gameState.playerTeam.players.filter(p => p.isStarter);
-            const nonStarters = gameState.playerTeam.players.filter(p => !p.isStarter).sort((a,b) => b.skill - a.skill);
-            
-            const reserves = nonStarters.slice(0, 7);
-            const unlisted = nonStarters.slice(7);
-
+            const nonStarters = gameState.playerTeam.players.filter(p => !p.isStarter).sort((a,b) => b.overallRating - a.overallRating);
+            const reserves = nonStarters.slice(0, 11);
+            const unlisted = nonStarters.slice(11);
             const positionSlots = Array.from(document.querySelectorAll('.player-position'));
+
             starters.forEach(player => {
-                const availableSlot = positionSlots.find(slot => slot.dataset.positionType === player.position && slot.children.length === 0);
+                let availableSlot = positionSlots.find(slot => slot.dataset.positionType === player.primaryPosition && slot.children.length === 1);
+                if (!availableSlot) availableSlot = positionSlots.find(slot => player.secondaryPositions.includes(slot.dataset.positionType) && slot.children.length === 1);
+                if (!availableSlot) {
+                    const playerGroup = POSITIONS[player.primaryPosition].group;
+                    availableSlot = positionSlots.find(slot => POSITIONS[slot.dataset.positionType].group === playerGroup && slot.children.length === 1);
+                }
                 if (availableSlot) {
                     availableSlot.appendChild(createPlayerToken(player));
                 } else {
-                    player.isStarter = false;
-                    unlisted.push(player);
+                    player.isStarter = false; unlisted.push(player);
                 }
             });
             
@@ -639,14 +703,13 @@
         
         function createPlayerToken(player) {
             const token = document.createElement('div');
-            token.classList.add('player-token');
+            token.className = 'player-token';
             token.draggable = true;
             token.dataset.playerId = player.id;
-            token.innerHTML = `<span class="position">${player.position}</span> ${player.name.split(' ')[1]} <span class="font-bold">${player.skill}</span>`;
+            token.innerHTML = `<span class="position">${player.primaryPosition}</span> ${player.name.split(' ')[1]} <span class="font-bold">${player.overallRating}</span>`;
             token.addEventListener('dragstart', handleDragStart);
             return token;
         }
-
 
         // --- LÓGICA DE JOGO ---
 
@@ -660,54 +723,78 @@
             team.players.forEach(p => p.isStarter = false);
             const formationSlots = formations[formationName];
             const availablePlayers = [...team.players];
-
             formationSlots.forEach(slot => {
                 const bestPlayerForSlot = availablePlayers
-                    .filter(p => p.position === slot.position && !p.isStarter)
-                    .sort((a, b) => b.skill - a.skill)[0];
+                    .filter(p => !p.isStarter && (p.primaryPosition === slot.position || p.secondaryPositions.includes(slot.position)))
+                    .sort((a, b) => {
+                        const aIsPrimary = a.primaryPosition === slot.position;
+                        const bIsPrimary = b.primaryPosition === slot.position;
+                        if (aIsPrimary && !bIsPrimary) return -1;
+                        if (!aIsPrimary && bIsPrimary) return 1;
+                        return b.overallRating - a.overallRating;
+                    })[0];
                 
                 if (bestPlayerForSlot) {
                     bestPlayerForSlot.isStarter = true;
+                } else {
+                    const slotGroup = POSITIONS[slot.position].group;
+                    const bestAlternative = availablePlayers
+                        .filter(p => !p.isStarter && POSITIONS[p.primaryPosition].group === slotGroup)
+                        .sort((a, b) => b.overallRating - a.overallRating)[0];
+                    if(bestAlternative) bestAlternative.isStarter = true;
                 }
             });
         }
 
         function advanceWeek() {
             if (gameState.currentRound > gameState.schedule.length) {
-                alert("A temporada acabou!");
-                return;
+                alert("A temporada acabou!"); return;
             }
-            
             calculateTeamOveralls(); 
             const roundMatches = gameState.schedule[gameState.currentRound - 1];
             const results = [];
-
             roundMatches.forEach(match => {
                 const result = simulateMatch(match.home, match.away);
                 results.push(result);
                 updateTableWithResult(result);
             });
-
             renderMatchResultsModal(results);
             gameState.currentRound++;
             updateHub();
         }
 
+        // UPDATED: Simulação de partida com placares mais baixos e realistas
         function simulateMatch(homeTeam, awayTeam) {
-            const homeAdvantage = 5;
-            const homeScorePower = homeTeam.overall + homeAdvantage;
-            const awayScorePower = awayTeam.overall;
-            
+            const homeAdvantage = 5; 
+            const homePerformance = homeTeam.overall + homeAdvantage + (Math.random() * 10 - 5);
+            const awayPerformance = awayTeam.overall + (Math.random() * 10 - 5);
+            const performanceDifference = homePerformance - awayPerformance;
+
             let homeGoals = 0;
             let awayGoals = 0;
 
-            for(let i = 0; i < 5; i++) {
-                if (Math.random() * 100 < homeScorePower) homeGoals++;
-                if (Math.random() * 100 < awayScorePower) awayGoals++;
+            // Divisores aumentados drasticamente para reduzir o número base de gols e permitir 0 a 0
+            const homeBaseGoals = Math.pow(homeTeam.overall / 70, 2); 
+            const awayBaseGoals = Math.pow(awayTeam.overall / 73, 2); // Visitante tem um pouco mais de dificuldade
+
+            // O modificador de gols baseado na diferença de performance continua importante
+            const goalModifier = Math.log(Math.abs(performanceDifference) + 1) * 0.4; // Modificador levemente reduzido
+
+            if (performanceDifference > 0) { // Time da casa é melhor
+                homeGoals = homeBaseGoals + goalModifier;
+                awayGoals = awayBaseGoals - (goalModifier / 2);
+            } else { // Time de fora é melhor ou equivalente
+                homeGoals = homeBaseGoals - (goalModifier / 2);
+                awayGoals = awayBaseGoals + goalModifier;
             }
             
-            homeGoals = Math.floor(homeGoals / 1.5 + (Math.random() > 0.8 ? 1 : 0));
-            awayGoals = Math.floor(awayGoals / 1.5 + (Math.random() > 0.8 ? 1 : 0));
+            // Aleatoriedade final bem reduzida para evitar gols "do nada"
+            homeGoals += Math.random() * 0.7;
+            awayGoals += Math.random() * 0.7;
+
+            // Arredondamento final
+            homeGoals = Math.max(0, Math.floor(homeGoals));
+            awayGoals = Math.max(0, Math.floor(awayGoals));
 
             return { homeTeam, awayTeam, homeGoals, awayGoals };
         }
@@ -716,26 +803,17 @@
             const homeEntry = gameState.leagueTable.find(e => e.teamId === result.homeTeam.id);
             const awayEntry = gameState.leagueTable.find(e => e.teamId === result.awayTeam.id);
 
-            homeEntry.played++;
-            awayEntry.played++;
-            homeEntry.goalsFor += result.homeGoals;
-            homeEntry.goalsAgainst += result.awayGoals;
-            awayEntry.goalsFor += result.awayGoals;
-            awayEntry.goalsAgainst += result.homeGoals;
+            homeEntry.played++; awayEntry.played++;
+            homeEntry.goalsFor += result.homeGoals; homeEntry.goalsAgainst += result.awayGoals;
+            awayEntry.goalsFor += result.awayGoals; awayEntry.goalsAgainst += result.homeGoals;
 
             if (result.homeGoals > result.awayGoals) {
-                homeEntry.points += 3;
-                homeEntry.wins++;
-                awayEntry.losses++;
+                homeEntry.points += 3; homeEntry.wins++; awayEntry.losses++;
             } else if (result.awayGoals > result.homeGoals) {
-                awayEntry.points += 3;
-                awayEntry.wins++;
-                homeEntry.losses++;
+                awayEntry.points += 3; awayEntry.wins++; homeEntry.losses++;
             } else {
-                homeEntry.points += 1;
-                awayEntry.points += 1;
-                homeEntry.draws++;
-                awayEntry.draws++;
+                homeEntry.points += 1; awayEntry.points += 1;
+                homeEntry.draws++; awayEntry.draws++;
             }
         }
         
@@ -753,14 +831,11 @@
         function renderMatchResultsModal(results) {
             const modalContent = document.getElementById('round-results-content');
             const modalTitle = document.getElementById('round-results-title');
-            
             modalTitle.textContent = `Resultados da Rodada ${gameState.currentRound}`;
             modalContent.innerHTML = '';
-            
             results.forEach(res => {
                 const isPlayerMatch = res.homeTeam.id === gameState.playerTeam.id || res.awayTeam.id === gameState.playerTeam.id;
                 let bgColor = isPlayerMatch ? 'bg-blue-900' : 'bg-gray-700';
-                
                 if(isPlayerMatch) {
                     const playerIsHome = res.homeTeam.id === gameState.playerTeam.id;
                     if((playerIsHome && res.homeGoals > res.awayGoals) || (!playerIsHome && res.awayGoals > res.homeGoals)) {
@@ -771,7 +846,6 @@
                         bgColor = 'bg-red-800'; // Derrota
                     }
                 }
-
                 modalContent.innerHTML += `
                     <div class="flex items-center justify-between p-3 rounded-lg ${bgColor}">
                         <div class="flex items-center text-right w-2/5 justify-end">
@@ -785,10 +859,8 @@
                             <img src="${res.awayTeam.logo}" class="h-6 w-6 object-contain mr-2" onerror="this.onerror=null;this.src='https://placehold.co/24x24/2d3748/ffffff?text=?';">
                             <span class="font-semibold">${res.awayTeam.name}</span>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
-            
             openModal('round-results-modal');
         }
         
@@ -799,9 +871,7 @@
         function handleDragStart(e) {
             draggedItem = e.target;
             originalParent = e.target.parentElement;
-            setTimeout(() => {
-                e.target.style.display = 'none';
-            }, 0);
+            setTimeout(() => { e.target.style.display = 'none'; }, 0);
         }
 
         function addDropTargetListeners(target) {
@@ -811,76 +881,46 @@
             target.addEventListener('drop', handleDrop);
         }
         
-        const reservesListEl = document.getElementById('reserves-list');
-        const unlistedListEl = document.getElementById('unlisted-list');
-        addDropTargetListeners(reservesListEl);
-        addDropTargetListeners(unlistedListEl);
+        addDropTargetListeners(document.getElementById('reserves-list'));
+        addDropTargetListeners(document.getElementById('unlisted-list'));
 
-
-        function handleDragOver(e) {
-            e.preventDefault();
-        }
-
+        function handleDragOver(e) { e.preventDefault(); }
         function handleDragEnter(e) {
             e.preventDefault();
             const target = e.target.closest('.player-position, .player-list-container');
-            if(target) {
-                target.classList.add('over');
-            }
+            if(target) target.classList.add('over');
         }
-
         function handleDragLeave(e) {
              const target = e.target.closest('.player-position, .player-list-container');
-             if(target) {
-                target.classList.remove('over');
-            }
+             if(target) target.classList.remove('over');
         }
 
         function handleDrop(e) {
             e.preventDefault();
             if (!draggedItem) return;
-
             const dropTarget = e.target.closest('.player-position, .player-list-container');
-            
-            if(dropTarget) {
-                dropTarget.classList.remove('over');
-            }
-
+            if(dropTarget) dropTarget.classList.remove('over');
             draggedItem.style.display = 'flex';
-
             const playerId = draggedItem.dataset.playerId;
             const player = gameState.playerTeam.players.find(p => p.id == playerId);
 
-            if (!player) {
+            if (!player || !dropTarget) {
                 originalParent.appendChild(draggedItem);
-                draggedItem = null;
-                originalParent = null;
-                return;
-            }
-
-            if (!dropTarget) {
-                originalParent.appendChild(draggedItem);
-                draggedItem = null;
-                originalParent = null;
+                draggedItem = null; originalParent = null;
                 return;
             }
 
             if (dropTarget.classList.contains('player-position')) {
-                // Movendo para uma posição no campo (titular)
-                if (dropTarget.children.length === 0) { 
+                if (dropTarget.children.length === 1) { 
                     dropTarget.appendChild(draggedItem);
                     player.isStarter = true;
-                } else { // Troca de jogadores
-                    const existingToken = dropTarget.children[0];
+                } else { 
+                    const existingToken = dropTarget.children[1];
                     const otherPlayerId = existingToken.dataset.playerId;
                     const otherPlayer = gameState.playerTeam.players.find(p => p.id == otherPlayerId);
-
                     if (otherPlayer) {
-                        // O jogador que estava no campo vai para os não relacionados
-                        document.getElementById('unlisted-list').appendChild(existingToken);
-                        otherPlayer.isStarter = false;
-
-                        // O jogador arrastado ocupa a posição
+                        originalParent.appendChild(existingToken);
+                        otherPlayer.isStarter = !(originalParent.id === 'reserves-list' || originalParent.id === 'unlisted-list');
                         dropTarget.appendChild(draggedItem);
                         player.isStarter = true;
                     } else {
@@ -888,16 +928,13 @@
                     }
                 }
             } else if (dropTarget.classList.contains('player-list-container')) {
-                // Movendo para Reservas ou Não Relacionados
                 dropTarget.appendChild(draggedItem);
                 player.isStarter = false;
             }
 
-            draggedItem = null;
-            originalParent = null;
+            draggedItem = null; originalParent = null;
             calculateTeamOveralls();
         }
-
 
         // --- INICIAR O JOGO ---
         window.onload = initializeGame;
