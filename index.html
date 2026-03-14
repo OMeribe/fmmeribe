@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futebol Manager 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div id="game-container" class="max-w-[1500px] w-full mx-auto p-4">
+
+        <div id="team-selection-screen" class="screen">
+            <h1 class="text-4xl font-bold text-center mb-2 text-yellow-300">Futebol Manager 2025</h1>
+            <p class="text-center text-gray-300 mb-8">Escolha seu time para começar a temporada</p>
+            <div id="team-list" class="grid grid-cols-2 sm-grid-cols-4 lg:grid-cols-5 gap-4">
+                </div>
+        </div>
+
+        <div id="main-hub-screen" class="screen hidden">
+            <header class="flex justify-between items-center bg-gray-800 p-4 rounded-lg mb-6">
+                <div class="flex items-center space-x-4">
+                    <img id="hub-team-logo" src="" alt="Logo do Time" class="h-12 w-12 object-contain">
+                    <div>
+                        <h1 id="hub-team-name" class="text-2xl font-bold">Nome do Time</h1>
+                        <p id="hub-team-finances" class="text-sm text-green-400">Financeiro: R$ 50.0M</p>
+                    </div>
+                </div>
+                <div class="text-right min-w-[220px]">
+                    <p id="hub-current-date" class="text-lg mb-2">Rodada: 1</p>
+                    <div id="hub-team-morale" class="text-sm"></div>
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-3">Próxima Partida</h2>
+                        <div id="next-match-card" class="text-center bg-gray-700 p-4 rounded-md">
+                            </div>
+                    </div>
+                     <div class="bg-gray-800 p-4 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-3">Ações do Clube</h2>
+                        <div class="space-y-2">
+                            <button onclick="showScreen('squad-screen')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Gerenciar Elenco</button>
+                            <button onclick="tacticsReturnScreen='main-hub-screen'; showScreen('tactics-screen')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Táticas</button>
+                            <button onclick="showScreen('scorers-screen')" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Artilharia</button>
+                            <button onclick="prepareMatch()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mt-4">Ir para o Jogo</button>
+                        </div>
+                    </div>
+
+                    <!-- FEED DE NOTÍCIAS DO CLUBE -->
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-3">📰 Notícias do Clube</h2>
+                        <div id="hub-news-feed" class="space-y-3 text-sm">
+                            <p class="text-gray-500 italic">Sem notícias ainda. Jogue sua primeira partida!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-gray-800 p-4 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-1">Tabela do Campeonato Brasileiro</h2>
+                    <div class="flex gap-4 text-xs mb-3">
+                        <span class="text-green-400 font-bold">● Libertadores (Top 6)</span>
+                        <span class="text-red-400 font-bold">● Rebaixamento (Últimos 4)</span>
+                    </div>
+                    <div class="overflow-x-auto overflow-y-auto max-h-[600px]">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-gray-700 sticky top-0 z-10">
+                                <tr>
+                                    <th class="p-2">Pos</th>
+                                    <th class="p-2">Clube</th>
+                                    <th class="p-2">P</th>
+                                    <th class="p-2">J</th>
+                                    <th class="p-2">V</th>
+                                    <th class="p-2">E</th>
+                                    <th class="p-2">D</th>
+                                    <th class="p-2">GP</th>
+                                    <th class="p-2">GC</th>
+                                    <th class="p-2">SG</th>
+                                </tr>
+                            </thead>
+                            <tbody id="main-hub-table">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="squad-screen" class="screen hidden">
+            <div class="flex justify-between items-center mb-6">
+                 <h1 class="text-3xl font-bold">Gerenciamento de Elenco</h1>
+                 <button onclick="showScreen('main-hub-screen')" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg">Voltar ao Menu</button>
+            </div>
+            <div id="squad-list" class="bg-gray-800 p-4 rounded-lg">
+                 </div>
+        </div>
+        
+        <div id="tactics-screen" class="screen hidden">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-3xl font-bold">Esquema Tático</h1>
+                    <p id="squad-count" class="text-gray-400"></p>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="saveTactics()" class="bg-green-600 hover:bg-green-500 text-white font-black py-2 px-6 rounded-lg shadow-lg border-b-4 border-green-800 transition transform hover:-translate-y-1 uppercase tracking-wider">
+                        💾 Salvar Escalação
+                    </button>
+                    <button onclick="showScreen(tacticsReturnScreen)" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg shadow border-b-4 border-gray-800">
+                        Voltar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <h3 class="text-lg font-semibold mb-2">Formação</h3>
+                <div id="formation-selector" class="flex flex-wrap gap-2">
+                    <button onclick="changeFormation('4-3-3')" class="formation-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">4-3-3</button>
+                    <button onclick="changeFormation('4-4-2')" class="formation-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">4-4-2</button>
+                    <button onclick="changeFormation('3-5-2')" class="formation-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">3-5-2</button>
+                    <button onclick="changeFormation('4-2-3-1')" class="formation-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">4-2-3-1</button>
+                    <button onclick="changeFormation('5-3-2')" class="formation-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">5-3-2</button>
+                    <button onclick="changeFormation('4-4-2 (Losango)')" class="formation-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">4-4-2 (Losango)</button>
+                    <button onclick="changeFormation('4-1-3-2')" class="formation-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">4-1-3-2</button>
+                    <button onclick="changeFormation('4-3-3 (Falso 9)')" class="formation-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">4-3-3 (Falso 9)</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
+                <div class="lg:col-span-3 pitch rounded-lg" id="pitch"></div>
+                
+                <div class="space-y-4 lg:col-span-1 flex flex-col h-[640px]">
+                    <div id="advanced-options-container"></div>
+                    
+                    <div class="bg-gray-800 p-3 rounded-lg flex-1 flex flex-col min-h-[220px]">
+                        <h2 class="text-lg font-semibold mb-2">Reservas</h2>
+                        <div id="reserves-list" class="player-list-container p-2 flex-1 overflow-y-auto"></div>
+                    </div>
+                    
+                    <div class="bg-gray-800 p-3 rounded-lg min-h-[160px]">
+                        <h2 class="text-lg font-semibold mb-2">Não Relacionados</h2>
+                        <div id="unlisted-list" class="player-list-container p-2 h-32 overflow-y-auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div id="scorers-screen" class="screen hidden mt-6 max-w-5xl mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-black text-white">Estatísticas do Campeonato</h2>
+                <button onclick="showScreen('main-hub-screen')" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition">Voltar ao Menu</button>
+            </div>
+
+            <div class="flex mb-4 gap-2">
+                <button onclick="renderStatsTable('goals')" id="tab-goals" class="stat-tab flex-1 bg-blue-700 text-white font-bold py-3 rounded shadow uppercase tracking-wider">Artilheiros ⚽</button>
+                <button onclick="renderStatsTable('assists')" id="tab-assists" class="stat-tab flex-1 bg-gray-800 hover:bg-gray-700 text-gray-400 font-bold py-3 rounded shadow uppercase tracking-wider transition">Assistências 🎯</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg shadow-xl overflow-hidden border border-gray-700">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-gray-900 border-b border-gray-700">
+                        <tr>
+                            <th class="p-4 w-12 text-center text-gray-400">Pos</th>
+                            <th class="p-4 w-20 text-center text-gray-400">Foto</th>
+                            <th class="p-4 text-gray-400">Jogador</th>
+                            <th class="p-4 text-gray-400">Clube</th>
+                            <th class="p-4 w-16 text-center text-gray-400">Jogos</th> <th class="p-4 w-24 text-center text-yellow-500" id="stat-column-name">Gols</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scorers-table">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="pre-match-screen" class="screen hidden">
+            <div class="bg-gray-800 p-8 rounded-lg shadow-xl max-w-4xl mx-auto">
+                <h1 class="text-3xl font-bold text-center mb-6 text-yellow-300">Dia de Jogo</h1>
+                
+                <div id="pre-match-details" class="flex justify-between items-center bg-gray-900 p-6 rounded-lg mb-8">
+                    </div>
+
+                <div class="grid grid-cols-2 gap-6 mb-8">
+                    <div class="bg-gray-700 p-4 rounded-lg">
+                        <h3 class="text-xl font-bold mb-3 border-b border-gray-600 pb-2">Nossa Escalação (Titulares)</h3>
+                        <div id="pre-match-starters" class="space-y-1 text-sm text-gray-300">
+                            </div>
+                    </div>
+                    <div class="flex flex-col justify-center space-y-4">
+                        <button onclick="tacticsReturnScreen='pre-match-screen'; showScreen('tactics-screen')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition">Ajustar Táticas e Reservas</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="startQuickSim()" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-4 px-4 rounded-lg transition text-lg">Simulação Rápida</button>
+                    <button onclick="startDeepSim()" class="bg-green-600 hover:bg-green-500 text-white font-bold py-4 px-4 rounded-lg transition text-lg">Simulação Aprofundada</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="live-match-screen" class="screen hidden">
+            <div class="bg-gray-800 p-6 rounded-lg shadow-xl max-w-3xl mx-auto text-center">
+                <div class="text-sm text-gray-400 mb-2" id="live-stadium-name">Estádio</div>
+                
+                <div class="flex justify-between items-center bg-gray-900 p-6 rounded-lg mb-6">
+                    <div class="w-1/3 text-right flex flex-col items-end">
+                        <img id="live-home-logo" src="" class="h-16 w-16 mb-2 object-contain">
+                        <span id="live-home-name" class="font-bold text-xl">Casa</span>
+                    </div>
+                    <div class="w-1/3">
+                        <div class="text-4xl font-bold font-mono tracking-widest text-yellow-400">
+                            <span id="live-home-score">0</span> - <span id="live-away-score">0</span>
+                        </div>
+                        <div id="live-match-time" class="text-2xl font-bold mt-2 text-green-400">00'</div>
+                    </div>
+                    <div class="w-1/3 text-left flex flex-col items-start">
+                        <img id="live-away-logo" src="" class="h-16 w-16 mb-2 object-contain">
+                        <span id="live-away-name" class="font-bold text-xl">Fora</span>
+                    </div>
+                </div>
+
+                <div class="bg-black p-4 rounded-lg h-64 overflow-y-auto text-left font-mono text-sm space-y-2 border border-gray-700" id="live-commentary-box">
+                    <div class="text-gray-500">Aguardando o apito inicial...</div>
+                </div>
+
+                <!-- PAINEL DE STAMINA AO VIVO -->
+                <div id="live-stamina-panel" class="mt-4 bg-gray-900 rounded-lg p-4 text-left border border-gray-700">
+                    <h4 class="text-[10px] uppercase tracking-widest text-gray-500 mb-3 font-bold flex items-center gap-2">
+                        ⚡ Stamina dos Titulares
+                        <span class="text-gray-600 italic normal-case tracking-normal font-normal">(atualiza a cada 15min)</span>
+                    </h4>
+                    <div id="live-stamina-list" class="grid grid-cols-2 gap-x-6 gap-y-0.5">
+                        <div class="col-span-2 text-center text-gray-600 text-xs italic py-2">Aguardando início...</div>
+                    </div>
+                </div>
+                <div id="live-match-skip" class="mt-4 flex justify-center">
+                    <button onclick="skipLiveMatch()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white font-bold py-2 px-6 rounded-full transition duration-300 text-xs uppercase tracking-wider border border-gray-600">
+                        ⏩ Pular para o resultado
+                    </button>
+                </div>
+                
+                <div id="live-match-actions" class="hidden mt-6 flex gap-4">
+                    <button onclick="showRoundResultsFromLive()" class="w-1/2 bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-4 rounded-lg transition">Ver Resultados</button>
+                    <button onclick="finishRoundAndGoToHub()" class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition">Ir para o Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="round-results-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 screen hidden z-[9999]">
+            <div class="bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <h2 id="round-results-title" class="text-2xl font-bold mb-4 text-center text-yellow-300">Resultados da Rodada</h2>
+                <div id="round-results-content" class="space-y-3">
+                    </div>
+                <div class="text-center mt-6">
+                    <button onclick="closeModal('round-results-modal')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg">Fechar</button>
+                </div>
+            </div>
+        </div>
+
+    </div> <div id="calendar-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999]">
+        <div class="bg-gray-800 rounded-lg p-6 w-11/12 max-w-4xl border-2 border-gray-600 relative">
+            <button onclick="closeModal('calendar-modal')" class="text-red-500 hover:text-red-400 font-bold text-2xl absolute top-4 right-4">X</button>
+            
+            <div class="flex justify-between items-center mb-6 px-10">
+                <button onclick="changeCalendarMonth(-1)" class="text-3xl text-gray-400 hover:text-yellow-400 font-bold">&lt;</button>
+                <h2 id="calendar-month-year" class="text-3xl font-black text-white uppercase tracking-widest">MARÇO 2026</h2>
+                <button onclick="changeCalendarMonth(1)" class="text-3xl text-gray-400 hover:text-yellow-400 font-bold">&gt;</button>
+            </div>
+            
+            <div class="grid grid-cols-7 gap-2 text-center font-bold text-gray-400 mb-2 text-sm uppercase">
+                <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+            </div>
+            
+            <div id="calendar-grid" class="grid grid-cols-7 gap-2 h-96">
+                </div>
+        </div>
+    </div>
+
+    <div id="player-stats-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[9999]">
+        <div class="bg-gray-800 rounded-xl p-6 w-11/12 max-w-3xl border-2 border-gray-600 relative flex flex-col">
+            <h2 class="text-2xl font-black text-yellow-400 uppercase tracking-widest mb-6 text-center">Fim de Jogo</h2>
+            
+            <div id="player-stats-content">
+                </div>
+            
+            <div class="mt-8 flex justify-between gap-4">
+                <button onclick="closeModal('player-stats-modal'); openModal('round-results-modal')" class="w-1/2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-blue-800">
+                    Ver Restante da Rodada
+                </button>
+                <button onclick="closeModal('player-stats-modal')" class="w-1/2 bg-gray-600 hover:bg-gray-500 text-white font-bold py-4 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-gray-800">
+                    Voltar ao Menu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

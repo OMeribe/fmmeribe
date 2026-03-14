@@ -1,0 +1,420 @@
+{
+  "id": 16,
+  "name": "Santos",
+  "logo": "img/times/Santos.png",
+  "stadium": "Vila Belmiro",
+  "stadiumPhoto": "img/estadios/Vila.jpg",
+  "finances": 50,
+  "players": [
+    {
+      "name": "Brazão",
+      "number": 77,
+      "photo": "img/players/Santos/Brazao.png",
+      "birthdate": "2000-10-05",
+      "primaryPosition": "GOL",
+      "secondaryPositions": [],
+      "attributes": {
+        "reflexes": 81, "handling": 79, "positioning_gk": 78, "kicking": 74,
+        "finishing": 12, "heading": 15, "shot_power": 65, "strength": 78, "speed": 45,
+        "passing": 70, "dribbling": 25, "tackling": 15, "marking": 15, "crossing": 15,
+        "long_shots": 12, "vision": 65, "stamina": 85
+      }
+    },
+    {
+      "name": "Diógenes",
+      "number": 1,
+      "photo": "img/players/Santos/Diogenes.png",
+      "birthdate": "2001-01-06",
+      "primaryPosition": "GOL",
+      "secondaryPositions": [],
+      "attributes": {
+        "reflexes": 72, "handling": 70, "positioning_gk": 72, "kicking": 65,
+        "finishing": 10, "heading": 12, "shot_power": 55, "strength": 70, "speed": 42,
+        "passing": 50, "dribbling": 20, "tackling": 12, "marking": 12, "crossing": 12,
+        "long_shots": 10, "vision": 45, "stamina": 78
+      }
+    },
+    {
+      "name": "João Pedro",
+      "number": 79,
+      "photo": "img/players/Santos/JoaoPedro.png",
+      "birthdate": "2008-03-18",
+      "primaryPosition": "GOL",
+      "secondaryPositions": [],
+      "attributes": {
+        "reflexes": 67, "handling": 61, "positioning_gk": 61, "kicking": 62,
+        "finishing": 9, "heading": 10, "shot_power": 50, "strength": 62, "speed": 48,
+        "passing": 55, "dribbling": 18, "tackling": 10, "marking": 10, "crossing": 10,
+        "long_shots": 9, "vision": 40, "stamina": 70
+      }
+    },
+    {
+      "name": "Mayke",
+      "number": 12,
+      "photo": "img/players/Santos/Mayke.png",
+      "birthdate": "1992-11-10",
+      "primaryPosition": "LD",
+      "secondaryPositions": ["MD"],
+      "attributes": {
+        "tackling": 74, "marking": 74, "crossing": 66, "speed": 69,
+        "dribbling": 68, "passing": 76, "finishing": 50, "heading": 60,
+        "shot_power": 60, "strength": 70, "long_shots": 55, "vision": 65,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10,
+        "stamina": 72
+      }
+    },
+    {
+      "name": "Igor Vinícius",
+      "number": 18,
+      "photo": "img/players/Santos/IgorVinicius.png",
+      "birthdate": "1997-04-02",
+      "primaryPosition": "LD",
+      "secondaryPositions": ["MD"],
+      "attributes": {
+        "tackling": 78, "marking": 77, "crossing": 67, "speed": 72,
+        "dribbling": 68, "passing": 74, "finishing": 52, "heading": 65,
+        "shot_power": 62, "strength": 74, "long_shots": 58, "vision": 62,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10,
+        "stamina": 81
+      }
+    },
+    {
+      "name": "Zé Ivaldo",
+      "number": 2,
+      "photo": "img/players/Santos/ZeIvaldo.png",
+      "birthdate": "1997-02-21",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 71, "marking": 71, "heading": 70, "strength": 72, "speed": 73,
+        "passing": 58, "dribbling": 50, "vision": 45, "crossing": 40, "finishing": 30,
+        "shot_power": 65, "long_shots": 40, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 75
+      }
+    },
+    {
+      "name": "Lucas Veríssimo",
+      "number": 28,
+      "photo": "img/players/Santos/LucasVerissimo.png",
+      "birthdate": "1995-07-02",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 77, "marking": 78, "heading": 76, "strength": 75, "speed": 78,
+        "passing": 78, "dribbling": 68, "vision": 72, "crossing": 55, "finishing": 45,
+        "shot_power": 70, "long_shots": 50, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 78
+      }
+    },
+    {
+      "name": "Luan Peres",
+      "number": 14,
+      "photo": "img/players/Santos/LuanPeres.png",
+      "birthdate": "1994-07-19",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": ["LE"],
+      "attributes": {
+        "tackling": 76, "marking": 76, "heading": 70, "strength": 70, "speed": 54,
+        "passing": 68, "dribbling": 60, "vision": 60, "crossing": 65, "finishing": 35,
+        "shot_power": 60, "long_shots": 40, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 66
+      }
+    },
+    {
+      "name": "Adonis Frías",
+      "number": 98,
+      "photo": "img/players/Santos/AdonisFrias.png",
+      "birthdate": "1998-03-17",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 74, "marking": 74, "heading": 74, "strength": 74, "speed": 74,
+        "passing": 65, "dribbling": 58, "vision": 55, "crossing": 45, "finishing": 35,
+        "shot_power": 65, "long_shots": 45, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 77
+      }
+    },
+    {
+      "name": "Joao Ananias",
+      "number": 23,
+      "photo": "img/players/Santos/JoaoAnanias.png",
+      "birthdate": "2007-02-12",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": ["LE"],
+      "attributes": {
+        "tackling": 67, "marking": 66, "heading": 66, "strength": 66, "speed": 85,
+        "passing": 62, "dribbling": 60, "vision": 55, "crossing": 60, "finishing": 30,
+        "shot_power": 55, "long_shots": 35, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 74
+      }
+    },
+    {
+      "name": "Gonzalo Escobar",
+      "number": 31,
+      "photo": "img/players/Santos/GonzaloEscobar.png",
+      "birthdate": "1997-03-16",
+      "primaryPosition": "LE",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 80, "marking": 76, "crossing": 68, "speed": 74,
+        "dribbling": 65, "passing": 68, "finishing": 45, "heading": 65,
+        "shot_power": 60, "strength": 78, "long_shots": 50, "vision": 55,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10,
+        "stamina": 78
+      }
+    },
+    {
+      "name": "Vinicius Lira",
+      "number": 3,
+      "photo": "img/players/Santos/ViniciusLira.png",
+      "birthdate": "2007-10-12",
+      "primaryPosition": "LE",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 64, "marking": 62, "crossing": 65, "speed": 74,
+        "dribbling": 68, "passing": 62, "finishing": 40, "heading": 55,
+        "shot_power": 55, "strength": 58, "long_shots": 45, "vision": 55,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10,
+        "stamina": 70
+      }
+    },
+    {
+      "name": "Oliva",
+      "number": 28,
+      "photo": "img/players/Santos/Oliva.png",
+      "birthdate": "1996-06-01",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "passing": 78, "tackling": 75, "marking": 74, "strength": 76, "long_shots": 72,
+        "vision": 75, "dribbling": 76, "speed": 70, "heading": 65, "finishing": 60,
+        "crossing": 68, "shot_power": 70, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 82
+      }
+    },
+    {
+      "name": "João Schmidt",
+      "number": 5,
+      "photo": "img/players/Santos/JoaoSchmidt.png",
+      "birthdate": "1993-05-19",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "passing": 72, "tackling": 70, "marking": 68, "strength": 68, "long_shots": 65,
+        "vision": 68, "dribbling": 65, "speed": 60, "heading": 62, "finishing": 55,
+        "crossing": 60, "shot_power": 65, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 72
+      }
+    },
+    {
+      "name": "Gabriel Bontempo",
+      "number": 49,
+      "photo": "img/players/Santos/GabrielBontempo.png",
+      "birthdate": "2005-01-16",
+      "primaryPosition": "MC",
+      "secondaryPositions": ["VOL"],
+      "attributes": {
+        "passing": 75, "dribbling": 76, "vision": 74, "long_shots": 65, "tackling": 62,
+        "speed": 73, "strength": 60, "marking": 60, "heading": 55, "finishing": 62,
+        "crossing": 68, "shot_power": 65, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 76
+      }
+    },
+    {
+      "name": "Willian Arão",
+      "number": 15,
+      "photo": "img/players/Santos/WillianArao.png",
+      "birthdate": "1992-03-12",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC", "ZAG"],
+      "attributes": {
+        "passing": 72, "tackling": 78, "marking": 77, "strength": 76, "long_shots": 68,
+        "vision": 70, "dribbling": 65, "speed": 58, "heading": 75, "finishing": 60,
+        "crossing": 60, "shot_power": 72, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 70
+      }
+    },
+    {
+      "name": "Zé Rafael",
+      "number": 6,
+      "photo": "img/players/Santos/ZeRafael.png",
+      "birthdate": "1993-06-16",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "passing": 72, "tackling": 71, "marking": 69, "strength": 74, "long_shots": 69,
+        "vision": 72, "dribbling": 71, "speed": 54, "heading": 67, "finishing": 64,
+        "crossing": 65, "shot_power": 71, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 65
+      }
+    },
+    {
+      "name": "Tomás Rincón",
+      "number": 8,
+      "photo": "img/players/Santos/TomasRincon.png",
+      "birthdate": "1988-01-13",
+      "primaryPosition": "MC",
+      "secondaryPositions": ["VOL"],
+      "attributes": {
+        "passing": 72, "dribbling": 65, "vision": 70, "long_shots": 68, "tackling": 68,
+        "speed": 45, "strength": 72, "marking": 65, "heading": 65, "finishing": 55,
+        "crossing": 60, "shot_power": 70, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 55
+      }
+    },
+    {
+      "name": "Gabriel Menino",
+      "number": 25,
+      "photo": "img/players/Santos/GabrielMenino.png",
+      "birthdate": "2000-09-29",
+      "primaryPosition": "MC",
+      "secondaryPositions": ["VOL"],
+      "attributes": {
+        "passing": 78, "dribbling": 73, "vision": 74, "long_shots": 75, "tackling": 65,
+        "speed": 70, "strength": 68, "marking": 62, "heading": 60, "finishing": 68,
+        "crossing": 75, "shot_power": 78, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 78
+      }
+    },
+    {
+      "name": "Moisés",
+      "number": 21,
+      "photo": "img/players/Santos/Moises.png",
+      "birthdate": "1996-09-02",
+      "primaryPosition": "ME",
+      "secondaryPositions": ["PE", "SA", "ATA"],
+      "attributes": {
+        "passing": 71, "dribbling": 76, "crossing": 72, "speed": 74, "vision": 70,
+        "finishing": 70, "heading": 65, "shot_power": 72, "strength": 70, "tackling": 45,
+        "marking": 40, "long_shots": 68, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 75
+      }
+    },
+    {
+      "name": "Thaciano",
+      "number": 16,
+      "photo": "img/players/Santos/Thaciano.png",
+      "birthdate": "1995-05-12",
+      "primaryPosition": "SA",
+      "secondaryPositions": ["MEI", "ATA"],
+      "attributes": {
+        "vision": 70, "passing": 69, "dribbling": 72, "finishing": 75, "long_shots": 72,
+        "speed": 68, "strength": 74, "heading": 72, "crossing": 65, "tackling": 55,
+        "marking": 50, "shot_power": 74, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 78
+      }
+    },
+    {
+      "name": "Barreal",
+      "number": 22,
+      "photo": "img/players/Santos/Barreal.png",
+      "birthdate": "2000-08-17",
+      "primaryPosition": "ME",
+      "secondaryPositions": ["PE", "MEI", "MD", "PD"],
+      "attributes": {
+        "passing": 72, "dribbling": 78, "crossing": 70, "speed": 80, "vision": 73,
+        "finishing": 68, "heading": 55, "shot_power": 72, "strength": 65, "tackling": 40,
+        "marking": 35, "long_shots": 70, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 77
+      }
+    },
+    {
+      "name": "Rollheiser",
+      "number": 32,
+      "photo": "img/players/Santos/Rollheiser.png",
+      "birthdate": "2000-03-24",
+      "primaryPosition": "MEI",
+      "secondaryPositions": ["ME", "PE", "MD", "PD"],
+      "attributes": {
+        "vision": 78, "passing": 76, "dribbling": 78, "finishing": 68, "long_shots": 72,
+        "speed": 75, "strength": 62, "heading": 50, "crossing": 74, "tackling": 40,
+        "marking": 38, "shot_power": 70, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 76
+      }
+    },
+    {
+      "name": "Neymar Jr",
+      "number": 10,
+      "photo": "img/players/Santos/NeymarJr.png",
+      "birthdate": "1992-02-05",
+      "primaryPosition": "MEI",
+      "secondaryPositions": ["ME", "PE", "SA", "ATA"],
+      "attributes": {
+        "vision": 87, "passing": 86, "dribbling": 89, "finishing": 79, "long_shots": 79,
+        "speed": 62, "strength": 50, "heading": 55, "crossing": 82, "tackling": 20,
+        "marking": 20, "shot_power": 78, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 55
+      }
+    },
+    {
+      "name": "Miguelito",
+      "number": 30,
+      "photo": "img/players/Santos/Miguelito.png",
+      "birthdate": "2004-04-25",
+      "primaryPosition": "PD",
+      "secondaryPositions": ["MD"],
+      "attributes": {
+        "speed": 76, "dribbling": 75, "crossing": 68, "finishing": 65, "passing": 74,
+        "strength": 60, "vision": 72, "long_shots": 68, "tackling": 40, "marking": 35,
+        "heading": 55, "shot_power": 66, "reflexes": 15, "handling": 10, "kicking": 15,
+        "positioning_gk": 10, "stamina": 75
+      }
+    },
+    {
+      "name": "Robinho Jr",
+      "number": 7,
+      "photo": "img/players/Santos/RobinhoJr.png",
+      "birthdate": "2007-12-17",
+      "primaryPosition": "PE",
+      "secondaryPositions": ["ME", "MD", "PD"],
+      "attributes": {
+        "speed": 72, "dribbling": 70, "crossing": 58, "finishing": 55, "passing": 58,
+        "strength": 50, "vision": 60, "long_shots": 55, "tackling": 25, "marking": 20,
+        "heading": 45, "shot_power": 58, "reflexes": 15, "handling": 10, "kicking": 15,
+        "positioning_gk": 10, "stamina": 65
+      }
+    },
+    {
+      "name": "Lautaro Díaz",
+      "number": 19,
+      "photo": "img/players/Santos/LautaroDiaz.png",
+      "birthdate": "1998-05-21",
+      "primaryPosition": "ATA",
+      "secondaryPositions": [],
+      "attributes": {
+        "finishing": 78, "heading": 68, "shot_power": 72, "strength": 70, "speed": 70,
+        "dribbling": 68, "passing": 62, "vision": 65, "crossing": 60, "long_shots": 68,
+        "tackling": 30, "marking": 25, "reflexes": 15, "handling": 10, "kicking": 15,
+        "positioning_gk": 10, "stamina": 73
+      }
+    },
+    {
+      "name": "Rony",
+      "number": 11,
+      "photo": "img/players/Santos/Rony.png",
+      "birthdate": "1995-05-11",
+      "primaryPosition": "ATA",
+      "secondaryPositions": ["SA", "PE", "ME", "PD", "MD"],
+      "attributes": {
+        "finishing": 74, "heading": 70, "shot_power": 76, "strength": 68, "speed": 86,
+        "dribbling": 78, "passing": 70, "vision": 72, "crossing": 75, "long_shots": 74,
+        "tackling": 45, "marking": 40, "reflexes": 15, "handling": 10, "kicking": 15,
+        "positioning_gk": 10, "stamina": 88
+      }
+    },
+    {
+      "name": "Gabriel Barbosa",
+      "number": 9,
+      "photo": "img/players/Santos/GabrielBarbosa.png",
+      "birthdate": "1996-08-30",
+      "primaryPosition": "ATA",
+      "secondaryPositions": [],
+      "attributes": {
+        "finishing": 84, "heading": 70, "shot_power": 80, "strength": 74, "speed": 74,
+        "dribbling": 82, "passing": 76, "vision": 75, "crossing": 72, "long_shots": 80,
+        "tackling": 35, "marking": 30, "reflexes": 15, "handling": 10, "kicking": 15,
+        "positioning_gk": 10, "stamina": 78
+      }
+    }
+  ]
+}

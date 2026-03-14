@@ -1,0 +1,406 @@
+{
+  "id": 18,
+  "name": "Vasco da Gama",
+  "logo": "img/times/VascodaGama.png",
+  "stadium": "São Januário",
+  "stadiumPhoto": "img/estadios/SaoJanuario.jpg",
+  "finances": 50,
+  "players": [
+    {
+      "name": "Léo Jardim",
+      "number": 1,
+      "photo": "img/players/Vasco/LeoJardim.png",
+      "birthdate": "1995-03-20",
+      "primaryPosition": "GOL",
+      "secondaryPositions": [],
+      "attributes": {
+        "reflexes": 84, "handling": 81, "positioning_gk": 72, "kicking": 66,
+        "finishing": 12, "heading": 15, "shot_power": 55, "strength": 75, "speed": 42,
+        "passing": 55, "dribbling": 20, "tackling": 15, "marking": 15, "crossing": 12,
+        "long_shots": 10, "vision": 45, "stamina": 88
+      }
+    },
+    {
+      "name": "Daniel Fuzato",
+      "number": 13,
+      "photo": "img/players/Vasco/DanielFuzato.png",
+      "birthdate": "1997-07-04",
+      "primaryPosition": "GOL",
+      "secondaryPositions": [],
+      "attributes": {
+        "reflexes": 69, "handling": 69, "positioning_gk": 72, "kicking": 81,
+        "finishing": 10, "heading": 12, "shot_power": 65, "strength": 72, "speed": 45,
+        "passing": 75, "dribbling": 35, "tackling": 12, "marking": 15, "crossing": 20,
+        "long_shots": 15, "vision": 65, "stamina": 80
+      }
+    },
+    {
+      "name": "Pablo",
+      "number": 37,
+      "photo": "img/players/Vasco/Pablo.png",
+      "birthdate": "2003-02-11",
+      "primaryPosition": "GOL",
+      "secondaryPositions": [],
+      "attributes": {
+        "reflexes": 66, "handling": 65, "positioning_gk": 66, "kicking": 68,
+        "finishing": 11, "heading": 14, "shot_power": 58, "strength": 68, "speed": 48,
+        "passing": 60, "dribbling": 25, "tackling": 14, "marking": 12, "crossing": 15,
+        "long_shots": 12, "vision": 50, "stamina": 72
+      }
+    },
+    {
+      "name": "Puma",
+      "number": 2,
+      "photo": "img/players/Vasco/Puma.png",
+      "birthdate": "1997-03-14",
+      "primaryPosition": "LD",
+      "secondaryPositions": ["MD", "PD"],
+      "attributes": {
+        "tackling": 60, "marking": 60, "crossing": 84, "speed": 75,
+        "dribbling": 78, "passing": 82, "finishing": 75, "heading": 65,
+        "shot_power": 78, "strength": 70, "long_shots": 72, "vision": 75,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10, 
+        "stamina": 82
+      }
+    },
+    {
+      "name": "Paulo Henrique",
+      "number": 96,
+      "photo": "img/players/Vasco/PauloHenrique.png",
+      "birthdate": "1996-07-25",
+      "primaryPosition": "LD",
+      "secondaryPositions": ["MD"],
+      "attributes": {
+        "tackling": 76, "marking": 74, "crossing": 65, "speed": 94,
+        "dribbling": 70, "passing": 62, "finishing": 55, "heading": 68,
+        "shot_power": 65, "strength": 72, "long_shots": 50, "vision": 55,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10,
+        "stamina": 93
+      }
+    },
+    {
+      "name": "Saldivia",
+      "number": 4,
+      "photo": "img/players/Vasco/Saldivia.png",
+      "birthdate": "2002-04-06",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 73, "marking": 73, "heading": 71, "strength": 74, "speed": 69,
+        "passing": 76, "dribbling": 65, "vision": 72, "crossing": 50, "finishing": 35,
+        "shot_power": 55, "long_shots": 40, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 77
+      }
+    },
+    {
+      "name": "Carlos Cuesta",
+      "number": 46,
+      "photo": "img/players/Vasco/CarlosCuesta.png",
+      "birthdate": "1999-03-09",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 79, "marking": 79, "heading": 68, "strength": 68, "speed": 64,
+        "passing": 62, "dribbling": 55, "vision": 50, "crossing": 45, "finishing": 30,
+        "shot_power": 60, "long_shots": 35, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 73
+      }
+    },
+    {
+      "name": "Robert Renan",
+      "number": 30,
+      "photo": "img/players/Vasco/RobertRenan.png",
+      "birthdate": "2003-10-11",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": ["LE"],
+      "attributes": {
+        "tackling": 75, "marking": 75, "heading": 73, "strength": 71, "speed": 85,
+        "passing": 78, "dribbling": 76, "vision": 74, "crossing": 68, "finishing": 40,
+        "shot_power": 65, "long_shots": 50, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 81
+      }
+    },
+    {
+      "name": "Lucas Freitas",
+      "number": 43,
+      "photo": "img/players/Vasco/LucasFreitas.png",
+      "birthdate": "2001-01-20",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 71, "marking": 71, "heading": 71, "strength": 71, "speed": 71,
+        "passing": 65, "dribbling": 60, "vision": 60, "crossing": 55, "finishing": 35,
+        "shot_power": 60, "long_shots": 40, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 79
+      }
+    },
+    {
+      "name": "Lucas Piton",
+      "number": 6,
+      "photo": "img/players/Vasco/LucasPiton.png",
+      "birthdate": "2000-10-09",
+      "primaryPosition": "LE",
+      "secondaryPositions": ["ME"],
+      "attributes": {
+        "tackling": 60, "marking": 60, "crossing": 88, "speed": 75,
+        "dribbling": 75, "passing": 78, "finishing": 65, "heading": 60,
+        "shot_power": 70, "strength": 65, "long_shots": 65, "vision": 70,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10,
+        "stamina": 76
+      }
+    },
+    {
+      "name": "Cuiabano",
+      "number": 66,
+      "photo": "img/players/Vasco/Cuiabano.png",
+      "birthdate": "2003-02-16",
+      "primaryPosition": "LE",
+      "secondaryPositions": ["ME", "PE"],
+      "attributes": {
+        "tackling": 76, "marking": 75, "crossing": 72, "speed": 82,
+        "dribbling": 70, "passing": 71, "finishing": 60, "heading": 68,
+        "shot_power": 75, "strength": 75, "long_shots": 68, "vision": 65,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10,
+        "stamina": 84
+      }
+    },
+    {
+      "name": "Cauan Barros",
+      "number": 88,
+      "photo": "img/players/Vasco/CauanBarros.png",
+      "birthdate": "2004-05-06",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "passing": 65, "tackling": 78, "marking": 76, "strength": 80, "long_shots": 61,
+        "vision": 60, "dribbling": 62, "speed": 68, "heading": 70, "finishing": 50,
+        "crossing": 55, "shot_power": 65, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 78
+      }
+    },
+    {
+      "name": "Hugo Moura",
+      "number": 25,
+      "photo": "img/players/Vasco/HugoMoura.png",
+      "birthdate": "1998-01-03",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["ZAG"],
+      "attributes": {
+        "passing": 60, "tackling": 82, "marking": 80, "strength": 85, "long_shots": 49,
+        "vision": 55, "dribbling": 58, "speed": 65, "heading": 75, "finishing": 45,
+        "crossing": 50, "shot_power": 70, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 74
+      }
+    },
+    {
+      "name": "Mateus Carvalho",
+      "number": 85,
+      "photo": "img/players/Vasco/MateusCarvalho.png",
+      "birthdate": "2002-03-18",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "passing": 74, "tackling": 65, "marking": 65, "strength": 68, "long_shots": 65,
+        "vision": 72, "dribbling": 76, "speed": 70, "heading": 60, "finishing": 58,
+        "crossing": 68, "shot_power": 66, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 68
+      }
+    },
+    {
+      "name": "Tchê Tchê",
+      "number": 3,
+      "photo": "img/players/Vasco/TcheTche.png",
+      "birthdate": "1992-08-30",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["LD", "MC"],
+      "attributes": {
+        "passing": 83, "tackling": 63, "marking": 60, "strength": 65, "long_shots": 77,
+        "vision": 80, "dribbling": 82, "speed": 80, "heading": 55, "finishing": 68,
+        "crossing": 75, "shot_power": 75, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 65
+      }
+    },
+    {
+      "name": "Jair",
+      "number": 8,
+      "photo": "img/players/Vasco/Jair.png",
+      "birthdate": "1994-08-26",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "passing": 88, "tackling": 66, "marking": 65, "strength": 72, "long_shots": 82,
+        "vision": 87, "dribbling": 84, "speed": 72, "heading": 60, "finishing": 70,
+        "crossing": 78, "shot_power": 78, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 68
+      }
+    },
+    {
+      "name": "Thiago Mendes",
+      "number": 23,
+      "photo": "img/players/Vasco/ThiagoMendes.png",
+      "birthdate": "1992-03-15",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "passing": 84, "tackling": 73, "marking": 72, "strength": 72, "long_shots": 75,
+        "vision": 82, "dribbling": 78, "speed": 74, "heading": 65, "finishing": 68,
+        "crossing": 75, "shot_power": 76, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 76
+      }
+    },
+    {
+      "name": "JP",
+      "number": 98,
+      "photo": "img/players/Vasco/JP.png",
+      "birthdate": "2005-04-19",
+      "primaryPosition": "MC",
+      "secondaryPositions": ["MEI"],
+      "attributes": {
+        "passing": 72, "dribbling": 70, "vision": 70, "long_shots": 60, "tackling": 38,
+        "speed": 55, "strength": 60, "marking": 35, "heading": 45, "finishing": 50,
+        "crossing": 65, "shot_power": 55, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 75
+      }
+    },
+    {
+      "name": "Johan Rojas",
+      "number": 29,
+      "photo": "img/players/Vasco/JohanRojas.png",
+      "birthdate": "2002-09-20",
+      "primaryPosition": "MEI",
+      "secondaryPositions": ["ME", "PE"],
+      "attributes": {
+        "vision": 75, "passing": 73, "dribbling": 82, "finishing": 70, "long_shots": 66,
+        "speed": 78, "strength": 65, "tackling": 40, "marking": 35, "heading": 55,
+        "crossing": 75, "shot_power": 68, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 83
+      }
+    },
+    {
+      "name": "Matheus França",
+      "number": 9,
+      "photo": "img/players/Vasco/MatheusFranca.png",
+      "birthdate": "2004-04-01",
+      "primaryPosition": "MEI",
+      "secondaryPositions": ["MD","ME","MC", "SA", "ATA", "PE", "PD"],
+      "attributes": {
+        "vision": 74, "passing": 74, "dribbling": 75, "finishing": 55, "long_shots": 55,
+        "speed": 50, "strength": 45, "tackling": 30, "marking": 25, "heading": 40,
+        "crossing": 70, "shot_power": 50, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 79
+      }
+    },
+    {
+      "name": "Mutano",
+      "number": 60,
+      "photo": "img/players/Vasco/Mutano.png",
+      "birthdate": "2005-05-29",
+      "primaryPosition": "PE",
+      "secondaryPositions": ["MD","ME","PD", "LE"],
+      "attributes": {
+        "speed": 70, "dribbling": 72, "crossing": 55, "finishing": 58, "passing": 55,
+        "strength": 50, "vision": 55, "long_shots": 50, "tackling": 40, "marking": 35,
+        "heading": 45, "shot_power": 60, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 75
+      }
+    },
+    {
+      "name": "David",
+      "number": 7,
+      "photo": "img/players/Vasco/David.png",
+      "birthdate": "1995-10-17",
+      "primaryPosition": "PE",
+      "secondaryPositions": ["ME","SA"],
+      "attributes": {
+        "speed": 74, "dribbling": 74, "crossing": 68, "finishing": 72, "passing": 68,
+        "strength": 88, "vision": 65, "long_shots": 80, "tackling": 35, "marking": 30,
+        "heading": 65, "shot_power": 82, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 88
+      }
+    },
+    {
+      "name": "Nuno",
+      "number": 17,
+      "photo": "img/players/Vasco/Nuno.png",
+      "birthdate": "1999-06-16",
+      "primaryPosition": "PE",
+      "secondaryPositions": ["MD","ME","MEI", "MC", "SA", "PD"],
+      "attributes": {
+        "speed": 70, "dribbling": 76, "crossing": 74, "finishing": 68, "passing": 75,
+        "strength": 45, "vision": 76, "long_shots": 68, "tackling": 30, "marking": 25,
+        "heading": 50, "shot_power": 65, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 64
+      }
+    },
+    {
+      "name": "Andrez Gomez",
+      "number": 11,
+      "photo": "img/players/Vasco/AndrezGomez.png",
+      "birthdate": "2002-09-12",
+      "primaryPosition": "PD",
+      "secondaryPositions": ["MD","ME","PE"],
+      "attributes": {
+        "speed": 85, "dribbling": 82, "crossing": 70, "finishing": 60, "passing": 68,
+        "strength": 85, "vision": 65, "long_shots": 65, "tackling": 35, "marking": 30,
+        "heading": 65, "shot_power": 75, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 91
+      }
+    },
+    {
+      "name": "Marino",
+      "number": 18,
+      "photo": "img/players/Vasco/Marino.png",
+      "birthdate": "2002-02-08",
+      "primaryPosition": "PD",
+      "secondaryPositions": ["MD","ME","PE"],
+      "attributes": {
+        "speed": 83, "dribbling": 80, "crossing": 68, "finishing": 58, "passing": 65,
+        "strength": 82, "vision": 62, "long_shots": 62, "tackling": 32, "marking": 28,
+        "heading": 60, "shot_power": 72, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 88
+      }
+    },
+    {
+      "name": "Adson",
+      "number": 28,
+      "photo": "img/players/Vasco/Adson.png",
+      "birthdate": "2000-10-06",
+      "primaryPosition": "PD",
+      "secondaryPositions": ["MD","ME","PE", "MEI"],
+      "attributes": {
+        "speed": 80, "dribbling": 80, "crossing": 65, "finishing": 65, "passing": 66,
+        "strength": 45, "vision": 72, "long_shots": 68, "tackling": 35, "marking": 30,
+        "heading": 50, "shot_power": 65, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 79
+      }
+    },
+    {
+      "name": "Brenner",
+      "number": 20,
+      "photo": "img/players/Vasco/Brenner.png",
+      "birthdate": "2000-01-16",
+      "primaryPosition": "ATA",
+      "secondaryPositions": ["SA", "MEI"],
+      "attributes": {
+        "finishing": 70, "heading": 67, "shot_power": 76, "strength": 70, "speed": 84,
+        "dribbling": 82, "passing": 76, "vision": 78, "crossing": 70, "long_shots": 72,
+        "tackling": 35, "marking": 30, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 72
+      }
+    },
+    {
+      "name": "Spinelli",
+      "number": 77,
+      "photo": "img/players/Vasco/Spinelli.png",
+      "birthdate": "1997-01-21",
+      "primaryPosition": "ATA",
+      "secondaryPositions": [],
+      "attributes": {
+        "finishing": 76, "heading": 73, "shot_power": 73, "strength": 70, "speed": 60,
+        "dribbling": 55, "passing": 40, "vision": 40, "crossing": 35, "long_shots": 65,
+        "tackling": 25, "marking": 20, "reflexes": 15, "handling": 10, "kicking": 15, 
+        "positioning_gk": 10, "stamina": 74
+      }
+    }
+  ]
+}

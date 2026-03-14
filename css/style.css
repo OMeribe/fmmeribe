@@ -1,0 +1,175 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+.player-card {
+    cursor: grab;
+}
+
+/* --- FUNDO DA TELA DE TÁTICAS --- */
+.pitch {
+    background-color: #1a202c; 
+    background-image: 
+        linear-gradient(0deg, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    height: 640px; /* ALTURA REDUZIDA PARA CABER NO ZOOM 100% */
+    position: relative;
+    border-radius: 8px;
+    border: 2px solid #2d3748;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+/* --- ESPAÇOS VAZIOS NO CAMPO (SLOTS) --- */
+.player-position {
+    position: absolute;
+    width: 82px;  /* COMPACTADO */
+    height: 125px; /* COMPACTADO */
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    font-weight: bold;
+    background-color: rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+}
+
+/* --- ÁREA DOS RESERVAS E NÃO RELACIONADOS --- */
+.player-list-container {
+    height: auto; /* O Tailwind agora controla a altura */
+    overflow-y: auto; 
+    border: 2px dashed #4a5568;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 10px;
+    padding: 10px;
+}
+
+/* --- A NOVA CARTINHA DE JOGADOR PROFISSIONAL (Compacta) --- */
+.player-token {
+    width: 82px;
+    height: 125px;
+    background: linear-gradient(135deg, #2d3748, #1a202c);
+    border: 1px solid #4a5568;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 2px 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    cursor: grab;
+    position: relative;
+    transition: transform 0.1s ease;
+}
+.card-header-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0 4px;
+    margin-bottom: 2px;
+}
+.card-overall { font-size: 15px; font-weight: 900; color: #facc15; line-height: 1;}
+.card-pos { font-size: 9px; font-weight: 700; color: #cbd5e0; }
+.card-logo { height: 14px; width: 14px; object-fit: contain; opacity: 0.8; }
+.card-photo-container { position: relative; margin-bottom: 2px; }
+.card-photo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background-color: #4a5568; border: 2px solid; }
+
+/* Cores de Adaptação Tática */
+.status-green { border-color: #48bb78; } 
+.status-yellow { border-color: #ecc94b; } 
+.status-red { border-color: #f56565; } 
+
+.card-name {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    width: 95%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: auto;
+}
+.card-stats {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    padding-top: 2px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+.stat-item { display: flex; flex-direction: column; align-items: center; }
+.stat-label { font-size: 6px; color: #a0aec0; font-weight: bold; }
+.stat-val { font-size: 9px; font-weight: 800; color: #e2e8f0; }
+
+/* --- CALENDÁRIO ESTILO FIFA --- */
+
+/* Garante que o grid inteiro possa crescer para acomodar os quadrados */
+#calendar-grid {
+    height: auto !important; 
+}
+
+.calendar-day {
+    background-color: #2d3748;
+    border: 1px solid #4a5568;
+    border-radius: 6px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centraliza o escudo perfeitamente no meio */
+    position: relative;
+    transition: transform 0.1s ease;
+    height: 95px; /* <-- A MÁGICA AQUI: Força todos os dias a terem o mesmo tamanho! */
+}
+
+/* ... o resto do código continua igual (.calendar-day:hover, .calendar-day.empty, etc) ... */
+.calendar-day:hover {
+    transform: scale(1.02);
+    background-color: #3f4a5c;
+}
+.calendar-day.empty { 
+    background-color: transparent; 
+    border: none; 
+    pointer-events: none;
+}
+.calendar-day.today { 
+    background-color: #2b6cb0; 
+    border-color: #63b3ed; 
+    box-shadow: 0 0 10px rgba(99, 179, 237, 0.5);
+}
+.calendar-match-logo { 
+    width: 40px; 
+    height: 40px; 
+    object-fit: contain; 
+    margin-top: auto; 
+    margin-bottom: auto; 
+}
+.calendar-date-num { 
+    position: absolute; 
+    top: 4px; 
+    left: 6px; 
+    font-size: 14px; 
+    font-weight: 800; 
+    color: #a0aec0; 
+}
+.calendar-day.today .calendar-date-num { color: white; }
+
+/* Placares e Resultados */
+.calendar-score { 
+    font-size: 12px; 
+    font-weight: 900; 
+    background: rgba(0,0,0,0.6); 
+    padding: 2px 6px; 
+    border-radius: 4px; 
+    margin-top: 4px; 
+    letter-spacing: 1px;
+}
+.win-bg { border-bottom: 4px solid #48bb78; }
+.draw-bg { border-bottom: 4px solid #ecc94b; }
+.loss-bg { border-bottom: 4px solid #f56565; }

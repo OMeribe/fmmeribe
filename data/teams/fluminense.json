@@ -1,0 +1,36 @@
+{
+  "id": 10,
+  "name": "Fluminense",
+  "logo": "img/times/Fluminense.png",
+  "stadium": "Maracanã",
+  "stadiumPhoto": "img/estadios/Maracana.jpg",
+  "finances": 50,
+  "players": [
+    {
+      "name": "Pedro",
+      "number": 9,
+      "photo": "img/players/pedro_fla.png",
+      "birthdate": "1997-06-20",
+      "primaryPosition": "ATA",
+      "secondaryPositions": ["SA"],
+      "attributes": {
+        "finishing": 88, "heading": 85, "shot_power": 82, "strength": 80, "speed": 75,
+        "passing": 70, "dribbling": 78, "tackling": 30, "marking": 25, "crossing": 60,
+        "long_shots": 75, "vision": 72, "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Arrascaeta",
+      "number": 10,
+      "photo": "img/players/arrascaeta_fla.png",
+      "birthdate": "1994-06-01",
+      "primaryPosition": "MEI",
+      "secondaryPositions": ["PE", "MC"],
+      "attributes": {
+        "vision": 89, "passing": 87, "dribbling": 86, "finishing": 80, "long_shots": 82,
+        "speed": 76, "strength": 65, "tackling": 45, "marking": 40, "heading": 60,
+        "crossing": 85, "shot_power": 78, "reflexes": 10, "handling": 10, "kicking": 10, "positioning_gk": 10
+      }
+    }
+  ]
+}
