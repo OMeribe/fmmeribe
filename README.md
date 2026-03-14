@@ -13,13 +13,13 @@ Bem-vindo à mais nova grande atualização do projeto! Este patch foca em uma r
 ![Menu Principal do Jogo](docs/MenuPrincipal.png)
 
 ### Gerenciamento do Elenco
-![Gerenciamento do Elenco](docs/GerenciamentoELenco.png)
+![Gerenciamento do Elenco](docs/GerenciamentoElenco.png)
 
 ### Prancheta Tática
 ![Tela de Táticas](docs/Taticas.png)
 
 ### Visão Pré-Jogo
-![Tela de Pré-Jogo](docs/Pre-jogo.png)
+![Tela de Pré-Jogo](docs/Pre-Jogo.png)
 
 ### Artilheiros e Estatísticas
 ![Tela de Artilheiros](docs/Artilheiros.png)
