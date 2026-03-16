@@ -183,7 +183,7 @@ const teamFilesToLoad = [
     'remo.json',
     'santos.json',
     'sao-paulo.json',
-    'Vasco.json',
+    'vasco.json',
     'vitoria.json'
 ];
 

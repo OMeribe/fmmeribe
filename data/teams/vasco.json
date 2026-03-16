@@ -3,13 +3,13 @@
   "name": "Vasco da Gama",
   "logo": "img/times/VascodaGama.png",
   "stadium": "São Januário",
-  "stadiumPhoto": "img/estadios/SaoJanuario.jpg",
+  "stadiumPhoto": "img/estadios/SaoJanuario.JPG",
   "finances": 50,
   "players": [
     {
       "name": "Léo Jardim",
       "number": 1,
-      "photo": "img/players/Vasco/LeoJardim.png",
+      "photo": "img/players/Vasco/LeoJardim.PNG",
       "birthdate": "1995-03-20",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -23,7 +23,7 @@
     {
       "name": "Daniel Fuzato",
       "number": 13,
-      "photo": "img/players/Vasco/DanielFuzato.png",
+      "photo": "img/players/Vasco/DanielFuzato.PNG",
       "birthdate": "1997-07-04",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -37,7 +37,7 @@
     {
       "name": "Pablo",
       "number": 37,
-      "photo": "img/players/Vasco/Pablo.png",
+      "photo": "img/players/Vasco/Pablo.PNG",
       "birthdate": "2003-02-11",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -51,7 +51,7 @@
     {
       "name": "Puma",
       "number": 2,
-      "photo": "img/players/Vasco/Puma.png",
+      "photo": "img/players/Vasco/Puma.PNG",
       "birthdate": "1997-03-14",
       "primaryPosition": "LD",
       "secondaryPositions": ["MD", "PD"],
@@ -66,7 +66,7 @@
     {
       "name": "Paulo Henrique",
       "number": 96,
-      "photo": "img/players/Vasco/PauloHenrique.png",
+      "photo": "img/players/Vasco/PauloHenrique.PNG",
       "birthdate": "1996-07-25",
       "primaryPosition": "LD",
       "secondaryPositions": ["MD"],
@@ -81,7 +81,7 @@
     {
       "name": "Saldivia",
       "number": 4,
-      "photo": "img/players/Vasco/Saldivia.png",
+      "photo": "img/players/Vasco/Saldivia.PNG",
       "birthdate": "2002-04-06",
       "primaryPosition": "ZAG",
       "secondaryPositions": [],
@@ -95,7 +95,7 @@
     {
       "name": "Carlos Cuesta",
       "number": 46,
-      "photo": "img/players/Vasco/CarlosCuesta.png",
+      "photo": "img/players/Vasco/CarlosCuesta.PNG",
       "birthdate": "1999-03-09",
       "primaryPosition": "ZAG",
       "secondaryPositions": [],
@@ -109,7 +109,7 @@
     {
       "name": "Robert Renan",
       "number": 30,
-      "photo": "img/players/Vasco/RobertRenan.png",
+      "photo": "img/players/Vasco/RobertRenan.PNG",
       "birthdate": "2003-10-11",
       "primaryPosition": "ZAG",
       "secondaryPositions": ["LE"],
@@ -123,7 +123,7 @@
     {
       "name": "Lucas Freitas",
       "number": 43,
-      "photo": "img/players/Vasco/LucasFreitas.png",
+      "photo": "img/players/Vasco/LucasFreitas.PNG",
       "birthdate": "2001-01-20",
       "primaryPosition": "ZAG",
       "secondaryPositions": [],
@@ -137,7 +137,7 @@
     {
       "name": "Lucas Piton",
       "number": 6,
-      "photo": "img/players/Vasco/LucasPiton.png",
+      "photo": "img/players/Vasco/LucasPiton.PNG",
       "birthdate": "2000-10-09",
       "primaryPosition": "LE",
       "secondaryPositions": ["ME"],
@@ -152,7 +152,7 @@
     {
       "name": "Cuiabano",
       "number": 66,
-      "photo": "img/players/Vasco/Cuiabano.png",
+      "photo": "img/players/Vasco/Cuiabano.PNG",
       "birthdate": "2003-02-16",
       "primaryPosition": "LE",
       "secondaryPositions": ["ME", "PE"],
@@ -167,7 +167,7 @@
     {
       "name": "Cauan Barros",
       "number": 88,
-      "photo": "img/players/Vasco/CauanBarros.png",
+      "photo": "img/players/Vasco/CauanBarros.PNG",
       "birthdate": "2004-05-06",
       "primaryPosition": "VOL",
       "secondaryPositions": ["MC"],
@@ -181,7 +181,7 @@
     {
       "name": "Hugo Moura",
       "number": 25,
-      "photo": "img/players/Vasco/HugoMoura.png",
+      "photo": "img/players/Vasco/HugoMoura.PNG",
       "birthdate": "1998-01-03",
       "primaryPosition": "VOL",
       "secondaryPositions": ["ZAG"],
@@ -195,7 +195,7 @@
     {
       "name": "Mateus Carvalho",
       "number": 85,
-      "photo": "img/players/Vasco/MateusCarvalho.png",
+      "photo": "img/players/Vasco/MateusCarvalho.PNG",
       "birthdate": "2002-03-18",
       "primaryPosition": "VOL",
       "secondaryPositions": ["MC"],
@@ -209,7 +209,7 @@
     {
       "name": "Tchê Tchê",
       "number": 3,
-      "photo": "img/players/Vasco/TcheTche.png",
+      "photo": "img/players/Vasco/TcheTche.PNG",
       "birthdate": "1992-08-30",
       "primaryPosition": "VOL",
       "secondaryPositions": ["LD", "MC"],
@@ -223,7 +223,7 @@
     {
       "name": "Jair",
       "number": 8,
-      "photo": "img/players/Vasco/Jair.png",
+      "photo": "img/players/Vasco/Jair.PNG",
       "birthdate": "1994-08-26",
       "primaryPosition": "VOL",
       "secondaryPositions": ["MC"],
@@ -237,7 +237,7 @@
     {
       "name": "Thiago Mendes",
       "number": 23,
-      "photo": "img/players/Vasco/ThiagoMendes.png",
+      "photo": "img/players/Vasco/ThiagoMendes.PNG",
       "birthdate": "1992-03-15",
       "primaryPosition": "VOL",
       "secondaryPositions": ["MC"],
@@ -251,7 +251,7 @@
     {
       "name": "JP",
       "number": 98,
-      "photo": "img/players/Vasco/JP.png",
+      "photo": "img/players/Vasco/JP.PNG",
       "birthdate": "2005-04-19",
       "primaryPosition": "MC",
       "secondaryPositions": ["MEI"],
@@ -265,7 +265,7 @@
     {
       "name": "Johan Rojas",
       "number": 29,
-      "photo": "img/players/Vasco/JohanRojas.png",
+      "photo": "img/players/Vasco/JohanRojas.PNG",
       "birthdate": "2002-09-20",
       "primaryPosition": "MEI",
       "secondaryPositions": ["ME", "PE"],
@@ -279,7 +279,7 @@
     {
       "name": "Matheus França",
       "number": 9,
-      "photo": "img/players/Vasco/MatheusFranca.png",
+      "photo": "img/players/Vasco/MatheusFranca.PNG",
       "birthdate": "2004-04-01",
       "primaryPosition": "MEI",
       "secondaryPositions": ["MD","ME","MC", "SA", "ATA", "PE", "PD"],
@@ -293,7 +293,7 @@
     {
       "name": "Mutano",
       "number": 60,
-      "photo": "img/players/Vasco/Mutano.png",
+      "photo": "img/players/Vasco/Mutano.PNG",
       "birthdate": "2005-05-29",
       "primaryPosition": "PE",
       "secondaryPositions": ["MD","ME","PD", "LE"],
@@ -307,7 +307,7 @@
     {
       "name": "David",
       "number": 7,
-      "photo": "img/players/Vasco/David.png",
+      "photo": "img/players/Vasco/David.PNG",
       "birthdate": "1995-10-17",
       "primaryPosition": "PE",
       "secondaryPositions": ["ME","SA"],
@@ -321,7 +321,7 @@
     {
       "name": "Nuno",
       "number": 17,
-      "photo": "img/players/Vasco/Nuno.png",
+      "photo": "img/players/Vasco/Nuno.PNG",
       "birthdate": "1999-06-16",
       "primaryPosition": "PE",
       "secondaryPositions": ["MD","ME","MEI", "MC", "SA", "PD"],
@@ -335,7 +335,7 @@
     {
       "name": "Andrez Gomez",
       "number": 11,
-      "photo": "img/players/Vasco/AndrezGomez.png",
+      "photo": "img/players/Vasco/AndrezGomez.PNG",
       "birthdate": "2002-09-12",
       "primaryPosition": "PD",
       "secondaryPositions": ["MD","ME","PE"],
@@ -349,7 +349,7 @@
     {
       "name": "Marino",
       "number": 18,
-      "photo": "img/players/Vasco/Marino.png",
+      "photo": "img/players/Vasco/Marino.PNG",
       "birthdate": "2002-02-08",
       "primaryPosition": "PD",
       "secondaryPositions": ["MD","ME","PE"],
@@ -363,7 +363,7 @@
     {
       "name": "Adson",
       "number": 28,
-      "photo": "img/players/Vasco/Adson.png",
+      "photo": "img/players/Vasco/Adson.PNG",
       "birthdate": "2000-10-06",
       "primaryPosition": "PD",
       "secondaryPositions": ["MD","ME","PE", "MEI"],
@@ -377,7 +377,7 @@
     {
       "name": "Brenner",
       "number": 20,
-      "photo": "img/players/Vasco/Brenner.png",
+      "photo": "img/players/Vasco/Brenner.PNG",
       "birthdate": "2000-01-16",
       "primaryPosition": "ATA",
       "secondaryPositions": ["SA", "MEI"],
@@ -391,7 +391,7 @@
     {
       "name": "Spinelli",
       "number": 77,
-      "photo": "img/players/Vasco/Spinelli.png",
+      "photo": "img/players/Vasco/Spinelli.PNG",
       "birthdate": "1997-01-21",
       "primaryPosition": "ATA",
       "secondaryPositions": [],
