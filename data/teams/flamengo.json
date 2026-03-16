@@ -3,13 +3,13 @@
   "name": "Flamengo",
   "logo": "img/times/Flamengo-RJ.png",
   "stadium": "Maracanã",
-  "stadiumPhoto": "img/estadios/Maracana.JPG",
+  "stadiumPhoto": "img/estadios/Maracana.jpg",
   "finances": 50,
   "players": [
     {
       "name": "Rossi",
       "number": 1,
-      "photo": "img/players/Flamengo/Rossi.PNG",
+      "photo": "img/players/Flamengo/Rossi.png",
       "birthdate": "1995-08-21",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -23,7 +23,7 @@
     {
       "name": "Andrew",
       "number": 42,
-      "photo": "img/players/Flamengo/Andrew.PNG",
+      "photo": "img/players/Flamengo/Andrew.png",
       "birthdate": "2001-07-01",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -37,7 +37,7 @@
     {
       "name": "Léo Pereira",
       "number": 4,
-      "photo": "img/players/Flamengo/LeoPereira.PNG",
+      "photo": "img/players/Flamengo/LeoPereira.png",
       "birthdate": "1996-01-31",
       "primaryPosition": "ZAG",
       "secondaryPositions": ["LE"],
@@ -51,7 +51,7 @@
     {
       "name": "Léo Ortiz",
       "number": 3,
-      "photo": "img/players/Flamengo/LeoOrtiz.PNG",
+      "photo": "img/players/Flamengo/LeoOrtiz.png",
       "birthdate": "1996-01-03",
       "primaryPosition": "ZAG",
       "secondaryPositions": ["VOL"],
@@ -65,7 +65,7 @@
     {
       "name": "Danilo",
       "number": 13,
-      "photo": "img/players/Flamengo/Danilo.PNG",
+      "photo": "img/players/Flamengo/Danilo.png",
       "birthdate": "1991-07-15",
       "primaryPosition": "ZAG",
       "secondaryPositions": ["LD", "VOL"],
@@ -79,7 +79,7 @@
     {
       "name": "Vitão",
       "number": 44,
-      "photo": "img/players/Flamengo/Vitao.PNG",
+      "photo": "img/players/Flamengo/Vitao.png",
       "birthdate": "2000-02-02",
       "primaryPosition": "ZAG",
       "secondaryPositions": [],
@@ -93,7 +93,7 @@
     {
       "name": "Varela",
       "number": 2,
-      "photo": "img/players/Flamengo/Varela.PNG",
+      "photo": "img/players/Flamengo/Varela.png",
       "birthdate": "1993-03-24",
       "primaryPosition": "LD",
       "secondaryPositions": ["MD", "LE"],
@@ -108,7 +108,7 @@
     {
       "name": "Emerson Royal",
       "number": 22,
-      "photo": "img/players/Flamengo/EmersonRoyal.PNG",
+      "photo": "img/players/Flamengo/EmersonRoyal.png",
       "birthdate": "1999-01-14",
       "primaryPosition": "LD",
       "secondaryPositions": ["ZAG", "MD"],
@@ -123,7 +123,7 @@
     {
       "name": "Alex Sandro",
       "number": 26,
-      "photo": "img/players/Flamengo/AlexSandro.PNG",
+      "photo": "img/players/Flamengo/AlexSandro.png",
       "birthdate": "1991-01-26",
       "primaryPosition": "LE",
       "secondaryPositions": ["ME", "ZAG"],
@@ -138,7 +138,7 @@
     {
       "name": "Ayrton Lucas",
       "number": 6,
-      "photo": "img/players/Flamengo/AyrtonLucas.PNG",
+      "photo": "img/players/Flamengo/AyrtonLucas.png",
       "birthdate": "1997-06-19",
       "primaryPosition": "LE",
       "secondaryPositions": ["PE", "ME"],
@@ -153,7 +153,7 @@
     {
       "name": "Evertton",
       "number": 52,
-      "photo": "img/players/Flamengo/Evertton.PNG",
+      "photo": "img/players/Flamengo/Evertton.png",
       "birthdate": "2003-02-28",
       "primaryPosition": "VOL",
       "secondaryPositions": ["MC"],
@@ -167,7 +167,7 @@
     {
       "name": "Erick Pulgar",
       "number": 5,
-      "photo": "img/players/Flamengo/Pulgar.PNG",
+      "photo": "img/players/Flamengo/Pulgar.png",
       "birthdate": "1994-01-15",
       "primaryPosition": "VOL",
       "secondaryPositions": ["ZAG"],
@@ -181,7 +181,7 @@
     {
       "name": "Jorginho",
       "number": 21,
-      "photo": "img/players/Flamengo/Jorginho.PNG",
+      "photo": "img/players/Flamengo/Jorginho.png",
       "birthdate": "1991-12-20",
       "primaryPosition": "VOL",
       "secondaryPositions": ["MC"],
@@ -195,7 +195,7 @@
     {
       "name": "Arrascaeta",
       "number": 10,
-      "photo": "img/players/Flamengo/Arrascaeta.PNG",
+      "photo": "img/players/Flamengo/Arrascaeta.png",
       "birthdate": "1994-06-01",
       "primaryPosition": "MEI",
       "secondaryPositions": ["MC", "MD","ME","PE", "SA"],
@@ -209,7 +209,7 @@
     {
       "name": "De La Cruz",
       "number": 18,
-      "photo": "img/players/Flamengo/DeLaCruz.PNG",
+      "photo": "img/players/Flamengo/DeLaCruz.png",
       "birthdate": "1997-06-01",
       "primaryPosition": "MC",
       "secondaryPositions": ["MD","MEI", "VOL"],
@@ -223,7 +223,7 @@
     {
       "name": "Saúl",
       "number": 8,
-      "photo": "img/players/Flamengo/Saul.PNG",
+      "photo": "img/players/Flamengo/Saul.png",
       "birthdate": "1994-11-21",
       "primaryPosition": "MC",
       "secondaryPositions": ["VOL"],
@@ -237,7 +237,7 @@
     {
       "name": "Carrascal",
       "number": 15,
-      "photo": "img/players/Flamengo/Carrascal.PNG",
+      "photo": "img/players/Flamengo/Carrascal.png",
       "birthdate": "1998-05-25",
       "primaryPosition": "MEI",
       "secondaryPositions": ["MD","ME","PE", "PD"],
@@ -251,7 +251,7 @@
     {
       "name": "Lucas Paquetá",
       "number": 20,
-      "photo": "img/players/Flamengo/LucasPaqueta.PNG",
+      "photo": "img/players/Flamengo/LucasPaqueta.png",
       "birthdate": "1997-08-27",
       "primaryPosition": "MEI",
       "secondaryPositions": ["MD","ME","VOL", "MC", "PD", "PE"],
@@ -265,7 +265,7 @@
     {
       "name": "Bruno Henrique",
       "number": 27,
-      "photo": "img/players/Flamengo/BrunoHenrique.PNG",
+      "photo": "img/players/Flamengo/BrunoHenrique.png",
       "birthdate": "1990-12-30",
       "primaryPosition": "PE",
       "secondaryPositions": ["ME","SA", "ATA"],
@@ -279,7 +279,7 @@
     {
       "name": "Cebolinha",
       "number": 11,
-      "photo": "img/players/Flamengo/Cebolinha.PNG",
+      "photo": "img/players/Flamengo/Cebolinha.png",
       "birthdate": "1996-03-22",
       "primaryPosition": "PE",
       "secondaryPositions": ["MD","ME","PD"],
@@ -293,7 +293,7 @@
     {
       "name": "Samu Lino",
       "number": 16,
-      "photo": "img/players/Flamengo/SamuLino.PNG",
+      "photo": "img/players/Flamengo/SamuLino.png",
       "birthdate": "1999-12-23",
       "primaryPosition": "PE",
       "secondaryPositions": ["ME","LE"],
@@ -307,7 +307,7 @@
     {
       "name": "Luiz Araújo",
       "number": 7,
-      "photo": "img/players/Flamengo/LuizAraujo.PNG",
+      "photo": "img/players/Flamengo/LuizAraujo.png",
       "birthdate": "1996-06-02",
       "primaryPosition": "PD",
       "secondaryPositions": ["MD","ME","PE", "SA"],
@@ -321,7 +321,7 @@
     {
       "name": "Gonzalo Plata",
       "number": 19,
-      "photo": "img/players/Flamengo/Plata.PNG",
+      "photo": "img/players/Flamengo/Plata.png",
       "birthdate": "2000-11-01",
       "primaryPosition": "PD",
       "secondaryPositions": ["MD","SA", "ATA"],
@@ -335,7 +335,7 @@
     {
       "name": "Pedro",
       "number": 9,
-      "photo": "img/players/Flamengo/Pedro.PNG",
+      "photo": "img/players/Flamengo/Pedro.png",
       "birthdate": "1997-06-20",
       "primaryPosition": "ATA",
       "secondaryPositions": ["SA"],
@@ -349,7 +349,7 @@
     {
       "name": "Wallace Yan",
       "number": 64,
-      "photo": "img/players/Flamengo/WallaceYan.PNG",
+      "photo": "img/players/Flamengo/WallaceYan.png",
       "birthdate": "2005-02-08",
       "primaryPosition": "ATA",
       "secondaryPositions": ["MD","ME","MEI", "PD", "PE", "SA"],

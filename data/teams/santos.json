@@ -3,13 +3,13 @@
   "name": "Santos",
   "logo": "img/times/Santos.png",
   "stadium": "Vila Belmiro",
-  "stadiumPhoto": "img/estadios/Vila.JPG",
+  "stadiumPhoto": "img/estadios/Vila.jpg",
   "finances": 50,
   "players": [
     {
       "name": "Brazão",
       "number": 77,
-      "photo": "img/players/Santos/Brazao.PNG",
+      "photo": "img/players/Santos/Brazao.png",
       "birthdate": "2000-10-05",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -23,7 +23,7 @@
     {
       "name": "Diógenes",
       "number": 1,
-      "photo": "img/players/Santos/Diogenes.PNG",
+      "photo": "img/players/Santos/Diogenes.png",
       "birthdate": "2001-01-06",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -37,7 +37,7 @@
     {
       "name": "João Pedro",
       "number": 79,
-      "photo": "img/players/Santos/JoaoPedro.PNG",
+      "photo": "img/players/Santos/JoaoPedro.png",
       "birthdate": "2008-03-18",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -51,7 +51,7 @@
     {
       "name": "Mayke",
       "number": 12,
-      "photo": "img/players/Santos/Mayke.PNG",
+      "photo": "img/players/Santos/Mayke.png",
       "birthdate": "1992-11-10",
       "primaryPosition": "LD",
       "secondaryPositions": ["MD"],
@@ -66,7 +66,7 @@
     {
       "name": "Igor Vinícius",
       "number": 18,
-      "photo": "img/players/Santos/IgorVinicius.PNG",
+      "photo": "img/players/Santos/IgorVinicius.png",
       "birthdate": "1997-04-02",
       "primaryPosition": "LD",
       "secondaryPositions": ["MD"],
@@ -81,7 +81,7 @@
     {
       "name": "Zé Ivaldo",
       "number": 2,
-      "photo": "img/players/Santos/ZeIvaldo.PNG",
+      "photo": "img/players/Santos/ZeIvaldo.png",
       "birthdate": "1997-02-21",
       "primaryPosition": "ZAG",
       "secondaryPositions": [],
@@ -95,7 +95,7 @@
     {
       "name": "Lucas Veríssimo",
       "number": 28,
-      "photo": "img/players/Santos/LucasVerissimo.PNG",
+      "photo": "img/players/Santos/LucasVerissimo.png",
       "birthdate": "1995-07-02",
       "primaryPosition": "ZAG",
       "secondaryPositions": [],
@@ -109,7 +109,7 @@
     {
       "name": "Luan Peres",
       "number": 14,
-      "photo": "img/players/Santos/LuanPeres.PNG",
+      "photo": "img/players/Santos/LuanPeres.png",
       "birthdate": "1994-07-19",
       "primaryPosition": "ZAG",
       "secondaryPositions": ["LE"],
@@ -123,7 +123,7 @@
     {
       "name": "Adonis Frías",
       "number": 98,
-      "photo": "img/players/Santos/AdonisFrias.PNG",
+      "photo": "img/players/Santos/AdonisFrias.png",
       "birthdate": "1998-03-17",
       "primaryPosition": "ZAG",
       "secondaryPositions": [],
@@ -137,7 +137,7 @@
     {
       "name": "Joao Ananias",
       "number": 23,
-      "photo": "img/players/Santos/JoaoAnanias.PNG",
+      "photo": "img/players/Santos/JoaoAnanias.png",
       "birthdate": "2007-02-12",
       "primaryPosition": "ZAG",
       "secondaryPositions": ["LE"],
@@ -151,7 +151,7 @@
     {
       "name": "Gonzalo Escobar",
       "number": 31,
-      "photo": "img/players/Santos/GonzaloEscobar.PNG",
+      "photo": "img/players/Santos/GonzaloEscobar.png",
       "birthdate": "1997-03-16",
       "primaryPosition": "LE",
       "secondaryPositions": [],
@@ -166,7 +166,7 @@
     {
       "name": "Vinicius Lira",
       "number": 3,
-      "photo": "img/players/Santos/ViniciusLira.PNG",
+      "photo": "img/players/Santos/ViniciusLira.png",
       "birthdate": "2007-10-12",
       "primaryPosition": "LE",
       "secondaryPositions": [],
@@ -181,7 +181,7 @@
     {
       "name": "Oliva",
       "number": 28,
-      "photo": "img/players/Santos/Oliva.PNG",
+      "photo": "img/players/Santos/Oliva.png",
       "birthdate": "1996-06-01",
       "primaryPosition": "VOL",
       "secondaryPositions": ["MC"],
@@ -195,7 +195,7 @@
     {
       "name": "João Schmidt",
       "number": 5,
-      "photo": "img/players/Santos/JoaoSchmidt.PNG",
+      "photo": "img/players/Santos/JoaoSchmidt.png",
       "birthdate": "1993-05-19",
       "primaryPosition": "VOL",
       "secondaryPositions": ["MC"],
@@ -209,7 +209,7 @@
     {
       "name": "Gabriel Bontempo",
       "number": 49,
-      "photo": "img/players/Santos/GabrielBontempo.PNG",
+      "photo": "img/players/Santos/GabrielBontempo.png",
       "birthdate": "2005-01-16",
       "primaryPosition": "MC",
       "secondaryPositions": ["VOL"],
@@ -223,7 +223,7 @@
     {
       "name": "Willian Arão",
       "number": 15,
-      "photo": "img/players/Santos/WillianArao.PNG",
+      "photo": "img/players/Santos/WillianArao.png",
       "birthdate": "1992-03-12",
       "primaryPosition": "VOL",
       "secondaryPositions": ["MC", "ZAG"],
@@ -237,7 +237,7 @@
     {
       "name": "Zé Rafael",
       "number": 6,
-      "photo": "img/players/Santos/ZeRafael.PNG",
+      "photo": "img/players/Santos/ZeRafael.png",
       "birthdate": "1993-06-16",
       "primaryPosition": "VOL",
       "secondaryPositions": ["MC"],
@@ -251,7 +251,7 @@
     {
       "name": "Tomás Rincón",
       "number": 8,
-      "photo": "img/players/Santos/TomasRincon.PNG",
+      "photo": "img/players/Santos/TomasRincon.png",
       "birthdate": "1988-01-13",
       "primaryPosition": "MC",
       "secondaryPositions": ["VOL"],
@@ -265,7 +265,7 @@
     {
       "name": "Gabriel Menino",
       "number": 25,
-      "photo": "img/players/Santos/GabrielMenino.PNG",
+      "photo": "img/players/Santos/GabrielMenino.png",
       "birthdate": "2000-09-29",
       "primaryPosition": "MC",
       "secondaryPositions": ["VOL"],
@@ -279,7 +279,7 @@
     {
       "name": "Moisés",
       "number": 21,
-      "photo": "img/players/Santos/Moises.PNG",
+      "photo": "img/players/Santos/Moises.png",
       "birthdate": "1996-09-02",
       "primaryPosition": "ME",
       "secondaryPositions": ["PE", "SA", "ATA"],
@@ -293,7 +293,7 @@
     {
       "name": "Thaciano",
       "number": 16,
-      "photo": "img/players/Santos/Thaciano.PNG",
+      "photo": "img/players/Santos/Thaciano.png",
       "birthdate": "1995-05-12",
       "primaryPosition": "SA",
       "secondaryPositions": ["MEI", "ATA"],
@@ -307,7 +307,7 @@
     {
       "name": "Barreal",
       "number": 22,
-      "photo": "img/players/Santos/Barreal.PNG",
+      "photo": "img/players/Santos/Barreal.png",
       "birthdate": "2000-08-17",
       "primaryPosition": "ME",
       "secondaryPositions": ["PE", "MEI", "MD", "PD"],
@@ -321,7 +321,7 @@
     {
       "name": "Rollheiser",
       "number": 32,
-      "photo": "img/players/Santos/Rollheiser.PNG",
+      "photo": "img/players/Santos/Rollheiser.png",
       "birthdate": "2000-03-24",
       "primaryPosition": "MEI",
       "secondaryPositions": ["ME", "PE", "MD", "PD"],
@@ -335,7 +335,7 @@
     {
       "name": "Neymar Jr",
       "number": 10,
-      "photo": "img/players/Santos/NeymarJr.PNG",
+      "photo": "img/players/Santos/NeymarJr.png",
       "birthdate": "1992-02-05",
       "primaryPosition": "MEI",
       "secondaryPositions": ["ME", "PE", "SA", "ATA"],
@@ -349,7 +349,7 @@
     {
       "name": "Miguelito",
       "number": 30,
-      "photo": "img/players/Santos/Miguelito.PNG",
+      "photo": "img/players/Santos/Miguelito.png",
       "birthdate": "2004-04-25",
       "primaryPosition": "PD",
       "secondaryPositions": ["MD"],
@@ -363,7 +363,7 @@
     {
       "name": "Robinho Jr",
       "number": 7,
-      "photo": "img/players/Santos/RobinhoJr.PNG",
+      "photo": "img/players/Santos/RobinhoJr.png",
       "birthdate": "2007-12-17",
       "primaryPosition": "PE",
       "secondaryPositions": ["ME", "MD", "PD"],
@@ -377,7 +377,7 @@
     {
       "name": "Lautaro Díaz",
       "number": 19,
-      "photo": "img/players/Santos/LautaroDiaz.PNG",
+      "photo": "img/players/Santos/LautaroDiaz.png",
       "birthdate": "1998-05-21",
       "primaryPosition": "ATA",
       "secondaryPositions": [],
@@ -391,7 +391,7 @@
     {
       "name": "Rony",
       "number": 11,
-      "photo": "img/players/Santos/Rony.PNG",
+      "photo": "img/players/Santos/Rony.png",
       "birthdate": "1995-05-11",
       "primaryPosition": "ATA",
       "secondaryPositions": ["SA", "PE", "ME", "PD", "MD"],
@@ -405,7 +405,7 @@
     {
       "name": "Gabriel Barbosa",
       "number": 9,
-      "photo": "img/players/Santos/GabrielBarbosa.PNG",
+      "photo": "img/players/Santos/GabrielBarbosa.png",
       "birthdate": "1996-08-30",
       "primaryPosition": "ATA",
       "secondaryPositions": [],
