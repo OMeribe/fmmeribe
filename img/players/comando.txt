@@ -1,0 +1,3 @@
+comando powershell:
+
+"C:\Users\Diretorio" -Recurse -Filter *.PNG | Rename-Item -NewName { $_.Name -creplace '\.PNG$', '.png' }   

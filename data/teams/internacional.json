@@ -7,29 +7,45 @@
   "finances": 50,
   "players": [
     {
-      "name": "Pedro",
-      "number": 9,
-      "photo": "img/players/pedro_fla.png",
-      "birthdate": "1997-06-20",
-      "primaryPosition": "ATA",
-      "secondaryPositions": ["SA"],
+      "name": "Sergio Rochet",
+      "number": 1,
+      "photo": "img/players/Inter/SergioRochet.jpg",
+      "birthdate": "1993-03-23",
+      "primaryPosition": "GOL",
+      "secondaryPositions": [],
       "attributes": {
-        "finishing": 88, "heading": 85, "shot_power": 82, "strength": 80, "speed": 75,
-        "passing": 70, "dribbling": 78, "tackling": 30, "marking": 25, "crossing": 60,
-        "long_shots": 75, "vision": 72, "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+        "reflexes": 82, "handling": 79, "positioning_gk": 76, "kicking": 60,
+        "finishing": 12, "heading": 15, "shot_power": 65, "strength": 78, "speed": 45,
+        "passing": 65, "dribbling": 20, "tackling": 15, "marking": 15, "crossing": 12,
+        "long_shots": 10, "vision": 50, "stamina": 85
       }
     },
     {
-      "name": "Arrascaeta",
-      "number": 10,
-      "photo": "img/players/arrascaeta_fla.png",
-      "birthdate": "1994-06-01",
-      "primaryPosition": "MEI",
-      "secondaryPositions": ["PE", "MC"],
+      "name": "Anthoni",
+      "number": 12,
+      "photo": "img/players/Inter/Anthoni.jpg",
+      "birthdate": "2002-01-23",
+      "primaryPosition": "GOL",
+      "secondaryPositions": [],
       "attributes": {
-        "vision": 89, "passing": 87, "dribbling": 86, "finishing": 80, "long_shots": 82,
-        "speed": 76, "strength": 65, "tackling": 45, "marking": 40, "heading": 60,
-        "crossing": 85, "shot_power": 78, "reflexes": 10, "handling": 10, "kicking": 10, "positioning_gk": 10
+        "reflexes": 75, "handling": 73, "positioning_gk": 70, "kicking": 66,
+        "finishing": 10, "heading": 12, "shot_power": 55, "strength": 68, "speed": 48,
+        "passing": 55, "dribbling": 22, "tackling": 12, "marking": 12, "crossing": 10,
+        "long_shots": 10, "vision": 40, "stamina": 78
+      }
+    },
+    {
+      "name": "Diego Esser",
+      "number": 32,
+      "photo": "img/players/Inter/DiegoEsser.jpg",
+      "birthdate": "2005-04-13",
+      "primaryPosition": "GOL",
+      "secondaryPositions": [],
+      "attributes": {
+        "reflexes": 68, "handling": 65, "positioning_gk": 62, "kicking": 62,
+        "finishing": 9, "heading": 10, "shot_power": 50, "strength": 60, "speed": 46,
+        "passing": 50, "dribbling": 18, "tackling": 10, "marking": 10, "crossing": 10,
+        "long_shots": 9, "vision": 35, "stamina": 70
       }
     }
   ]
