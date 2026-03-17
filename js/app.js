@@ -1,18 +1,38 @@
 // --- CONTROLE PRINCIPAL DO JOGO ---
 
-let tacticsReturnScreen = 'main-hub-screen'; // Lembra de onde o jogador veio
-// Note o 'async' antes da function
+let tacticsReturnScreen = 'main-hub-screen';
+
 async function initializeGame() {
-    // Espera todos os arquivos JSON carregarem primeiro
+    // 1. Mostra o Menu Principal
+    showScreen('main-menu-screen');
+
+    // 2. Trava o botão
+    const btnJogar = document.getElementById('btn-menu-jogar');
+    const txtJogar = document.getElementById('text-menu-jogar');
+    const iconJogar = document.getElementById('icon-menu-jogar');
+    
+    // 3. Faz o download de todos os JSONs em silêncio
     await loadAllTeamsFromJson(); 
     
-    // Depois que carregou, o jogo pode seguir
+    // 4. Prepara a matemática
     calculateTeamOveralls();
     renderTeamSelection();
-    
-    // Inicializa as áreas de drag and drop estáticas
     addDropTargetListeners(document.getElementById('reserves-list'));
     addDropTargetListeners(document.getElementById('unlisted-list'));
+
+    // 5. Libera o botão "JOGAR" verdinho
+    btnJogar.disabled = false;
+    btnJogar.classList.remove('cursor-not-allowed', 'opacity-50', 'bg-green-700/80');
+    btnJogar.classList.add('hover:bg-green-600', 'bg-green-700', 'cursor-pointer');
+    txtJogar.textContent = 'JOGAR';
+    iconJogar.classList.remove('hidden');
+
+    // 6. Abre as opções (Carreira/Amistoso) ao clicar
+    btnJogar.onclick = () => {
+        const submenu = document.getElementById('submenu-jogar');
+        submenu.classList.toggle('hidden');
+        submenu.classList.toggle('flex');
+    };
 }
 
 function selectTeam(teamId) {
@@ -45,7 +65,7 @@ let allRoundResults = [];
 // Velocidade da simulação (MODDING AQUI!)
 // 500 = Meio segundo real para cada 1 minuto de jogo. 
 // Para dar 5 minutos reais, mude para: 3333 (que é 3.3 segundos por in-game tick)
-const TICK_RATE = 500; 
+let TICK_RATE = 500; 
 
 function processEntireRound() {
     calculateTeamOveralls(); 
@@ -55,15 +75,20 @@ function processEntireRound() {
     roundMatches.forEach(match => {
         const result = simulateMatch(match.home, match.away);
         allRoundResults.push(result);
-        updateTableWithResult(result);
+        
+        // SÓ MEXE NA TABELA SE FOR MODO CARREIRA
+        if (gameMode !== 'friendly') {
+            updateTableWithResult(result);
+        }
 
         match.homeGoals = result.homeGoals;
         match.awayGoals = result.awayGoals;
         match.played = true;
     });
 
-    // Gera as notícias baseadas nos resultados desta rodada
-    generateNewsAfterRound(allRoundResults);
+    if (gameMode !== 'friendly') {
+        generateNewsAfterRound(allRoundResults);
+    }
 }
 
 // --- NOVA FUNÇÃO DE ANIMAÇÃO DO TEMPO ---
@@ -144,8 +169,14 @@ function prepareMatch() {
 }
 
 function finishRoundAndGoToHub() {
+    if (typeof gameMode !== 'undefined' && gameMode === 'friendly') {
+        // Se for amistoso, acaba o jogo e volta pra tela de título!
+        showScreen('main-menu-screen');
+        return;
+    }
+    
+    // Lógica normal do modo carreira
     gameState.currentRound++;
-    // Avança 1 dia após o jogo para não ficarmos presos no passado
     gameState.currentDate.setDate(gameState.currentDate.getDate() + 1);
     updateHub();
     showScreen('main-hub-screen');
@@ -156,20 +187,26 @@ function startQuickSim() {
         processEntireRound();
         finishRoundAndGoToHub();
         
-        // Pega apenas o resultado do seu time
         const playerMatch = allRoundResults.find(r => r.homeTeam.id === gameState.playerTeam.id || r.awayTeam.id === gameState.playerTeam.id);
         
-        // Renderiza a rodada no fundo e abre a sua tela de estatísticas por cima
-        renderMatchResultsModal(allRoundResults);
-        renderPlayerStatsModal(playerMatch);
+        // SE FOR AMISTOSO, VAI DIRETO PRO SEU PLACAR
+        if (gameMode === 'friendly') {
+            renderPlayerStatsModal(playerMatch);
+        } else {
+            renderMatchResultsModal(allRoundResults);
+            renderPlayerStatsModal(playerMatch);
+        }
     });
 }
 
 function showRoundResultsFromLive() {
     finishRoundAndGoToHub(); 
-    // Como a simulação aprofundada já salvou o seu jogo na variável liveResultData, usamos ela
-    renderMatchResultsModal(allRoundResults);
-    renderPlayerStatsModal(liveResultData); 
+    if (gameMode === 'friendly') {
+        renderPlayerStatsModal(liveResultData); 
+    } else {
+        renderMatchResultsModal(allRoundResults);
+        renderPlayerStatsModal(liveResultData); 
+    }
 }
 
 function startDeepSim() {
@@ -301,6 +338,227 @@ function setTeamRole(role, playerName) {
     // Feedback visual opcional: Se for capitão, podemos atualizar a tela pré-jogo
     if(role === 'captain') {
         // Você pode disparar um alerta ou salvar no banco
+    }
+}
+
+// --- MODO AMISTOSO ---
+let gameMode = 'career'; // Pode ser 'career' ou 'friendly'
+let friendlyHomeIndex = 0;
+let friendlyAwayIndex = 1;
+
+let hasInitializedFriendly = false; // Memória para saber se já escolhemos antes
+function openFriendlySetup() {
+    gameMode = 'friendly';
+    teamsData.sort((a, b) => a.name.localeCompare(b.name));
+    
+    // Só reseta para 0 e 1 se for a primeira vez que entra no Amistoso
+    if (!hasInitializedFriendly) {
+        friendlyHomeIndex = 0;
+        friendlyAwayIndex = 1;
+        hasInitializedFriendly = true;
+    }
+    
+    updateFriendlyUI();
+    showScreen('friendly-setup-screen');
+}
+
+function cycleFriendlyTeam(side, direction) {
+    if (side === 'home') {
+        friendlyHomeIndex += direction;
+        if (friendlyHomeIndex < 0) friendlyHomeIndex = teamsData.length - 1;
+        if (friendlyHomeIndex >= teamsData.length) friendlyHomeIndex = 0;
+        
+        // Evita que Casa e Fora sejam o mesmo time
+        if (friendlyHomeIndex === friendlyAwayIndex) cycleFriendlyTeam('home', direction);
+    } else {
+        friendlyAwayIndex += direction;
+        if (friendlyAwayIndex < 0) friendlyAwayIndex = teamsData.length - 1;
+        if (friendlyAwayIndex >= teamsData.length) friendlyAwayIndex = 0;
+        
+        if (friendlyAwayIndex === friendlyHomeIndex) cycleFriendlyTeam('away', direction);
+    }
+    updateFriendlyUI();
+}
+
+function updateFriendlyUI() {
+    const homeTeam = teamsData[friendlyHomeIndex];
+    const awayTeam = teamsData[friendlyAwayIndex];
+
+    // Escala provisoriamente só para calcular a força real atual dos setores
+    autoSelectStarters(homeTeam, '4-3-3');
+    autoSelectStarters(awayTeam, '4-3-3');
+
+    const homeSectors = calculateSectorOveralls(homeTeam);
+    const awaySectors = calculateSectorOveralls(awayTeam);
+
+    document.getElementById('friendly-home-logo').src = homeTeam.logo;
+    document.getElementById('friendly-home-name').textContent = homeTeam.name;
+    document.getElementById('friendly-home-ata').textContent = homeSectors.attack;
+    document.getElementById('friendly-home-mio').textContent = homeSectors.midfield;
+    document.getElementById('friendly-home-def').textContent = homeSectors.defense;
+
+    document.getElementById('friendly-away-logo').src = awayTeam.logo;
+    document.getElementById('friendly-away-name').textContent = awayTeam.name;
+    document.getElementById('friendly-away-ata').textContent = awaySectors.attack;
+    document.getElementById('friendly-away-mio').textContent = awaySectors.midfield;
+    document.getElementById('friendly-away-def').textContent = awaySectors.defense;
+}
+
+function startFriendlySession() {
+    const homeTeam = teamsData[friendlyHomeIndex];
+    const awayTeam = teamsData[friendlyAwayIndex];
+
+    // RECUPERA STAMINA PARA 100% SEMPRE NO AMISTOSO
+    homeTeam.players.forEach(p => p.currentStamina = 100);
+    awayTeam.players.forEach(p => p.currentStamina = 100);
+
+    gameState.playerTeam = homeTeam; 
+    autoSelectBestLineup(gameState.playerTeam);
+    gameState.currentFormation = gameState.playerTeam.currentFormation;
+    
+    gameState.schedule = [
+        [{ home: homeTeam, away: awayTeam, date: new Date(), played: false }]
+    ];
+    gameState.currentRound = 1;
+    showScreen('pre-match-screen');
+}
+
+function rematchFriendly() {
+    closeModal('player-stats-modal');
+    startFriendlySession(); // Joga com os mesmos times e stamina renovada
+}
+
+function backToFriendlySetup() {
+    closeModal('player-stats-modal');
+    updateFriendlyUI(); // Abre a tela dupla já com os últimos times setados!
+    showScreen('friendly-setup-screen');
+}
+
+function exitToMainMenu() {
+    closeModal('player-stats-modal');
+    showScreen('main-menu-screen');
+}
+
+// --- SISTEMA DE SAVE E LOAD (ARQUIVO .JSON) ---
+
+function downloadSaveFile() {
+    try {
+        // 1. Prepara o pacote com todo o universo do jogo (AGORA COM A DIFICULDADE)
+        const saveData = {
+            gameState: gameState,
+            teamsData: teamsData,
+            cpuDifficulty: typeof cpuDifficulty !== 'undefined' ? cpuDifficulty : 'normal'
+        };
+        
+        // 2. Transforma tudo em texto
+        const dataStr = JSON.stringify(saveData);
+        
+        // 3. Cria um arquivo virtual (Blob) na memória
+        const blob = new Blob([dataStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        
+        // 4. Cria um link invisível, clica nele e depois destrói
+        const a = document.createElement('a');
+        a.href = url;
+        
+        // Formata a data de hoje para o nome do arquivo
+        const today = new Date();
+        const dateStr = `${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}`;
+        
+        a.download = `Prancheta_Save_${dateStr}.json`; 
+        document.body.appendChild(a);
+        a.click(); 
+        
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        alert("✅ Jogo salvo! O arquivo foi baixado para a sua pasta de Downloads.");
+    } catch (e) {
+        alert("Erro ao gerar o arquivo de save.");
+        console.error(e);
+    }
+}
+
+function triggerLoadGame() {
+    // Finge um clique naquele input invisível que colocamos no HTML
+    document.getElementById('save-file-input').click();
+}
+
+function processSaveFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        try {
+            const parsed = JSON.parse(e.target.result);
+            gameState = parsed.gameState;
+            teamsData = parsed.teamsData;
+            
+            // A VACINA DE RETROCOMPATIBILIDADE: 
+            // Se o save for antigo e não tiver a variável 'cpuDifficulty', ele assume 'normal' por padrão.
+            cpuDifficulty = parsed.cpuDifficulty || 'normal';
+            
+            // Truque de interface: Força o 'select' do menu de configurações a mostrar a dificuldade carregada
+            const selectDificuldade = document.querySelector('select[onchange="setDifficulty(this.value)"]');
+            if (selectDificuldade) selectDificuldade.value = cpuDifficulty;
+            
+            // Reconstruir datas 
+            gameState.currentDate = new Date(gameState.currentDate);
+            if (gameState.schedule) {
+                gameState.schedule.forEach(round => {
+                    round.forEach(match => {
+                        match.date = new Date(match.date);
+                    });
+                });
+            }
+            
+            gameMode = 'career';
+            updateHub();
+            showScreen('main-hub-screen');
+            alert("📂 Save carregado com sucesso! Bem-vindo de volta, Professor.");
+            
+        } catch (err) {
+            alert("❌ Erro ao ler o arquivo. Tem certeza que é um save válido do Prancheta?");
+            console.error(err);
+        }
+        
+        event.target.value = ''; 
+    };
+    
+    reader.readAsText(file);
+}
+
+// --- CONFIGURAÇÕES DO JOGO ---
+let cpuDifficulty = 'normal'; // Começa sempre no normal
+
+function setDifficulty(level) {
+    cpuDifficulty = level;
+    console.log("Dificuldade alterada para:", level);
+}
+
+function setGameSpeed(speedMs, btnElement) {
+    TICK_RATE = speedMs; // Altera a velocidade global do relógio
+    
+    // Reseta o visual de todos os botões de velocidade
+    const buttons = document.querySelectorAll('.speed-btn');
+    buttons.forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'border-blue-900', 'ring-2', 'ring-yellow-400');
+        btn.classList.add('bg-gray-700', 'border-gray-900');
+    });
+    
+    // Acende apenas o botão que o jogador clicou
+    btnElement.classList.remove('bg-gray-700', 'border-gray-900');
+    btnElement.classList.add('bg-blue-600', 'border-blue-900', 'ring-2', 'ring-yellow-400');
+}
+
+function clearCacheData() {
+    const confirmDelete = confirm("Tem certeza? Isso apagará memórias temporárias do navegador.\n\nFique tranquilo: Os seus arquivos de Save (.json) já baixados no PC continuarão intactos!");
+    
+    if (confirmDelete) {
+        localStorage.clear(); // Limpa resíduos de memory card antigo
+        alert("🧹 Cache limpo com sucesso!");
     }
 }
 

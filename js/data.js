@@ -1,5 +1,32 @@
 // --- BANCO DE DADOS E ESTADO DO JOGO ---
 
+// --- NOTAS DE ATUALIZAÇÃO (PATCH NOTES) ---
+const patchNotes = [
+    {
+        version: "0.2.0",
+        date: "17/03/2026",
+        title: "A Grande Atualização de Sistemas",
+        changes: [
+            "💾 Sistema de Save Profissional: Salve e carregue seu progresso usando arquivos .json físicos.",
+            "⚽ Modo Amistoso Rápido: Jogue partidas isoladas que não afetam o cansaço ou a tabela da sua Carreira.",
+            "⚙️ Configurações e Dificuldade: Ajuste a velocidade da simulação ao vivo e altere a dificuldade da CPU (Amador, Normal ou Lenda).",
+            "🏟️ Adição do S.C. Internacional ao banco de dados com elenco completo e balanceado.",
+            "🎨 Menu principal renomeado para 'Prancheta' com novo visual de iluminação."
+        ]
+    },
+    {
+        version: "0.1.0",
+        date: "16/03/2026",
+        title: "Nascimento do Prancheta",
+        changes: [
+            "Lançamento do Menu Principal oficial com arte customizada.",
+            "Carregamento invisível de times (Zero telas pretas).",
+            "Nova IA Tática com Funil de Substituições.",
+            "Novas cartinhas de jogadores com estamina visual."
+        ]
+    }
+];
+
 const POSITIONS = {
     GOL: { name: 'Goleiro', group: 'GK' },
     ZAG: { name: 'Zagueiro', group: 'DF' },

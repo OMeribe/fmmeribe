@@ -9,7 +9,7 @@
     {
       "name": "Sergio Rochet",
       "number": 1,
-      "photo": "img/players/Inter/SergioRochet.jpg",
+      "photo": "img/players/Internacional/SergioRochet.jpg",
       "birthdate": "1993-03-23",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -23,7 +23,7 @@
     {
       "name": "Anthoni",
       "number": 12,
-      "photo": "img/players/Inter/Anthoni.jpg",
+      "photo": "img/players/Internacional/Anthoni.jpg",
       "birthdate": "2002-01-23",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -37,7 +37,7 @@
     {
       "name": "Diego Esser",
       "number": 32,
-      "photo": "img/players/Inter/DiegoEsser.jpg",
+      "photo": "img/players/Internacional/DiegoEsser.jpg",
       "birthdate": "2005-04-13",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -46,6 +46,366 @@
         "finishing": 9, "heading": 10, "shot_power": 50, "strength": 60, "speed": 46,
         "passing": 50, "dribbling": 18, "tackling": 10, "marking": 10, "crossing": 10,
         "long_shots": 9, "vision": 35, "stamina": 70
+      }
+    },
+    {
+      "name": "Clayton Sampaio",
+      "number": 20,
+      "photo": "img/players/Internacional/ClaytonSampaio.jpg",
+      "birthdate": "2000-04-04",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 70, "marking": 70, "crossing": 40, "speed": 68,
+        "dribbling": 45, "passing": 55, "finishing": 30, "heading": 70,
+        "shot_power": 55, "strength": 70, "long_shots": 30, "vision": 45,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 75
+      }
+    },
+    {
+      "name": "Felix Torres",
+      "number": 4,
+      "photo": "img/players/Internacional/FelixTorres.jpg",
+      "birthdate": "1997-01-11",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": ["LD"],
+      "attributes": {
+        "tackling": 73, "marking": 73, "crossing": 55, "speed": 82,
+        "dribbling": 60, "passing": 73, "finishing": 40, "heading": 73,
+        "shot_power": 60, "strength": 73, "long_shots": 45, "vision": 70,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10,
+        "stamina": 80
+      }
+    },
+    {
+      "name": "Gabriel Mercado",
+      "number": 25,
+      "photo": "img/players/Internacional/GabrielMercado.jpg",
+      "birthdate": "1987-03-18",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 76, "marking": 76, "crossing": 60, "speed": 52,
+        "dribbling": 50, "passing": 65, "finishing": 45, "heading": 74,
+        "shot_power": 70, "strength": 78, "long_shots": 50, "vision": 62,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 68
+      }
+    },
+    {
+      "name": "Juninho",
+      "number": 18,
+      "photo": "img/players/Internacional/Juninho.jpg",
+      "birthdate": "1994-03-15",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 72, "marking": 72, "crossing": 45, "speed": 70,
+        "dribbling": 50, "passing": 58, "finishing": 35, "heading": 72,
+        "shot_power": 55, "strength": 72, "long_shots": 35, "vision": 50,
+        "reflexes": 10, "handling": 10, "kicking": 10, "positioning_gk": 10,
+        "stamina": 76
+      }
+    },
+    {
+      "name": "Victor Gabriel",
+      "number": 41,
+      "photo": "img/players/Internacional/VictorGabriel.jpg",
+      "birthdate": "2004-04-18",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 68, "marking": 68, "crossing": 50, "speed": 84,
+        "dribbling": 55, "passing": 60, "finishing": 30, "heading": 68,
+        "shot_power": 50, "strength": 70, "long_shots": 30, "vision": 55,
+        "reflexes": 14, "handling": 12, "kicking": 12, "positioning_gk": 10,
+        "stamina": 78
+      }
+    },
+    {
+      "name": "Alexandro Bernabei",
+      "number": 26,
+      "photo": "img/players/Internacional/Bernabei.jpg",
+      "birthdate": "2000-09-24",
+      "primaryPosition": "LE",
+      "secondaryPositions": ["ME", "PE"],
+      "attributes": {
+        "tackling": 66, "marking": 64, "crossing": 84, "speed": 86,
+        "dribbling": 82, "passing": 80, "finishing": 65, "heading": 55,
+        "shot_power": 78, "strength": 68, "long_shots": 74, "vision": 76,
+        "reflexes": 12, "handling": 10, "kicking": 15, "positioning_gk": 10,
+        "stamina": 92
+      }
+    },
+    {
+      "name": "Braian Aguirre",
+      "number": 35,
+      "photo": "img/players/Internacional/Aguirre.jpg",
+      "birthdate": "2000-07-28",
+      "primaryPosition": "LD",
+      "secondaryPositions": ["MD"],
+      "attributes": {
+        "tackling": 78, "marking": 78, "crossing": 68, "speed": 70,
+        "dribbling": 68, "passing": 70, "finishing": 45, "heading": 65,
+        "shot_power": 60, "strength": 74, "long_shots": 40, "vision": 62,
+        "reflexes": 15, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 86
+      }
+    },
+    {
+      "name": "Bruno Gomes",
+      "number": 15,
+      "photo": "img/players/Internacional/BrunoGomes.jpg",
+      "birthdate": "2001-04-04",
+      "primaryPosition": "LD",
+      "secondaryPositions": ["MD", "VOL", "MC"],
+      "attributes": {
+        "tackling": 75, "marking": 74, "crossing": 73, "speed": 76,
+        "dribbling": 76, "passing": 78, "finishing": 62, "heading": 60,
+        "shot_power": 72, "strength": 75, "long_shots": 68, "vision": 77,
+        "reflexes": 10, "handling": 10, "kicking": 10, "positioning_gk": 10,
+        "stamina": 88
+      }
+    },
+    {
+      "name": "Matheus Bahia",
+      "number": 6,
+      "photo": "img/players/Internacional/MatheusBahia.jpg",
+      "birthdate": "1999-08-11",
+      "primaryPosition": "LE",
+      "secondaryPositions": ["ME"],
+      "attributes": {
+        "tackling": 71, "marking": 71, "crossing": 71, "speed": 71,
+        "dribbling": 71, "passing": 71, "finishing": 55, "heading": 65,
+        "shot_power": 62, "strength": 70, "long_shots": 50, "vision": 60,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 80
+      }
+    },
+    {
+      "name": "Alan Patrick",
+      "number": 10,
+      "photo": "img/players/Internacional/AlanPatrick.jpg",
+      "birthdate": "1991-05-13",
+      "primaryPosition": "MEI",
+      "secondaryPositions": ["MC", "ME", "PE", "SA", "ATA"],
+      "attributes": {
+        "tackling": 50, "marking": 46, "crossing": 75, "speed": 66,
+        "dribbling": 78, "passing": 84, "finishing": 74, "heading": 58,
+        "shot_power": 72, "strength": 58, "long_shots": 78, "vision": 87,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 64
+      }
+    },
+    {
+      "name": "Alan Rodríguez",
+      "number": 14,
+      "photo": "img/players/Internacional/AlanRodriguez.jpg",
+      "birthdate": "2000-01-25",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "tackling": 72, "marking": 71, "crossing": 62, "speed": 72,
+        "dribbling": 66, "passing": 73, "finishing": 55, "heading": 68,
+        "shot_power": 64, "strength": 72, "long_shots": 68, "vision": 68,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 76
+      }
+    },
+    {
+      "name": "Bruno Henrique",
+      "number": 8,
+      "photo": "img/players/Internacional/BrunoHenrique.jpg",
+      "birthdate": "1989-10-21",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "tackling": 70, "marking": 70, "crossing": 57, "speed": 55,
+        "dribbling": 64, "passing": 72, "finishing": 50, "heading": 62,
+        "shot_power": 60, "strength": 65, "long_shots": 66, "vision": 69,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 50
+      }
+    },
+    {
+      "name": "Bruno Tabata",
+      "number": 17,
+      "photo": "img/players/Internacional/BrunoTabata.jpg",
+      "birthdate": "1997-03-30",
+      "primaryPosition": "PD",
+      "secondaryPositions": ["MD", "MEI"],
+      "attributes": {
+        "tackling": 56, "marking": 54, "crossing": 72, "speed": 74,
+        "dribbling": 73, "passing": 73, "finishing": 70, "heading": 58,
+        "shot_power": 67, "strength": 64, "long_shots": 67, "vision": 71,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 74
+      }
+    },
+    {
+      "name": "Gustavo Prado",
+      "number": 47,
+      "photo": "img/players/Internacional/GustavoPrado.jpg",
+      "birthdate": "2005-06-06",
+      "primaryPosition": "PD",
+      "secondaryPositions": ["MD"],
+      "attributes": {
+        "tackling": 42, "marking": 40, "crossing": 60, "speed": 79,
+        "dribbling": 74, "passing": 57, "finishing": 56, "heading": 48,
+        "shot_power": 58, "strength": 52, "long_shots": 50, "vision": 58,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 82
+      }
+    },
+    {
+      "name": "Paulinho",
+      "number": 27,
+      "photo": "img/players/Internacional/Paulinho.jpg",
+      "birthdate": "1997-01-08",
+      "primaryPosition": "MC",
+      "secondaryPositions": ["VOL", "MEI"],
+      "attributes": {
+        "tackling": 72, "marking": 67, "crossing": 64, "speed": 76,
+        "dribbling": 74, "passing": 75, "finishing": 62, "heading": 66,
+        "shot_power": 67, "strength": 70, "long_shots": 69, "vision": 74,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 76
+      }
+    },
+    {
+      "name": "Richard",
+      "number": 36,
+      "photo": "img/players/Internacional/Richard.jpg",
+      "birthdate": "1994-02-18",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "tackling": 67, "marking": 67, "crossing": 54, "speed": 62,
+        "dribbling": 58, "passing": 67, "finishing": 46, "heading": 61,
+        "shot_power": 56, "strength": 66, "long_shots": 65, "vision": 58,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 68
+      }
+    },
+    {
+      "name": "Ronaldo",
+      "number": 16,
+      "photo": "img/players/Internacional/Ronaldo.jpg",
+      "birthdate": "1996-10-23",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "tackling": 71, "marking": 70, "crossing": 57, "speed": 65,
+        "dribbling": 62, "passing": 72, "finishing": 51, "heading": 64,
+        "shot_power": 61, "strength": 70, "long_shots": 66, "vision": 63,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 71
+      }
+    },
+    {
+      "name": "Thiago Maia",
+      "number": 29,
+      "photo": "img/players/Internacional/ThiagoMaia.jpg",
+      "birthdate": "1997-03-23",
+      "primaryPosition": "MC",
+      "secondaryPositions": ["VOL"],
+      "attributes": {
+        "tackling": 74, "marking": 72, "crossing": 60, "speed": 68,
+        "dribbling": 70, "passing": 79, "finishing": 55, "heading": 68,
+        "shot_power": 65, "strength": 74, "long_shots": 69, "vision": 77,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 77
+      }
+    },
+    {
+      "name": "Villagra",
+      "number": 5,
+      "photo": "img/players/Internacional/Villagra.jpg",
+      "birthdate": "2001-02-14",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "tackling": 72, "marking": 71, "crossing": 57, "speed": 67,
+        "dribbling": 62, "passing": 73, "finishing": 49, "heading": 63,
+        "shot_power": 59, "strength": 70, "long_shots": 68, "vision": 63,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 73
+      }
+    },
+    {
+      "name": "Alerrandro",
+      "number": 9,
+      "photo": "img/players/Internacional/Alerrandro.jpg",
+      "birthdate": "2000-01-12",
+      "primaryPosition": "ATA",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 35, "marking": 30, "crossing": 50, "speed": 70,
+        "dribbling": 68, "passing": 62, "finishing": 78, "heading": 76,
+        "shot_power": 74, "strength": 74, "long_shots": 65, "vision": 65,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 76
+      }
+    },
+    {
+      "name": "Carbonero",
+      "number": 7,
+      "photo": "img/players/Internacional/Carbonero.jpg",
+      "birthdate": "1999-07-20",
+      "primaryPosition": "PE",
+      "secondaryPositions": ["ME"],
+      "attributes": {
+        "tackling": 40, "marking": 38, "crossing": 72, "speed": 79,
+        "dribbling": 79, "passing": 68, "finishing": 68, "heading": 52,
+        "shot_power": 68, "strength": 60, "long_shots": 62, "vision": 68,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 78
+      }
+    },
+    {
+      "name": "Kayky",
+      "number": 11,
+      "photo": "img/players/Internacional/Kayky.jpg",
+      "birthdate": "2003-06-10",
+      "primaryPosition": "PD",
+      "secondaryPositions": ["MD"],
+      "attributes": {
+        "tackling": 38, "marking": 35, "crossing": 70, "speed": 74,
+        "dribbling": 76, "passing": 66, "finishing": 68, "heading": 50,
+        "shot_power": 65, "strength": 55, "long_shots": 62, "vision": 68,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 74
+      }
+    },
+    {
+      "name": "Rafael Borré",
+      "number": 19,
+      "photo": "img/players/Internacional/RafaelBorre.jpg",
+      "birthdate": "1995-09-15",
+      "primaryPosition": "ATA",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 32, "marking": 28, "crossing": 52, "speed": 74,
+        "dribbling": 70, "passing": 64, "finishing": 80, "heading": 76,
+        "shot_power": 76, "strength": 76, "long_shots": 68, "vision": 67,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 78
+      }
+    },
+    {
+      "name": "Vitinho",
+      "number": 28,
+      "photo": "img/players/Internacional/Vitinho.jpg",
+      "birthdate": "1999-04-01",
+      "primaryPosition": "PE",
+      "secondaryPositions": ["ME", "MD", "PD"],
+      "attributes": {
+        "tackling": 50, "marking": 48, "crossing": 72, "speed": 76,
+        "dribbling": 76, "passing": 71, "finishing": 68, "heading": 55,
+        "shot_power": 66, "strength": 62, "long_shots": 62, "vision": 68,
+        "reflexes": 12, "handling": 10, "kicking": 12, "positioning_gk": 10,
+        "stamina": 74
       }
     }
   ]

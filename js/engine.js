@@ -428,6 +428,39 @@ function simulateMatch(homeTeam, awayTeam) {
         applyRolesBonus(awayTeam, awaySectors, gameState.roles);
     }
 
+    // --- NOVA MECÂNICA: BÔNUS DAS OPÇÕES AVANÇADAS ---
+    // Aplica o bônus apenas para o time do jogador (já que a IA ainda não tem essa inteligência)
+    if (homeTeam.id === gameState.playerTeam.id) {
+        applyRolesBonus(homeTeam, homeSectors, gameState.roles);
+    } else if (awayTeam.id === gameState.playerTeam.id) {
+        applyRolesBonus(awayTeam, awaySectors, gameState.roles);
+    }
+
+    // ==========================================================
+    // --- NOVA MECÂNICA: DIFICULDADE DA CPU ---
+    // ==========================================================
+    const applyDifficulty = (sectors, isPlayerTeam) => {
+        if (isPlayerTeam) return; // Não altera as notas do seu próprio time!
+        
+        let mod = 1.0;
+        if (typeof cpuDifficulty !== 'undefined') {
+            if (cpuDifficulty === 'easy') mod = 0.90; // CPU perde 10%
+            if (cpuDifficulty === 'hard') mod = 1.15; // CPU ganha 15%
+        }
+        
+        sectors.defense = Math.round(sectors.defense * mod);
+        sectors.midfield = Math.round(sectors.midfield * mod);
+        sectors.attack = Math.round(sectors.attack * mod);
+    };
+
+    // Aplica o buff/nerf apenas se o time for controlado pelo computador
+    applyDifficulty(homeSectors, homeTeam.id === gameState.playerTeam.id);
+    applyDifficulty(awaySectors, awayTeam.id === gameState.playerTeam.id);
+    // ==========================================================
+
+    // --- PENALIDADE DE STAMINA NOS SETORES ---
+    // Times cansados jogam abaixo do seu potencial real.
+
     // --- PENALIDADE DE STAMINA NOS SETORES ---
     // Times cansados jogam abaixo do seu potencial real.
     const homeStarters = homeTeam.players.filter(p => p.isStarter);

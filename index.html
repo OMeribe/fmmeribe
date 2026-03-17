@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futebol Manager 2025</title>
+    <title>Prancheta - Simulador de Futebol</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -13,7 +13,7 @@
     <div id="game-container" class="max-w-[1500px] w-full mx-auto p-4">
 
         <div id="team-selection-screen" class="screen">
-            <h1 class="text-4xl font-bold text-center mb-2 text-yellow-300">Futebol Manager 2025</h1>
+            <h1 class="text-4xl font-bold text-center mb-2 text-yellow-300">Prancheta</h1>
             <p class="text-center text-gray-300 mb-8">Escolha seu time para começar a temporada</p>
             <div id="team-list" class="grid grid-cols-2 sm-grid-cols-4 lg:grid-cols-5 gap-4">
                 </div>
@@ -56,6 +56,17 @@
                         <h2 class="text-xl font-semibold mb-3">📰 Notícias do Clube</h2>
                         <div id="hub-news-feed" class="space-y-3 text-sm">
                             <p class="text-gray-500 italic">Sem notícias ainda. Jogue sua primeira partida!</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                        <h2 class="text-xl font-semibold mb-3">Sistema</h2>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="downloadSaveFile()" class="bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-3 px-2 rounded-lg transition duration-300 text-xs uppercase tracking-wider shadow-lg border-b-4 border-yellow-800">
+                                💾 Salvar Jogo
+                            </button>
+                            <button onclick="showScreen('main-menu-screen')" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 px-2 rounded-lg transition duration-300 text-xs uppercase tracking-wider shadow-lg border-b-4 border-gray-800">
+                                🏠 Sair pro Menu
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -261,6 +272,127 @@
             </div>
         </div>
 
+    <div id="main-menu-screen" class="screen relative w-full h-[85vh] min-h-[600px] overflow-hidden rounded-2xl shadow-2xl border border-gray-800">
+            
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('img/bg-estadio.jpg');"></div>
+            
+            <img src="img/jogador-menu.png" class="absolute bottom-0 right-[-10%] md:right-[2%] h-[80%] md:h-[95%] object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.8)] z-0 pointer-events-none" alt="Jogador Capa">
+
+            <div class="absolute inset-0 bg-gradient-to-r from-[#0f172a] via-[#0f172a]/80 to-transparent z-0 pointer-events-none w-full md:w-3/4"></div>
+
+            <div class="relative z-10 h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 w-full md:w-4/5 lg:w-2/3">
+                
+                <h1 class="text-6xl md:text-7xl lg:text-[6.5rem] font-black text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-500 italic tracking-tight mb-1 drop-shadow-[0_4px_4px_rgba(0,0,0,1)] pr-4 whitespace-nowrap">
+                    PRANCHETA
+                </h1>
+                <p class="text-gray-400 text-xs md:text-sm font-bold tracking-[0.3em] uppercase mb-10 pl-1">Simulador de Futebol</p>
+
+                <div class="flex flex-col gap-3 w-full max-w-[320px]">
+                    
+                    <button id="btn-menu-jogar" disabled class="group relative flex items-center justify-between bg-green-700/80 text-yellow-300 font-black text-xl md:text-2xl py-4 px-6 rounded-lg border-l-8 border-yellow-400 transition-all cursor-not-allowed opacity-50 shadow-lg">
+                        <span id="text-menu-jogar">CARREGANDO...</span>
+                        <span class="transform translate-x-0 group-hover:translate-x-2 transition-transform hidden" id="icon-menu-jogar">❯</span>
+                    </button>
+                    
+                    <div id="submenu-jogar" class="hidden flex-col gap-2 pl-4 border-l-2 border-gray-600 ml-2 mb-4 mt-2">
+                        <button onclick="triggerLoadGame()" class="text-left text-green-400 font-bold text-lg hover:text-green-300 transition-colors py-2 flex items-center gap-2">📂 Carregar Jogo</button>
+                        
+                        <button onclick="showScreen('team-selection-screen')" class="text-left text-white font-bold text-lg hover:text-yellow-400 transition-colors py-2 flex items-center gap-2">🏆 Nova Carreira</button>
+                        <button onclick="openFriendlySetup()" class="text-left text-gray-400 font-bold text-lg hover:text-white transition-colors py-2 flex items-center gap-2">⚽ Amistoso Rápido</button>
+                    </div>
+
+                    <button onclick="openModal('settings-modal')" class="text-left text-white font-black text-sm md:text-base py-4 px-6 bg-[#1e293b] hover:bg-[#334155] rounded-lg border-l-4 border-gray-500 hover:border-white transition-all shadow-md">
+                        CONFIGURAÇÕES
+                    </button>
+                    
+                    <button onclick="openPatchNotes()" class="text-left text-white font-black text-sm md:text-base py-4 px-6 bg-[#1e293b] hover:bg-[#334155] rounded-lg border-l-4 border-blue-500 hover:border-blue-400 transition-all shadow-md">
+                        ATUALIZAÇÕES
+                    </button>
+                </div>
+
+                <div class="absolute bottom-8 left-8 md:left-16 lg:left-24 text-gray-500 font-bold text-xs md:text-sm tracking-wider">
+                    Versão <span id="game-version-text">0.2.0</span>
+                </div>
+            </div>
+        </div>
+
+    <div id="friendly-setup-screen" class="screen hidden relative w-full h-[85vh] min-h-[600px] overflow-hidden rounded-2xl shadow-2xl border border-gray-800">
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 blur-sm" style="background-image: url('img/bg-estadio.jpg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0f172a]/90 via-[#0f172a]/70 to-[#0f172a] z-0"></div>
+
+            <div class="relative z-10 h-full flex flex-col items-center justify-center p-4 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-black text-yellow-400 uppercase tracking-widest mb-6 md:mb-10 drop-shadow-lg">Partida Amistosa</h2>
+                
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 w-full max-w-5xl">
+                    <div class="flex-1 w-full bg-gray-800/60 border-t border-b border-blue-900 md:rounded-xl md:border p-4 md:p-6 flex flex-col items-center backdrop-blur-md shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+                        <h3 class="text-blue-400 font-black tracking-widest text-[10px] md:text-xs mb-4 uppercase bg-blue-900/30 px-3 py-1 rounded">Clube da Casa (Você)</h3>
+                        <div class="flex items-center justify-between w-full mb-4 px-2">
+                            <button onclick="cycleFriendlyTeam('home', -1)" class="text-3xl text-gray-500 hover:text-white transition transform hover:-translate-x-1">❮</button>
+                            <img id="friendly-home-logo" src="" class="h-24 w-24 md:h-32 md:w-32 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                            <button onclick="cycleFriendlyTeam('home', 1)" class="text-3xl text-gray-500 hover:text-white transition transform hover:translate-x-1">❯</button>
+                        </div>
+                        <h2 id="friendly-home-name" class="text-xl md:text-2xl font-black text-white uppercase tracking-wider mb-4 text-center h-8 flex items-center justify-center">TIME</h2>
+                        
+                        <div class="grid grid-cols-3 gap-1 md:gap-2 w-full text-center max-w-[250px]">
+                            <div class="bg-gray-900/80 p-1 md:p-2 rounded border border-gray-700">
+                                <div class="text-[9px] text-gray-500 font-bold uppercase">Ataque</div>
+                                <div id="friendly-home-ata" class="text-base md:text-lg font-black text-blue-400">00</div>
+                            </div>
+                            <div class="bg-gray-900/80 p-1 md:p-2 rounded border border-gray-700">
+                                <div class="text-[9px] text-gray-500 font-bold uppercase">Meio</div>
+                                <div id="friendly-home-mio" class="text-base md:text-lg font-black text-green-400">00</div>
+                            </div>
+                            <div class="bg-gray-900/80 p-1 md:p-2 rounded border border-gray-700">
+                                <div class="text-[9px] text-gray-500 font-bold uppercase">Defesa</div>
+                                <div id="friendly-home-def" class="text-base md:text-lg font-black text-yellow-400">00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col items-center justify-center">
+                        <div class="bg-[#0f172a] border-2 border-gray-700 h-20 w-20 md:h-24 md:w-24 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.8)] z-20">
+                            <span class="text-3xl font-black text-gray-500 italic">VS</span>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 w-full bg-gray-800/60 border-t border-b border-red-900 md:rounded-xl md:border p-4 md:p-6 flex flex-col items-center backdrop-blur-md shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+                        <h3 class="text-red-400 font-black tracking-widest text-[10px] md:text-xs mb-4 uppercase bg-red-900/30 px-3 py-1 rounded">Visitante (CPU)</h3>
+                        <div class="flex items-center justify-between w-full mb-4 px-2">
+                            <button onclick="cycleFriendlyTeam('away', -1)" class="text-3xl text-gray-500 hover:text-white transition transform hover:-translate-x-1">❮</button>
+                            <img id="friendly-away-logo" src="" class="h-24 w-24 md:h-32 md:w-32 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                            <button onclick="cycleFriendlyTeam('away', 1)" class="text-3xl text-gray-500 hover:text-white transition transform hover:translate-x-1">❯</button>
+                        </div>
+                        <h2 id="friendly-away-name" class="text-xl md:text-2xl font-black text-white uppercase tracking-wider mb-4 text-center h-8 flex items-center justify-center">TIME</h2>
+                        
+                        <div class="grid grid-cols-3 gap-1 md:gap-2 w-full text-center max-w-[250px]">
+                            <div class="bg-gray-900/80 p-1 md:p-2 rounded border border-gray-700">
+                                <div class="text-[9px] text-gray-500 font-bold uppercase">Ataque</div>
+                                <div id="friendly-away-ata" class="text-base md:text-lg font-black text-blue-400">00</div>
+                            </div>
+                            <div class="bg-gray-900/80 p-1 md:p-2 rounded border border-gray-700">
+                                <div class="text-[9px] text-gray-500 font-bold uppercase">Meio</div>
+                                <div id="friendly-away-mio" class="text-base md:text-lg font-black text-green-400">00</div>
+                            </div>
+                            <div class="bg-gray-900/80 p-1 md:p-2 rounded border border-gray-700">
+                                <div class="text-[9px] text-gray-500 font-bold uppercase">Defesa</div>
+                                <div id="friendly-away-def" class="text-base md:text-lg font-black text-yellow-400">00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="startFriendlySession()" class="mt-10 md:mt-12 bg-green-600 hover:bg-green-500 text-white font-black text-lg md:text-xl py-4 px-10 md:px-16 rounded-xl uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(22,163,74,0.4)] hover:shadow-[0_0_30px_rgba(22,163,74,0.6)] border-b-4 border-green-800 transform hover:-translate-y-1">
+                    ⚽ Iniciar Partida
+                </button>
+                
+                <button onclick="showScreen('main-menu-screen')" class="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.2em] mt-6 flex items-center gap-2 transition-colors">
+                    <span>❮</span> Voltar ao Menu
+                </button>
+            </div>
+        </div>
+
+        <div id="team-selection-screen" class="screen hidden">
+    
     </div> <div id="calendar-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999]">
         <div class="bg-gray-800 rounded-lg p-6 w-11/12 max-w-4xl border-2 border-gray-600 relative">
             <button onclick="closeModal('calendar-modal')" class="text-red-500 hover:text-red-400 font-bold text-2xl absolute top-4 right-4">X</button>
@@ -286,18 +418,72 @@
             
             <div id="player-stats-content">
                 </div>
-            
-            <div class="mt-8 flex justify-between gap-4">
-                <button onclick="closeModal('player-stats-modal'); openModal('round-results-modal')" class="w-1/2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-blue-800">
-                    Ver Restante da Rodada
-                </button>
-                <button onclick="closeModal('player-stats-modal')" class="w-1/2 bg-gray-600 hover:bg-gray-500 text-white font-bold py-4 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-gray-800">
-                    Voltar ao Menu
-                </button>
-            </div>
         </div>
     </div>
 
+    <div id="patch-notes-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[9999]">
+        <div class="bg-gray-800 rounded-xl p-8 w-11/12 max-w-2xl border-2 border-blue-900 relative shadow-2xl">
+            <h2 class="text-3xl font-black text-white uppercase tracking-widest mb-6 border-b border-gray-700 pb-4">📢 Novidades</h2>
+            <div id="patch-notes-content" class="max-h-[60vh] overflow-y-auto pr-4 custom-scrollbar">
+                </div>
+            <button onclick="closeModal('patch-notes-modal')" class="mt-8 w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg uppercase tracking-wider transition">Fechar</button>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[9999]">
+        <div class="bg-gray-800 rounded-xl p-8 w-11/12 max-w-md border-2 border-gray-600 relative shadow-2xl">
+            <h2 class="text-3xl font-black text-white uppercase tracking-widest mb-6 border-b border-gray-700 pb-4">⚙️ Configurações</h2>
+            
+            <div class="space-y-6 text-gray-300">
+                <div>
+                    <label class="block text-sm font-bold uppercase tracking-wider mb-2 text-gray-400">Velocidade da Simulação (Ao Vivo)</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setGameSpeed(250, this)" class="speed-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 rounded border-b-4 border-gray-900 transition flex flex-col items-center">
+                            <span>Rápida</span><span class="text-[10px] text-gray-400 font-normal">0.25 seg/min</span>
+                        </button>
+                        <button onclick="setGameSpeed(500, this)" class="speed-btn bg-blue-600 text-white font-bold py-2 rounded border-b-4 border-blue-900 transition ring-2 ring-yellow-400 flex flex-col items-center">
+                            <span>Normal</span><span class="text-[10px] text-blue-200 font-normal">0.50 seg/min</span>
+                        </button>
+                        <button onclick="setGameSpeed(1500, this)" class="speed-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 rounded border-b-4 border-gray-900 transition flex flex-col items-center">
+                            <span>Realista</span><span class="text-[10px] text-gray-400 font-normal">1.5 seg/min</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold uppercase tracking-wider mb-2 text-gray-400">Dificuldade da CPU</label>
+                    <select onchange="setDifficulty(this.value)" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white font-bold focus:outline-none focus:border-yellow-500 appearance-none">
+                        <option value="easy">Amador (CPU -10% Força)</option>
+                        <option value="normal" selected>Profissional (Equilibrado)</option>
+                        <option value="hard">Lenda (CPU +15% Força)</option>
+                    </select>
+                </div>
+                    <p class="text-[10px] text-gray-500 mt-2 italic">*Define a velocidade que os minutos passam no campo.</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold uppercase tracking-wider mb-2 text-gray-400">Dificuldade da CPU</label>
+                    <select onchange="setDifficulty(this.value)" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white font-bold focus:outline-none focus:border-yellow-500 appearance-none">
+                        <option value="easy">Amador (CPU -10% Força)</option>
+                        <option value="normal" selected>Profissional (Equilibrado)</option>
+                        <option value="hard">Lenda (CPU +15% Força)</option>
+                    </select>
+                </div>
+                
+                <div class="pt-4 border-t border-gray-700 mt-4">
+                    <button onclick="clearCacheData()" class="w-full bg-red-900/50 hover:bg-red-800 text-red-300 font-bold py-3 rounded-lg border border-red-800 transition uppercase tracking-wider text-xs flex items-center justify-center gap-2">
+                        <span>🗑️</span> Limpar Cache do Navegador
+                    </button>
+                </div>
+            </div>
+
+            <button onclick="closeModal('settings-modal')" class="mt-8 w-full bg-green-600 hover:bg-green-500 text-white font-black py-4 rounded-xl uppercase tracking-widest transition shadow-[0_0_15px_rgba(22,163,74,0.4)] border-b-4 border-green-800">
+                Salvar e Fechar
+            </button>
+        </div>
+    </div>
+
+    <input type="file" id="save-file-input" accept=".json" class="hidden" onchange="processSaveFile(event)">
     <script src="js/data.js"></script>
     <script src="js/engine.js"></script>
     <script src="js/ui.js"></script>

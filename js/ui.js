@@ -564,6 +564,7 @@ function createStatBar(label, homeValue, awayValue, isPercentage = false) {
 }
 
 // --- 1. TELA EXCLUSIVA DE ESTATÍSTICAS DO SEU TIME ---
+// --- 1. TELA EXCLUSIVA DE ESTATÍSTICAS DO SEU TIME ---
 function renderPlayerStatsModal(res) {
     if (!res) return;
     const content = document.getElementById('player-stats-content');
@@ -576,6 +577,35 @@ function renderPlayerStatsModal(res) {
         bgColor = 'bg-yellow-900 border-yellow-600'; 
     } else {
         bgColor = 'bg-red-900 border-red-500'; 
+    }
+
+    // A MÁGICA: Gera os botões dependendo do modo que estamos jogando!
+    let buttonsHTML = '';
+    if (gameMode === 'friendly') {
+        buttonsHTML = `
+            <div class="mt-8 flex flex-col sm:flex-row justify-between gap-4">
+                <button onclick="rematchFriendly()" class="flex-1 bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-green-800">
+                    🔄 Revanche
+                </button>
+                <button onclick="backToFriendlySetup()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-blue-800">
+                    🔁 Mudar Times
+                </button>
+                <button onclick="exitToMainMenu()" class="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-gray-800">
+                    🏠 Sair
+                </button>
+            </div>
+        `;
+    } else {
+        buttonsHTML = `
+            <div class="mt-8 flex justify-between gap-4">
+                <button onclick="closeModal('player-stats-modal'); openModal('round-results-modal')" class="w-1/2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-blue-800">
+                    Ver Restante da Rodada
+                </button>
+                <button onclick="closeModal('player-stats-modal')" class="w-1/2 bg-gray-600 hover:bg-gray-500 text-white font-bold py-4 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-gray-800">
+                    Avançar no Campeonato
+                </button>
+            </div>
+        `;
     }
 
     content.innerHTML = `
@@ -601,6 +631,7 @@ function renderPlayerStatsModal(res) {
                 ${createStatBar('Precisão de Passe', res.homePassAcc, res.awayPassAcc, true)}
             </div>
         </div>
+        ${buttonsHTML} 
     `;
     
     openModal('player-stats-modal');
@@ -1093,7 +1124,7 @@ function renderPreMatchScreen() {
                         Simulação Aprofundada
                     </button>
                 </div>
-                <button onclick="showScreen('main-hub-screen')" class="w-full bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white font-bold py-2 px-4 rounded-xl shadow transition uppercase tracking-wider text-[10px] border-b-4 border-gray-900 mt-1">
+                <button onclick="if(gameMode==='friendly'){ showScreen('friendly-setup-screen'); } else { showScreen('main-hub-screen'); }" class="w-full bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white font-bold py-2 px-4 rounded-xl shadow transition uppercase tracking-wider text-[10px] border-b-4 border-gray-900 mt-1">
                     🔙 Voltar ao Menu
                 </button>
             </div>
@@ -1308,3 +1339,31 @@ function renderCalendar() {
         `;
     }
 }
+
+function openPatchNotes() {
+    const content = document.getElementById('patch-notes-content');
+    
+    document.getElementById('game-version-text').textContent = patchNotes[0].version;
+
+    content.innerHTML = patchNotes.map(patch => `
+        <div class="mb-6 border-b border-gray-700 pb-4 last:border-0">
+            <div class="flex justify-between items-end mb-3">
+                <h3 class="text-xl font-black text-yellow-400">v${patch.version} - ${patch.title}</h3>
+                <span class="text-xs text-gray-400 font-bold bg-gray-900 px-2 py-1 rounded border border-gray-700">${patch.date}</span>
+            </div>
+            <ul class="list-disc pl-5 text-gray-300 space-y-2 text-sm">
+                ${patch.changes.map(c => `<li>${c}</li>`).join('')}
+            </ul>
+        </div>
+    `).join('');
+
+    openModal('patch-notes-modal');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Atualiza a versão na tela inicial
+    const versionText = document.getElementById('game-version-text');
+    if(versionText && typeof patchNotes !== 'undefined') {
+        versionText.textContent = patchNotes[0].version;
+    }
+});

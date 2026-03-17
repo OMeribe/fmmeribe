@@ -1,16 +1,21 @@
-# ⚽ FMMeribe - Versão 0.1
+# ⚽ Prancheta - Simulador de Futebol
 
-Bem-vindo à mais nova grande atualização do projeto! Este patch foca em uma reformulação massiva do motor de inteligência artificial de escalações, otimização extrema do layout para monitores modernos e expansão do banco de dados de clubes.
+Bem-vindo ao **Prancheta** (anteriormente FMMeribe)! O seu simulador de futebol de navegador, focado em gerenciamento tático, simulação realista de atributos e gestão de elenco.
+
+---
 
 ## 📸 Galeria do Jogo
 
 <div align="center">
   
-### Seleção de Times
-![Tela de Seleção de Times](docs/SelecaoTimes.png)
+### Menu Principal
+![Menu Principal](docs/MenuPrincipal.png)
 
-### Menu Principal (Hub)
-![Menu Principal do Jogo](docs/MenuPrincipal.png)
+### Amistoso
+![Tela de Seleção de Times](docs/Amistoso.png)
+
+### Menu da Carreira
+![Menu Principal do Jogo](docs/MenuCarreira.png)
 
 ### Gerenciamento do Elenco
 ![Gerenciamento do Elenco](docs/GerenciamentoElenco.png)
@@ -28,26 +33,29 @@ Bem-vindo à mais nova grande atualização do projeto! Este patch foca em uma r
 
 ---
 
-## 🚀 Novidades e Recursos Principais
+## 🚀 Novidades da Versão 0.2.0 (Atual)
 
-* **Inteligência Artificial "Funil Tático" (Engine):** O cérebro de escalação da CPU foi reescrito. Agora a IA escala os times respeitando 4 fases rigorosas para evitar improvisações bizarras:
-    1.  *Especialistas:* Busca jogadores com a posição primária exata.
-    2.  *Polivalentes:* Busca jogadores com a posição secundária compatível.
-    3.  *Setor:* Improvisa com jogadores do mesmo grupo (ex: zagueiro na lateral).
-    4.  *Desespero:* Puxa o jogador de maior Overall disponível no banco.
-* **Reformulação Visual do Hub Tático:** A tela de táticas foi redesenhada para aproveitar monitores em 100% de zoom (max-width de 1500px). 
-    * Criação de uma barra lateral direita organizada abrigando as *Opções Avançadas* (Capitão e Batedores), *Reservas* e *Não Relacionados*.
-* **Cartas de Jogadores (Player Cards) Profissionais:** * Novo tamanho compacto (125x82px) com matemática de espaçamento vertical de 20% para evitar sobreposição no campo.
-    * **Nomes Inteligentes:** As cartas agora exibem de forma destacada (em amarelo e negrito) apenas o último nome do jogador, detectando automaticamente sufixos como "Jr" ou "Neto".
-    * **Indicador de Fôlego:** Adicionada uma barra visual de Stamina diretamente nas cartas na aba de táticas e na listagem do pré-jogo.
+A versão 0.2.0 traz sistemas fundamentais para a experiência de jogo, transformando o protótipo em uma base sólida para campanhas longas:
 
-## 🗃️ Banco de Dados
+* **💾 Memory Card Profissional (Save/Load):** O jogo superou as limitações do navegador. Agora você pode exportar sua carreira (Tabela, Elenco, Finanças, Cansaço) em um arquivo físico `.json` e carregar quando quiser continuar jogando. Possui sistema de retrocompatibilidade para não quebrar saves antigos em atualizações futuras.
+* **⚽ Modo Amistoso Rápido:** Uma tela de lobby dupla exclusiva para você testar táticas contra qualquer time da base de dados, com recuperação automática de *stamina* e sem afetar as estatísticas do seu Modo Carreira.
+* **⚙️ Novo Motor de Configurações:**
+    * **Dificuldade Dinâmica:** Opções de Inteligência da CPU (Amador com -10% de força, Profissional, e Lenda com +15% de buffs táticos).
+    * **Controle de Tempo:** Altere a velocidade do relógio na simulação ao vivo (Rápida: 0.25s, Normal: 0.5s, Realista: 1.5s por minuto).
+* **🎨 Redesign Visual:** O Menu Principal recebeu um banho de loja com estética de console, gradientes imersivos, carregamento de assets silencioso e a adoção do novo nome "Prancheta".
 
-* **Clubes Adicionados:** * **Santos FC** adicionado com elenco completo, atributos personalizados e estádio (Vila Belmiro).
+## 📦 Histórico de Versões (v0.1.0)
 
-## 🐛 Correções de Bugs e Qualidade de Vida (QoL)
+* **Inteligência Artificial "Funil Tático" (Engine):** O cérebro de escalação da CPU escala os times respeitando 4 fases rigorosas para evitar improvisações bizarras (Especialistas > Polivalentes > Setor > Desespero).
+* **Cartas de Jogadores Profissionais:** Design compacto (125x82px) com nomes inteligentes (detectando sufixos como "Jr") e barra de *stamina* integrada visualmente na cartinha.
+* **Interface Tática:** Prancheta *Drag and Drop* reformulada com posições no campo e lista de banco de reservas limitada.
 
-* **Fix do Scroll de Elenco:** Clicar em um jogador na lista longa agora salva a posição da barra de rolagem, impedindo que a tela "pule" de volta para o topo.
-* **Fix de Layout (Flex-Wrap):** Jogadores com muitas posições secundárias não quebram mais as margens do painel de detalhes.
-* **Fix de Escalação Dinâmica:** Mudar de formação agora preserva os 11 jogadores que já estavam em campo, apenas realocando-os para os novos slots disponíveis.
-* **Botão de Fuga:** Adicionado botão de "Voltar ao Menu" na tela de simulação pré-jogo para evitar soft-locks.
+## 🗃️ Banco de Dados de Clubes
+
+O jogo carrega times diretamente de arquivos `.json` modulares. Atualmente implementados com elencos balanceados:
+* 🟢 **Vasco da Gama** (São Januário)
+* 🔴 **Flamengo** (Maracanã)
+* 🟢 **Santos FC** (Vila Belmiro)
+* 🔴 **S.C. Internacional** (Beira-Rio)
+---
+*Desenvolvido com Javascript Puro, TailwindCSS e muita paixão por tática.*
