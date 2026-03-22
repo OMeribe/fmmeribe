@@ -1,6 +1,18 @@
 {
   "id": 16,
   "name": "Santos",
+  "founded": 1912,
+  "description": "O Santos é um clube da cidade de Santos, fundado em 1912. Disputa atualmente o Campeonato Brasileiro Série A, primeiro nível do futebol no país (Brasil). Fundado por iniciativa de três esportistas locais, o clube ganhou fama global por ser um histórico celeiro de craques, com suas categorias de base eternizadas como os 'Meninos da Vila'. Conhecido por ter revelado o Rei Pelé e talentos como Neymar, o Alvinegro Praiano protagonizou os maiores feitos de sua história na década de 1960: encantando o planeta com o futebol arte, conquistou o bicampeonato mundial em 1962 e 1963 ao superar o poderoso Benfica de Eusébio e o forte Milan.",
+  "titles": [
+    "2x Copa Intercontinental (1962, 1963)", 
+    "3x Copa Libertadores da América (1962, 1963, 2011)", 
+    "Recopa Sul-Americana (2012)", 
+    "Copa Conmebol (1998)", 
+    "8x Campeonato Brasileiro (1961, 1962, 1963, 1964, 1965, 1968, 2002, 2004)", 
+    "Copa do Brasil (2010)",
+    "5x Torneio Rio-São Paulo (1959, 1963, 1964, 1966, 1997)",
+    "22x Campeonato Paulista"
+  ],
   "logo": "img/times/Santos.png",
   "stadium": "Vila Belmiro",
   "stadiumPhoto": "img/estadios/Vila.jpg",

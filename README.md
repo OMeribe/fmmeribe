@@ -1,61 +1,29 @@
-# ⚽ Prancheta - Simulador de Futebol
+## 🚀 Novidades da Versão 0.3.0 (Atual)
 
-Bem-vindo ao **Prancheta** (anteriormente FMMeribe)! O seu simulador de futebol de navegador, focado em gerenciamento tático, simulação realista de atributos e gestão de elenco.
+A versão 0.3.0 foca em imersão histórica, polimento visual e inteligência de elenco:
 
----
+* **📺 Nova Tela de Seleção (Estilo Almanaque):** Escolha seu clube por um carrossel que exibe a nota em estrelas (dinâmica baseada no Overall), história de fundação, estádio e uma galeria de troféus inteligente.
+* **🧠 Inteligência do Banco de Reservas:** Chega de um banco cheio de zagueiros. O novo algoritmo `getBalancedBench` garante que seu banco tenha sempre 1 Goleiro, 2 Zagueiros, 2 Laterais, meias e atacantes prontos para entrar em campo, funcionando na Carreira e nos Amistosos.
+* **📖 Expansão da Lore dos Clubes:** Atualização massiva nos arquivos `.json` adicionando histórias de glória e títulos detalhados para grandes clubes do futebol brasileiro.
+* **📸 Gráficos AAA:** Padronização visual das cartinhas de jogadores com formato 1:1, recorte facial inteligente e fundos transparentes integrados à nova interface de táticas.
 
-## 📸 Galeria do Jogo
+## 📦 Histórico de Versões Antigas
 
-<div align="center">
-  
-### Menu Principal
-![Menu Principal](docs/MenuPrincipal.png)
+### v0.2.0 - A Grande Atualização de Sistemas
+* **💾 Memory Card Profissional (Save/Load):** O jogo superou as limitações do navegador. Agora você pode exportar sua carreira (Tabela, Elenco, Finanças, Cansaço) em um arquivo físico `.json` e carregar quando quiser continuar jogando.
+* **⚽ Modo Amistoso Rápido:** Tela de lobby dupla para testar táticas contra qualquer time sem afetar a Carreira.
+* **⚙️ Novo Motor de Configurações:** Dificuldade Dinâmica (Amador, Normal, Lenda) e Controle de Tempo de Simulação.
 
-### Amistoso
-![Tela de Seleção de Times](docs/Amistoso.png)
-
-### Menu da Carreira
-![Menu Principal do Jogo](docs/MenuCarreira.png)
-
-### Gerenciamento do Elenco
-![Gerenciamento do Elenco](docs/GerenciamentoElenco.png)
-
-### Prancheta Tática
-![Tela de Táticas](docs/Taticas.png)
-
-### Visão Pré-Jogo
-![Tela de Pré-Jogo](docs/Pre-Jogo.png)
-
-### Artilheiros e Estatísticas
-![Tela de Artilheiros](docs/Artilheiros.png)
-
-</div>
-
----
-
-## 🚀 Novidades da Versão 0.2.0 (Atual)
-
-A versão 0.2.0 traz sistemas fundamentais para a experiência de jogo, transformando o protótipo em uma base sólida para campanhas longas:
-
-* **💾 Memory Card Profissional (Save/Load):** O jogo superou as limitações do navegador. Agora você pode exportar sua carreira (Tabela, Elenco, Finanças, Cansaço) em um arquivo físico `.json` e carregar quando quiser continuar jogando. Possui sistema de retrocompatibilidade para não quebrar saves antigos em atualizações futuras.
-* **⚽ Modo Amistoso Rápido:** Uma tela de lobby dupla exclusiva para você testar táticas contra qualquer time da base de dados, com recuperação automática de *stamina* e sem afetar as estatísticas do seu Modo Carreira.
-* **⚙️ Novo Motor de Configurações:**
-    * **Dificuldade Dinâmica:** Opções de Inteligência da CPU (Amador com -10% de força, Profissional, e Lenda com +15% de buffs táticos).
-    * **Controle de Tempo:** Altere a velocidade do relógio na simulação ao vivo (Rápida: 0.25s, Normal: 0.5s, Realista: 1.5s por minuto).
-* **🎨 Redesign Visual:** O Menu Principal recebeu um banho de loja com estética de console, gradientes imersivos, carregamento de assets silencioso e a adoção do novo nome "Prancheta".
-
-## 📦 Histórico de Versões (v0.1.0)
-
-* **Inteligência Artificial "Funil Tático" (Engine):** O cérebro de escalação da CPU escala os times respeitando 4 fases rigorosas para evitar improvisações bizarras (Especialistas > Polivalentes > Setor > Desespero).
-* **Cartas de Jogadores Profissionais:** Design compacto (125x82px) com nomes inteligentes (detectando sufixos como "Jr") e barra de *stamina* integrada visualmente na cartinha.
-* **Interface Tática:** Prancheta *Drag and Drop* reformulada com posições no campo e lista de banco de reservas limitada.
+### v0.1.0 - Nascimento do Prancheta
+* Inteligência Artificial "Funil Tático" (Engine) e interface *Drag and Drop*.
 
 ## 🗃️ Banco de Dados de Clubes
 
-O jogo carrega times diretamente de arquivos `.json` modulares. Atualmente implementados com elencos balanceados:
+O jogo carrega times diretamente de arquivos `.json` modulares. Atualmente implementados e balanceados:
 * 🟢 **Vasco da Gama** (São Januário)
 * 🔴 **Flamengo** (Maracanã)
 * 🟢 **Santos FC** (Vila Belmiro)
 * 🔴 **S.C. Internacional** (Beira-Rio)
+* 🐓 **Atlético Mineiro** (Arena MRV)
 ---
 *Desenvolvido com Javascript Puro, TailwindCSS e muita paixão por tática.*

@@ -13,23 +13,6 @@ function showScreen(screenId) {
 function openModal(modalId) { document.getElementById(modalId).classList.remove('hidden'); }
 function closeModal(modalId) { document.getElementById(modalId).classList.add('hidden'); }
 
-function renderTeamSelection() {
-    const teamListEl = document.getElementById('team-list');
-    teamListEl.innerHTML = '';
-    
-    // Agora ordenamos o array em ordem alfabética pelo nome do time
-    [...teamsData].sort((a, b) => a.name.localeCompare(b.name)).forEach(team => {
-        teamListEl.innerHTML += `
-            <div onclick="selectTeam(${team.id})" class="bg-gray-800 p-4 rounded-lg text-center hover:bg-gray-700 cursor-pointer transition duration-300 transform hover:scale-105">
-                <img src="${team.logo}" alt="${team.name}" class="h-20 w-20 mx-auto mb-2 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/96x96/2d3748/ffffff?text=?';">
-                <p class="font-semibold">${team.name}</p>
-                <p class="text-xs text-yellow-400 mt-1">Geral: ${team.overall}</p>
-            </div>
-        `;
-    });
-}
-
-
 function renderHubTable() {
     const tableBody = document.getElementById('main-hub-table');
     tableBody.innerHTML = '';
@@ -564,11 +547,14 @@ function createStatBar(label, homeValue, awayValue, isPercentage = false) {
 }
 
 // --- 1. TELA EXCLUSIVA DE ESTATÍSTICAS DO SEU TIME ---
-// --- 1. TELA EXCLUSIVA DE ESTATÍSTICAS DO SEU TIME ---
 function renderPlayerStatsModal(res) {
     if (!res) return;
     const content = document.getElementById('player-stats-content');
     
+    if (!res.events) {
+        res.events = generateMatchEvents(res);
+    }
+
     let bgColor = 'bg-gray-800 border-gray-700';
     const playerIsHome = res.homeTeam.id === gameState.playerTeam.id;
     if((playerIsHome && res.homeGoals > res.awayGoals) || (!playerIsHome && res.awayGoals > res.homeGoals)) {
@@ -579,57 +565,107 @@ function renderPlayerStatsModal(res) {
         bgColor = 'bg-red-900 border-red-500'; 
     }
 
-    // A MÁGICA: Gera os botões dependendo do modo que estamos jogando!
+    // Botões mais enxutos (py-3 em vez de py-4)
     let buttonsHTML = '';
     if (gameMode === 'friendly') {
         buttonsHTML = `
-            <div class="mt-8 flex flex-col sm:flex-row justify-between gap-4">
-                <button onclick="rematchFriendly()" class="flex-1 bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-green-800">
+            <div class="mt-4 flex flex-col sm:flex-row justify-between gap-3">
+                <button onclick="rematchFriendly()" class="flex-1 bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-lg uppercase tracking-wider transition shadow border-b-4 border-green-800 text-sm">
                     🔄 Revanche
                 </button>
-                <button onclick="backToFriendlySetup()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-blue-800">
+                <button onclick="backToFriendlySetup()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg uppercase tracking-wider transition shadow border-b-4 border-blue-800 text-sm">
                     🔁 Mudar Times
                 </button>
-                <button onclick="exitToMainMenu()" class="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-gray-800">
+                <button onclick="exitToMainMenu()" class="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 rounded-lg uppercase tracking-wider transition shadow border-b-4 border-gray-800 text-sm">
                     🏠 Sair
                 </button>
             </div>
         `;
     } else {
         buttonsHTML = `
-            <div class="mt-8 flex justify-between gap-4">
-                <button onclick="closeModal('player-stats-modal'); openModal('round-results-modal')" class="w-1/2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-blue-800">
+            <div class="mt-4 flex justify-between gap-3">
+                <button onclick="closeModal('player-stats-modal'); openModal('round-results-modal')" class="w-1/2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg uppercase tracking-wider transition shadow border-b-4 border-blue-800 text-sm">
                     Ver Restante da Rodada
                 </button>
-                <button onclick="closeModal('player-stats-modal')" class="w-1/2 bg-gray-600 hover:bg-gray-500 text-white font-bold py-4 rounded-xl uppercase tracking-wider transition shadow-lg border-b-4 border-gray-800">
+                <button onclick="closeModal('player-stats-modal')" class="w-1/2 bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 rounded-lg uppercase tracking-wider transition shadow border-b-4 border-gray-800 text-sm">
                     Avançar no Campeonato
                 </button>
             </div>
         `;
     }
 
+    // Timeline Compacta
+    const keyEvents = res.events.filter(e => e.type === 'goal' || e.type === 'card').sort((a, b) => a.minute - b.minute);
+    let eventsHTML = '';
+    
+    if (keyEvents.length > 0) {
+        const eventsList = keyEvents.map(ev => {
+            const isHome = ev.team === 'home';
+            const icon = ev.type === 'goal' ? '⚽' : (ev.isRed ? '🟥' : '🟨');
+            const photoUrl = ev.player?.photo || 'https://placehold.co/28x28/2d3748/ffffff?text=?';
+            const playerName = ev.player?.name || 'Jogador';
+
+            if (isHome) {
+                return `
+                    <div class="flex items-center justify-between text-[11px] py-1 border-b border-gray-800 last:border-0 hover:bg-gray-800 transition px-2">
+                        <div class="flex items-center gap-2 w-1/2">
+                            <span class="text-gray-500 font-black w-5 text-left">${ev.minute}'</span>
+                            <span title="${ev.type}">${icon}</span>
+                            <img src="${photoUrl}" class="h-5 w-5 rounded-full object-cover border border-gray-600 bg-gray-700">
+                            <span class="font-bold text-gray-200 truncate">${playerName}</span>
+                        </div>
+                        <div class="w-1/2"></div>
+                    </div>`;
+            } else {
+                return `
+                    <div class="flex items-center justify-between text-[11px] py-1 border-b border-gray-800 last:border-0 hover:bg-gray-800 transition px-2">
+                        <div class="w-1/2"></div>
+                        <div class="flex items-center gap-2 w-1/2 justify-end text-right">
+                            <span class="font-bold text-gray-200 truncate">${playerName}</span>
+                            <img src="${photoUrl}" class="h-5 w-5 rounded-full object-cover border border-gray-600 bg-gray-700">
+                            <span title="${ev.type}">${icon}</span>
+                            <span class="text-gray-500 font-black w-5 text-right">${ev.minute}'</span>
+                        </div>
+                    </div>`;
+            }
+        }).join('');
+
+        // max-h-32 garante que a timeline não fique gigante
+        eventsHTML = `
+            <div class="bg-gray-900 border-t border-gray-700 py-2 px-6">
+                <h3 class="text-[9px] uppercase tracking-widest text-gray-500 font-bold mb-1.5 text-center">Resumo da Partida</h3>
+                <div class="flex flex-col max-h-32 overflow-y-auto custom-scrollbar pr-2">
+                    ${eventsList}
+                </div>
+            </div>
+        `;
+    }
+
+    // Redução drástica de paddings: p-6 virou py-4 px-6 | gap-3 virou gap-2
     content.innerHTML = `
         <div class="flex flex-col border-l-8 ${bgColor} rounded-lg shadow-2xl overflow-hidden">
-            <div class="flex items-center justify-between p-6 bg-gray-900">
+            <div class="flex items-center justify-between px-6 py-4 bg-gray-900">
                 <div class="flex flex-col items-center w-2/5">
-                    <img src="${res.homeTeam.logo}" class="h-16 w-16 object-contain mb-2">
-                    <span class="font-bold text-lg text-center">${res.homeTeam.name}</span>
+                    <img src="${res.homeTeam.logo}" class="h-12 w-12 object-contain mb-1">
+                    <span class="font-bold text-base text-center">${res.homeTeam.name}</span>
                 </div>
-                <div class="font-black text-5xl px-6 py-2 bg-black border border-gray-700 rounded-lg tracking-widest text-white shadow-inner">
-                    <span>${res.homeGoals}</span><span class="text-gray-600 mx-2">-</span><span>${res.awayGoals}</span>
+                <div class="font-black text-3xl px-5 py-1 bg-black border border-gray-700 rounded-lg tracking-widest text-white shadow-inner">
+                    <span>${res.homeGoals}</span><span class="text-gray-600 mx-1">-</span><span>${res.awayGoals}</span>
                 </div>
                 <div class="flex flex-col items-center w-2/5">
-                    <img src="${res.awayTeam.logo}" class="h-16 w-16 object-contain mb-2">
-                    <span class="font-bold text-lg text-center">${res.awayTeam.name}</span>
+                    <img src="${res.awayTeam.logo}" class="h-12 w-12 object-contain mb-1">
+                    <span class="font-bold text-base text-center">${res.awayTeam.name}</span>
                 </div>
             </div>
             
-            <div class="flex flex-col bg-gray-800 px-8 py-6 border-t border-gray-700 gap-3">
+            <div class="flex flex-col bg-gray-800 px-6 py-4 border-t border-gray-700 gap-2">
                 ${createStatBar('Posse de Bola', res.homePossession, res.awayPossession, true)}
                 ${createStatBar('Chutes a Gol', res.homeShots, res.awayShots)}
                 ${createStatBar('Passes Trocados', res.homePasses, res.awayPasses)}
                 ${createStatBar('Precisão de Passe', res.homePassAcc, res.awayPassAcc, true)}
             </div>
+            
+            ${eventsHTML}
         </div>
         ${buttonsHTML} 
     `;
@@ -755,15 +791,8 @@ function renderTacticsScreen() {
     // Atualiza o painel de funções (Capitão, Faltas, etc)
     refreshAdvancedOptions();
 
-    // Filtra quem não é titular e ordena pela Posição e depois pelo Overall
-    const nonStarters = gameState.playerTeam.players.filter(p => !p.isStarter).sort((a,b) => {
-        const posDiff = posOrder.indexOf(a.primaryPosition) - posOrder.indexOf(b.primaryPosition);
-        if (posDiff !== 0) return posDiff;
-        return b.overallRating - a.overallRating;
-    });
-    
-    const reserves = nonStarters.slice(0, 10);
-    const unlisted = nonStarters.slice(10);
+    // Puxa o banco de reservas balanceado pela nossa nova inteligência artificial
+    const { bench: reserves, unlisted } = getBalancedBench(gameState.playerTeam);
     const positionSlots = Array.from(document.querySelectorAll('.player-position'));
 
     // --- NOVO SISTEMA DE DISTRIBUIÇÃO VISUAL (O Funil de 4 Fases) ---
@@ -847,6 +876,9 @@ function createPlayerToken(player, slotPosition = null) {
         if (player.primaryPosition === slotPosition) {
             statusClass = 'status-green';
         } else if (player.secondaryPositions && player.secondaryPositions.includes(slotPosition)) {
+            statusClass = 'status-yellow';
+        } else if (SISTER_POSITIONS[player.primaryPosition] && SISTER_POSITIONS[player.primaryPosition].includes(slotPosition)) {
+            // Se for posição irmã (ex: PD no MD), fica amarelo também!
             statusClass = 'status-yellow';
         } else {
             statusClass = 'status-red';
@@ -1005,14 +1037,15 @@ function updateTokenColor(tokenEl, player, slotPosition) {
             photoEl.classList.add('status-green');
         } else if (player.secondaryPositions && player.secondaryPositions.includes(slotPosition)) {
             photoEl.classList.add('status-yellow');
+        } else if (SISTER_POSITIONS[player.primaryPosition] && SISTER_POSITIONS[player.primaryPosition].includes(slotPosition)) {
+            photoEl.classList.add('status-yellow'); // Irmãs ficam amarelas
         } else {
             photoEl.classList.add('status-red');
         }
     } else {
-        photoEl.classList.add('status-green'); // Banco de reservas sempre fica verde
+        photoEl.classList.add('status-green'); 
     }
 }
-
 // --- RENDERIZAÇÃO DO PRÉ-JOGO E SIMULAÇÃO AO VIVO ---
 
 function renderPreMatchScreen() {
@@ -1045,10 +1078,15 @@ function renderPreMatchScreen() {
             const isCaptain = isPlayerTeam && gameState.roles.captain === p.name;
             const captainIconHTML = isCaptain ? '<span class="text-red-600 font-bold italic text-xs flex-shrink-0 ml-1.5" title="Capitão">(C)</span>' : '';
             
-            // Lógica de Stamina (Só mostra detalhado para o seu time)
+            // Stamina: número detalhado para o seu time, barrinha discreta para a CPU
             const sta = p.currentStamina ?? 100;
+            const staBarColor  = sta >= 70 ? 'bg-green-500' : sta >= 40 ? 'bg-yellow-500' : 'bg-red-500';
             const staTextColor = sta >= 70 ? 'text-green-400' : sta >= 40 ? 'text-yellow-400' : 'text-red-400';
-            const staminaHTML = isPlayerTeam ? `<span class="text-[10px] font-black ${staTextColor} mr-1" title="Fôlego atual">⚡${sta}%</span>` : '';
+            const staminaHTML = isPlayerTeam
+                ? `<span class="text-[10px] font-black ${staTextColor} mr-1" title="Fôlego atual">⚡${sta}%</span>`
+                : `<div class="w-10 bg-gray-700 rounded-full h-1.5 mr-1.5" title="Energia: ${sta}%">
+                       <div class="${staBarColor} h-1.5 rounded-full" style="width:${sta}%"></div>
+                   </div>`;
 
             html += `
                 <div class="flex items-center justify-between group py-1">
@@ -1358,6 +1396,88 @@ function openPatchNotes() {
     `).join('');
 
     openModal('patch-notes-modal');
+}
+
+// --- NOVA FUNÇÃO: RENDERIZA OS TIMES E O BANCO AO VIVO ---
+function renderLiveMatchPanels(currentMinute) {
+    if (!liveResultData) return;
+
+    // Função interna para desenhar um time (Casa ou Fora)
+    const renderTeamLineup = (team, containerId, isHome) => {
+        const container = document.getElementById(containerId);
+        const starters = team.players.filter(p => p.isStarter);
+        const progress = currentMinute / 90; // Ex: 45min = 0.5 (50% do jogo)
+
+        let html = `<h3 class="text-center text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 border-b border-gray-700 pb-2">${team.name}</h3><div class="flex flex-col gap-1.5">`;
+        
+        starters.forEach(p => {
+            // Calcula o desgaste exato neste minuto
+            const staminaStat = p.attributes.stamina || 70;
+            const posMultiplier = STAMINA_DRAIN_BY_POSITION[p.primaryPosition] || 1.0;
+            const totalDrain = (25 + (100 - staminaStat) * 0.36) * posMultiplier;
+            const estimated = Math.max(5, Math.round((p.preMatchStamina ?? 100) - (totalDrain * progress)));
+            
+            const barColor = estimated >= 70 ? 'bg-green-500' : estimated >= 40 ? 'bg-yellow-500' : 'bg-red-500';
+            const textColor = estimated >= 70 ? 'text-green-400' : estimated >= 40 ? 'text-yellow-400' : 'text-red-400';
+            const icon = estimated < 38 ? '⚠️' : ''; // Alerta visual
+
+            html += `
+                <div class="flex items-center justify-between bg-gray-900 p-2 rounded-lg border border-gray-700 shadow-sm">
+                    <div class="flex items-center gap-2 w-7/12 min-w-0">
+                        <span class="text-[9px] font-black text-gray-500 w-4 text-center">${p.number}</span>
+                        <img src="${p.photo}" class="h-7 w-7 rounded-full object-cover border border-gray-600 bg-gray-800 flex-shrink-0">
+                        <div class="flex flex-col min-w-0">
+                            <span class="text-[11px] font-bold text-gray-200 truncate" title="${p.name}">${p.name}</span>
+                            <span class="text-[9px] text-gray-500 font-bold">${p.primaryPosition}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 w-5/12 justify-end">
+                        <span class="text-[10px]">${icon}</span>
+                        <div class="w-12 bg-gray-800 rounded-full h-1.5 border border-gray-700">
+                            <div class="${barColor} h-1.5 rounded-full transition-all duration-300" style="width:${estimated}%"></div>
+                        </div>
+                        <span class="text-[9px] font-black ${textColor} w-5 text-right">${estimated}</span>
+                    </div>
+                </div>
+            `;
+        });
+        html += `</div>`;
+        container.innerHTML = html;
+    };
+
+    // Desenha os 11 de cada lado
+    renderTeamLineup(liveResultData.homeTeam, 'live-home-lineup-container', true);
+    renderTeamLineup(liveResultData.awayTeam, 'live-away-lineup-container', false);
+
+    // --- DESENHA O SEU BANCO DE RESERVAS ---
+    const isPlayerHome = liveResultData.homeTeam.id === gameState.playerTeam.id;
+    const playerTeam = isPlayerHome ? liveResultData.homeTeam : liveResultData.awayTeam;
+    
+    // Puxa os reservas já filtrados pela nossa IA de Balanceamento (Exatamente como nas Táticas)
+    const bench = getBalancedBench(playerTeam).bench;
+    
+    // Filtra os 10 primeiros que NÃO são titulares
+
+    const benchContainer = document.getElementById('live-bench-container');
+    let benchHtml = '';
+    bench.forEach(p => {
+        const nameParts = p.name.split(' ');
+        const shortName = nameParts.length > 1 ? nameParts[0] + ' ' + nameParts[nameParts.length-1] : p.name;
+        
+        benchHtml += `
+            <div class="flex items-center justify-between bg-gray-900 p-2 rounded border border-gray-700 cursor-not-allowed opacity-80">
+                <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="text-[9px] font-black text-gray-500 w-3">${p.number}</span>
+                    <span class="text-[10px] font-bold text-gray-300 truncate" title="${p.name}">${shortName}</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <span class="text-[9px] text-gray-500 font-bold bg-gray-800 px-1 rounded">${p.primaryPosition}</span>
+                    <span class="text-[9px] text-yellow-400 font-black">${p.overallRating}</span>
+                </div>
+            </div>
+        `;
+    });
+    benchContainer.innerHTML = benchHtml;
 }
 
 document.addEventListener('DOMContentLoaded', () => {

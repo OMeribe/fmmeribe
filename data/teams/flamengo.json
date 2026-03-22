@@ -1,6 +1,9 @@
 {
   "id": 9,
   "name": "Flamengo",
+  "founded": 1895,
+  "description": "O Flamengo é um clube do Rio de Janeiro, fundado em 1895. Disputa atualmente o Campeonato Brasileiro Série A, primeiro nível do futebol no país (Brasil). Fundado inicialmente como um clube de regatas para disputas de remo, o Flamengo só iniciou no futebol em 1911, após receber um grupo de jogadores dissidentes do rival Fluminense. Dono da maior torcida do país e parte do seleto grupo que nunca foi rebaixado, o rubro-negro protagonizou o maior feito de sua história em 1981: liderado por Zico, venceu o poderoso Liverpool por 3 a 0 no Japão, consagrando-se campeão mundial.",
+  "titles": ["Copa Intercontinental (1981)", "4x Copa Libertadores da América (1981, 2019, 2022, 2025)", "Copa Mercosul (1999)", "Recopa Sul-Americana (2020)", "8x Campeonato Brasileiro (1980, 1982, 1983, 1992, 2009, 2019, 2020, 2025)", "5x Copa do Brasil (1990, 2006, 2013, 2022, 2024)", "3x Supercopa do Brasil (2020, 2021, 2025)", "Rio-São Paulo (1961)", "40x Campeonato Carioca"],
   "logo": "img/times/Flamengo-RJ.png",
   "stadium": "Maracanã",
   "stadiumPhoto": "img/estadios/Maracana.jpg",

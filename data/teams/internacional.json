@@ -1,6 +1,17 @@
 {
   "id": 12,
   "name": "Internacional",
+  "founded": 1909,
+  "description": "O Internacional é um clube de Porto Alegre, fundado em 1909. Disputa atualmente o Campeonato Brasileiro Série A, primeiro nível do futebol no país (Brasil). Fundado pelos irmãos Poppe, o clube nasceu com o propósito de ser uma instituição democrática e sem preconceitos de nacionalidade — o que justificou a escolha do seu nome —, em uma resposta direta ao elitismo dos clubes da época. Conhecido como o 'Clube do Povo', o Colorado protagonizou o maior feito de sua história em 2006: superou o poderoso Barcelona de Ronaldinho Gaúcho por 1 a 0 no Japão, com um gol histórico de Adriano Gabiru, consagrando-se campeão mundial.",
+  "titles": [
+    "Copa do Mundo de Clubes da FIFA (2006)",
+    "2x Copa Libertadores da América (2006, 2010)",
+    "Copa Sul-Americana (2008)",
+    "2x Recopa Sul-Americana (2007, 2011)",
+    "3x Campeonato Brasileiro (1975, 1976, 1979)",
+    "Copa do Brasil (1992)",
+    "46x Campeonato Gaúcho"
+  ],
   "logo": "img/times/Internacional.png",
   "stadium": "Beira-Rio",
   "stadiumPhoto": "img/estadios/BeiraRio.jpg",
@@ -9,7 +20,7 @@
     {
       "name": "Sergio Rochet",
       "number": 1,
-      "photo": "img/players/Internacional/SergioRochet.jpg",
+      "photo": "img/players/Internacional/SergioRochet.png",
       "birthdate": "1993-03-23",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -23,7 +34,7 @@
     {
       "name": "Anthoni",
       "number": 12,
-      "photo": "img/players/Internacional/Anthoni.jpg",
+      "photo": "img/players/Internacional/Anthoni.png",
       "birthdate": "2002-01-23",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -37,7 +48,7 @@
     {
       "name": "Diego Esser",
       "number": 32,
-      "photo": "img/players/Internacional/DiegoEsser.jpg",
+      "photo": "img/players/Internacional/DiegoEsser.png",
       "birthdate": "2005-04-13",
       "primaryPosition": "GOL",
       "secondaryPositions": [],
@@ -51,7 +62,7 @@
     {
       "name": "Clayton Sampaio",
       "number": 20,
-      "photo": "img/players/Internacional/ClaytonSampaio.jpg",
+      "photo": "img/players/Internacional/ClaytonSampaio.png",
       "birthdate": "2000-04-04",
       "primaryPosition": "ZAG",
       "secondaryPositions": [],
@@ -66,10 +77,12 @@
     {
       "name": "Felix Torres",
       "number": 4,
-      "photo": "img/players/Internacional/FelixTorres.jpg",
+      "photo": "img/players/Internacional/FelixTorres.png",
       "birthdate": "1997-01-11",
       "primaryPosition": "ZAG",
-      "secondaryPositions": ["LD"],
+      "secondaryPositions": [
+        "LD"
+      ],
       "attributes": {
         "tackling": 73, "marking": 73, "crossing": 55, "speed": 82,
         "dribbling": 60, "passing": 73, "finishing": 40, "heading": 73,
@@ -81,7 +94,7 @@
     {
       "name": "Gabriel Mercado",
       "number": 25,
-      "photo": "img/players/Internacional/GabrielMercado.jpg",
+      "photo": "img/players/Internacional/GabrielMercado.png",
       "birthdate": "1987-03-18",
       "primaryPosition": "ZAG",
       "secondaryPositions": [],
@@ -96,7 +109,7 @@
     {
       "name": "Juninho",
       "number": 18,
-      "photo": "img/players/Internacional/Juninho.jpg",
+      "photo": "img/players/Internacional/Juninho.png",
       "birthdate": "1994-03-15",
       "primaryPosition": "ZAG",
       "secondaryPositions": [],
@@ -111,7 +124,7 @@
     {
       "name": "Victor Gabriel",
       "number": 41,
-      "photo": "img/players/Internacional/VictorGabriel.jpg",
+      "photo": "img/players/Internacional/VictorGabriel.png",
       "birthdate": "2004-04-18",
       "primaryPosition": "ZAG",
       "secondaryPositions": [],
@@ -126,10 +139,13 @@
     {
       "name": "Alexandro Bernabei",
       "number": 26,
-      "photo": "img/players/Internacional/Bernabei.jpg",
+      "photo": "img/players/Internacional/Bernabei.png",
       "birthdate": "2000-09-24",
       "primaryPosition": "LE",
-      "secondaryPositions": ["ME", "PE"],
+      "secondaryPositions": [
+        "ME",
+        "PE"
+      ],
       "attributes": {
         "tackling": 66, "marking": 64, "crossing": 84, "speed": 86,
         "dribbling": 82, "passing": 80, "finishing": 65, "heading": 55,
@@ -141,10 +157,12 @@
     {
       "name": "Braian Aguirre",
       "number": 35,
-      "photo": "img/players/Internacional/Aguirre.jpg",
+      "photo": "img/players/Internacional/Aguirre.png",
       "birthdate": "2000-07-28",
       "primaryPosition": "LD",
-      "secondaryPositions": ["MD"],
+      "secondaryPositions": [
+        "MD"
+      ],
       "attributes": {
         "tackling": 78, "marking": 78, "crossing": 68, "speed": 70,
         "dribbling": 68, "passing": 70, "finishing": 45, "heading": 65,
@@ -156,10 +174,14 @@
     {
       "name": "Bruno Gomes",
       "number": 15,
-      "photo": "img/players/Internacional/BrunoGomes.jpg",
+      "photo": "img/players/Internacional/BrunoGomes.png",
       "birthdate": "2001-04-04",
       "primaryPosition": "LD",
-      "secondaryPositions": ["MD", "VOL", "MC"],
+      "secondaryPositions": [
+        "MD",
+        "VOL",
+        "MC"
+      ],
       "attributes": {
         "tackling": 75, "marking": 74, "crossing": 73, "speed": 76,
         "dribbling": 76, "passing": 78, "finishing": 62, "heading": 60,
@@ -171,10 +193,12 @@
     {
       "name": "Matheus Bahia",
       "number": 6,
-      "photo": "img/players/Internacional/MatheusBahia.jpg",
+      "photo": "img/players/Internacional/MatheusBahia.png",
       "birthdate": "1999-08-11",
       "primaryPosition": "LE",
-      "secondaryPositions": ["ME"],
+      "secondaryPositions": [
+        "ME"
+      ],
       "attributes": {
         "tackling": 71, "marking": 71, "crossing": 71, "speed": 71,
         "dribbling": 71, "passing": 71, "finishing": 55, "heading": 65,
@@ -186,10 +210,16 @@
     {
       "name": "Alan Patrick",
       "number": 10,
-      "photo": "img/players/Internacional/AlanPatrick.jpg",
+      "photo": "img/players/Internacional/AlanPatrick.png",
       "birthdate": "1991-05-13",
       "primaryPosition": "MEI",
-      "secondaryPositions": ["MC", "ME", "PE", "SA", "ATA"],
+      "secondaryPositions": [
+        "MC",
+        "ME",
+        "PE",
+        "SA",
+        "ATA"
+      ],
       "attributes": {
         "tackling": 50, "marking": 46, "crossing": 75, "speed": 66,
         "dribbling": 78, "passing": 84, "finishing": 74, "heading": 58,
@@ -201,10 +231,12 @@
     {
       "name": "Alan Rodríguez",
       "number": 14,
-      "photo": "img/players/Internacional/AlanRodriguez.jpg",
+      "photo": "img/players/Internacional/AlanRodriguez.png",
       "birthdate": "2000-01-25",
       "primaryPosition": "VOL",
-      "secondaryPositions": ["MC"],
+      "secondaryPositions": [
+        "MC"
+      ],
       "attributes": {
         "tackling": 72, "marking": 71, "crossing": 62, "speed": 72,
         "dribbling": 66, "passing": 73, "finishing": 55, "heading": 68,
@@ -216,10 +248,12 @@
     {
       "name": "Bruno Henrique",
       "number": 8,
-      "photo": "img/players/Internacional/BrunoHenrique.jpg",
+      "photo": "img/players/Internacional/BrunoHenrique.png",
       "birthdate": "1989-10-21",
       "primaryPosition": "VOL",
-      "secondaryPositions": ["MC"],
+      "secondaryPositions": [
+        "MC"
+      ],
       "attributes": {
         "tackling": 70, "marking": 70, "crossing": 57, "speed": 55,
         "dribbling": 64, "passing": 72, "finishing": 50, "heading": 62,
@@ -231,10 +265,13 @@
     {
       "name": "Bruno Tabata",
       "number": 17,
-      "photo": "img/players/Internacional/BrunoTabata.jpg",
+      "photo": "img/players/Internacional/BrunoTabata.png",
       "birthdate": "1997-03-30",
       "primaryPosition": "PD",
-      "secondaryPositions": ["MD", "MEI"],
+      "secondaryPositions": [
+        "MD",
+        "MEI"
+      ],
       "attributes": {
         "tackling": 56, "marking": 54, "crossing": 72, "speed": 74,
         "dribbling": 73, "passing": 73, "finishing": 70, "heading": 58,
@@ -246,10 +283,12 @@
     {
       "name": "Gustavo Prado",
       "number": 47,
-      "photo": "img/players/Internacional/GustavoPrado.jpg",
+      "photo": "img/players/Internacional/GustavoPrado.png",
       "birthdate": "2005-06-06",
       "primaryPosition": "PD",
-      "secondaryPositions": ["MD"],
+      "secondaryPositions": [
+        "MD"
+      ],
       "attributes": {
         "tackling": 42, "marking": 40, "crossing": 60, "speed": 79,
         "dribbling": 74, "passing": 57, "finishing": 56, "heading": 48,
@@ -261,10 +300,13 @@
     {
       "name": "Paulinho",
       "number": 27,
-      "photo": "img/players/Internacional/Paulinho.jpg",
+      "photo": "img/players/Internacional/Paulinho.png",
       "birthdate": "1997-01-08",
       "primaryPosition": "MC",
-      "secondaryPositions": ["VOL", "MEI"],
+      "secondaryPositions": [
+        "VOL",
+        "MEI"
+      ],
       "attributes": {
         "tackling": 72, "marking": 67, "crossing": 64, "speed": 76,
         "dribbling": 74, "passing": 75, "finishing": 62, "heading": 66,
@@ -276,10 +318,12 @@
     {
       "name": "Richard",
       "number": 36,
-      "photo": "img/players/Internacional/Richard.jpg",
+      "photo": "img/players/Internacional/Richard.png",
       "birthdate": "1994-02-18",
       "primaryPosition": "VOL",
-      "secondaryPositions": ["MC"],
+      "secondaryPositions": [
+        "MC"
+      ],
       "attributes": {
         "tackling": 67, "marking": 67, "crossing": 54, "speed": 62,
         "dribbling": 58, "passing": 67, "finishing": 46, "heading": 61,
@@ -291,10 +335,12 @@
     {
       "name": "Ronaldo",
       "number": 16,
-      "photo": "img/players/Internacional/Ronaldo.jpg",
+      "photo": "img/players/Internacional/Ronaldo.png",
       "birthdate": "1996-10-23",
       "primaryPosition": "VOL",
-      "secondaryPositions": ["MC"],
+      "secondaryPositions": [
+        "MC"
+      ],
       "attributes": {
         "tackling": 71, "marking": 70, "crossing": 57, "speed": 65,
         "dribbling": 62, "passing": 72, "finishing": 51, "heading": 64,
@@ -306,10 +352,12 @@
     {
       "name": "Thiago Maia",
       "number": 29,
-      "photo": "img/players/Internacional/ThiagoMaia.jpg",
+      "photo": "img/players/Internacional/ThiagoMaia.png",
       "birthdate": "1997-03-23",
       "primaryPosition": "MC",
-      "secondaryPositions": ["VOL"],
+      "secondaryPositions": [
+        "VOL"
+      ],
       "attributes": {
         "tackling": 74, "marking": 72, "crossing": 60, "speed": 68,
         "dribbling": 70, "passing": 79, "finishing": 55, "heading": 68,
@@ -321,10 +369,12 @@
     {
       "name": "Villagra",
       "number": 5,
-      "photo": "img/players/Internacional/Villagra.jpg",
+      "photo": "img/players/Internacional/Villagra.png",
       "birthdate": "2001-02-14",
       "primaryPosition": "VOL",
-      "secondaryPositions": ["MC"],
+      "secondaryPositions": [
+        "MC"
+      ],
       "attributes": {
         "tackling": 72, "marking": 71, "crossing": 57, "speed": 67,
         "dribbling": 62, "passing": 73, "finishing": 49, "heading": 63,
@@ -336,7 +386,7 @@
     {
       "name": "Alerrandro",
       "number": 9,
-      "photo": "img/players/Internacional/Alerrandro.jpg",
+      "photo": "img/players/Internacional/Alerrandro.png",
       "birthdate": "2000-01-12",
       "primaryPosition": "ATA",
       "secondaryPositions": [],
@@ -351,10 +401,12 @@
     {
       "name": "Carbonero",
       "number": 7,
-      "photo": "img/players/Internacional/Carbonero.jpg",
+      "photo": "img/players/Internacional/Carbonero.png",
       "birthdate": "1999-07-20",
       "primaryPosition": "PE",
-      "secondaryPositions": ["ME"],
+      "secondaryPositions": [
+        "ME"
+      ],
       "attributes": {
         "tackling": 40, "marking": 38, "crossing": 72, "speed": 79,
         "dribbling": 79, "passing": 68, "finishing": 68, "heading": 52,
@@ -366,10 +418,12 @@
     {
       "name": "Kayky",
       "number": 11,
-      "photo": "img/players/Internacional/Kayky.jpg",
+      "photo": "img/players/Internacional/Kayky.png",
       "birthdate": "2003-06-10",
       "primaryPosition": "PD",
-      "secondaryPositions": ["MD"],
+      "secondaryPositions": [
+        "MD"
+      ],
       "attributes": {
         "tackling": 38, "marking": 35, "crossing": 70, "speed": 74,
         "dribbling": 76, "passing": 66, "finishing": 68, "heading": 50,
@@ -381,7 +435,7 @@
     {
       "name": "Rafael Borré",
       "number": 19,
-      "photo": "img/players/Internacional/RafaelBorre.jpg",
+      "photo": "img/players/Internacional/RafaelBorre.png",
       "birthdate": "1995-09-15",
       "primaryPosition": "ATA",
       "secondaryPositions": [],
@@ -396,10 +450,14 @@
     {
       "name": "Vitinho",
       "number": 28,
-      "photo": "img/players/Internacional/Vitinho.jpg",
+      "photo": "img/players/Internacional/Vitinho.png",
       "birthdate": "1999-04-01",
       "primaryPosition": "PE",
-      "secondaryPositions": ["ME", "MD", "PD"],
+      "secondaryPositions": [
+        "ME",
+        "MD",
+        "PD"
+      ],
       "attributes": {
         "tackling": 50, "marking": 48, "crossing": 72, "speed": 76,
         "dribbling": 76, "passing": 71, "finishing": 68, "heading": 55,

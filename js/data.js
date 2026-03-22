@@ -3,6 +3,18 @@
 // --- NOTAS DE ATUALIZAÇÃO (PATCH NOTES) ---
 const patchNotes = [
     {
+        version: "0.3.0",
+        date: "21/03/2026",
+        title: "O Almanaque & O Banco Inteligente",
+        changes: [
+            "📺 Nova Tela de Seleção de Times: Interface imersiva no estilo almanaque, exibindo história, galerias de troféus com ícones dinâmicos, estrelas de força e orçamento de cada clube.",
+            "🧠 Funil de Banco de Reservas (IA): A inteligência tática agora monta um banco balanceado automaticamente (garantindo sempre goleiro, defensores, meias e atacantes) tanto na Carreira quanto em Amistosos.",
+            "📖 Expansão da Base de Dados Histórica: Adição de histórias detalhadas e lista completa de títulos para Vasco, Santos, Flamengo, Internacional e Atlético Mineiro.",
+            "🐓 Atualização de Elencos: Atlético Mineiro revisado com balanceamento milimétrico de Overall para os titulares e adição de jovens promessas da base.",
+            "📸 Padronização Visual AAA: Correções de layout na UI e novo formato de recorte de fotos (foco no rosto/ombros com fundo transparente) para as cartinhas dos jogadores."
+        ]
+    },
+    {
         version: "0.2.0",
         date: "17/03/2026",
         title: "A Grande Atualização de Sistemas",
@@ -57,6 +69,15 @@ const ATTRIBUTE_WEIGHTS = {
     PD: { speed: 3, dribbling: 3, crossing: 2, finishing: 2, passing: 1 },
     SA: { finishing: 3, speed: 2, dribbling: 2, passing: 1, vision: 1 },
     ATA: { finishing: 3, heading: 2, shot_power: 2, strength: 2, speed: 1 }
+};
+
+// --- POSIÇÕES IRMÃS (Adaptações Naturais) ---
+// Define posições que jogam na mesma faixa de campo e podem ser improvisadas sem grande perda.
+const SISTER_POSITIONS = {
+    PD: ['MD'], MD: ['PD'],
+    PE: ['ME'], ME: ['PE'],
+    ATA: ['SA'], SA: ['ATA'],
+    MC: ['VOL'], VOL: ['MC'],
 };
 
 // --- MULTIPLICADORES DE DESGASTE POR POSIÇÃO ---

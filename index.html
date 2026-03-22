@@ -12,11 +12,103 @@
 
     <div id="game-container" class="max-w-[1500px] w-full mx-auto p-4">
 
-        <div id="team-selection-screen" class="screen">
-            <h1 class="text-4xl font-bold text-center mb-2 text-yellow-300">Prancheta</h1>
-            <p class="text-center text-gray-300 mb-8">Escolha seu time para começar a temporada</p>
-            <div id="team-list" class="grid grid-cols-2 sm-grid-cols-4 lg:grid-cols-5 gap-4">
+        <div id="team-selection-screen" class="screen hidden relative w-full h-[85vh] min-h-[600px] overflow-hidden rounded-2xl shadow-2xl border border-gray-800">
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 blur-sm" style="background-image: url('img/bg-estadio.jpg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0f172a]/95 via-[#0f172a]/85 to-[#0f172a] z-0"></div>
+
+            <div class="relative z-10 h-full flex flex-col p-6 md:p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-3xl md:text-4xl font-black text-yellow-400 uppercase tracking-widest drop-shadow-lg">Modo Carreira</h1>
+                    <button onclick="showScreen('main-menu-screen')" class="text-gray-400 hover:text-white font-bold uppercase tracking-wider text-xs transition flex items-center gap-2">
+                        <span>❮</span> Voltar
+                    </button>
                 </div>
+
+                <div class="flex flex-col lg:flex-row gap-6 flex-1 min-h-0">
+                    
+                    <div class="w-full lg:w-1/3 bg-gray-900/80 border border-gray-700 rounded-xl flex flex-col items-center justify-center p-6 shadow-2xl relative backdrop-blur-sm">
+                        <div class="absolute top-4 bg-gray-800 px-4 py-1 rounded text-[10px] font-bold text-gray-400 tracking-widest uppercase border border-gray-700">Brasil</div>
+                        
+                        <div class="flex items-center justify-between w-full mt-6 px-2">
+                            <button onclick="cycleTeamSelection(-1)" class="text-4xl text-gray-500 hover:text-yellow-400 transition transform hover:-translate-x-1">❮</button>
+                            <div class="flex flex-col items-center">
+                                <img id="ts-logo" src="" class="h-36 w-36 object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] mb-4 transition-all duration-300 transform scale-100">
+                                <h2 id="ts-name" class="text-xl md:text-2xl font-black text-white uppercase tracking-wider text-center leading-tight">TIME</h2>
+                            </div>
+                            <button onclick="cycleTeamSelection(1)" class="text-4xl text-gray-500 hover:text-yellow-400 transition transform hover:translate-x-1">❯</button>
+                        </div>
+                        
+                        <div id="ts-stars" class="flex gap-1 text-2xl text-yellow-500 mt-2 drop-shadow-md">★ ★ ★ ★ ☆</div>
+                        <div id="ts-overall" class="mt-2 text-xs text-gray-400 font-bold uppercase tracking-widest">Geral: <span class="text-white text-lg font-black ml-1">00</span></div>
+                    </div>
+
+                    <div class="w-full lg:w-2/3 bg-gray-800/80 border border-gray-700 rounded-xl p-6 md:p-8 flex flex-col shadow-2xl backdrop-blur-sm overflow-y-auto custom-scrollbar">
+                        
+                        <div class="flex flex-col md:flex-row justify-between items-start mb-6 pb-6 border-b border-gray-700 gap-6 md:gap-0">
+                            
+                            <div class="w-full md:w-1/2 md:pr-6">
+                                <h3 class="text-white text-lg font-black uppercase tracking-wider mb-4">Expectativa da Diretoria</h3>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center bg-gray-900/50 p-2 rounded">
+                                        <span class="text-xs font-semibold text-gray-300 uppercase tracking-wide">Sucesso Nacional</span>
+                                        <span id="ts-exp-nac" class="text-[10px] font-bold px-2 py-1 rounded">Alta</span>
+                                    </div>
+                                    <div class="flex justify-between items-center bg-gray-900/50 p-2 rounded">
+                                        <span class="text-xs font-semibold text-gray-300 uppercase tracking-wide">Finanças</span>
+                                        <span id="ts-exp-fin" class="text-[10px] font-bold px-2 py-1 rounded">Média</span>
+                                    </div>
+                                    <div class="flex justify-between items-center bg-gray-900/50 p-2 rounded">
+                                        <span class="text-xs font-semibold text-gray-300 uppercase tracking-wide">Cat. de Base</span>
+                                        <span id="ts-exp-base" class="text-[10px] font-bold px-2 py-1 rounded">Baixa</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="w-full md:w-1/2 md:pl-6 md:border-l border-gray-700 flex flex-col">
+                                <div class="text-left mb-2">
+                                    <h3 id="ts-desc-title" class="text-lg font-black text-gray-200 uppercase tracking-wider">TIME</h3>
+                                    <p id="ts-founded" class="text-[11px] text-yellow-400 font-bold uppercase tracking-widest mt-1">Fund. 1900</p>
+                                </div>
+                                <p id="ts-desc" class="text-xs text-gray-400 text-left leading-relaxed mt-2">
+                                    Descrição do time gerada dinamicamente.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mb-6 pb-6 border-b border-gray-700">
+                            <h4 class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-3">Principais Títulos</h4>
+                            <div id="ts-titles" class="flex flex-wrap gap-2">
+                                </div>
+                        </div>
+
+                        <div class="flex justify-around items-center mt-auto pt-2">
+                            <div class="text-center flex flex-col items-center">
+                                <div class="bg-gray-900 p-3 rounded-full border border-gray-700 mb-2">
+                                    <span class="text-xl">💰</span>
+                                </div>
+                                <p class="text-[9px] text-gray-500 font-bold uppercase tracking-widest mb-1">Verba para Transferências</p>
+                                <p id="ts-budget" class="text-xl font-black text-green-400">R$ 50.0M</p>
+                            </div>
+                            
+                            <div class="w-px h-16 bg-gray-700 hidden md:block"></div>
+                            
+                            <div class="text-center flex flex-col items-center">
+                                <div class="bg-gray-900 p-3 rounded-full border border-gray-700 mb-2">
+                                    <span class="text-xl">🏟️</span>
+                                </div>
+                                <p class="text-[9px] text-gray-500 font-bold uppercase tracking-widest mb-1">Estádio Sede</p>
+                                <p id="ts-stadium" class="text-sm font-black text-white uppercase tracking-wider">Nome do Estádio</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <button onclick="confirmTeamSelection()" class="bg-green-600 hover:bg-green-500 text-white font-black text-lg md:text-xl py-3 px-8 md:px-12 rounded-xl uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(22,163,74,0.4)] border-b-4 border-green-800 active:translate-y-1 active:border-b-0">
+                        Assinar Contrato
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div id="main-hub-screen" class="screen hidden">
@@ -214,50 +306,65 @@
         </div>
 
         <div id="live-match-screen" class="screen hidden">
-            <div class="bg-gray-800 p-6 rounded-lg shadow-xl max-w-3xl mx-auto text-center">
-                <div class="text-sm text-gray-400 mb-2" id="live-stadium-name">Estádio</div>
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.5fr_1fr] gap-4 mt-4 items-stretch">
                 
-                <div class="flex justify-between items-center bg-gray-900 p-6 rounded-lg mb-6">
-                    <div class="w-1/3 text-right flex flex-col items-end">
-                        <img id="live-home-logo" src="" class="h-16 w-16 mb-2 object-contain">
-                        <span id="live-home-name" class="font-bold text-xl">Casa</span>
+                <div class="bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-700 h-[650px] overflow-y-auto custom-scrollbar" id="live-home-lineup-container">
                     </div>
-                    <div class="w-1/3">
-                        <div class="text-4xl font-bold font-mono tracking-widest text-yellow-400">
-                            <span id="live-home-score">0</span> - <span id="live-away-score">0</span>
+
+                <div class="flex flex-col gap-4 h-[650px]">
+                    
+                    <div class="bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-700 text-center">
+                        <div class="text-[10px] text-gray-400 mb-2 uppercase tracking-widest font-bold" id="live-stadium-name">Estádio</div>
+                        <div class="flex justify-between items-center bg-gray-900 p-4 rounded-lg mb-4">
+                            <div class="w-1/3 flex flex-col items-center">
+                                <img id="live-home-logo" src="" class="h-10 w-10 mb-1 object-contain">
+                                <span id="live-home-name" class="font-bold text-xs truncate w-full text-center">Casa</span>
+                            </div>
+                            <div class="w-1/3">
+                                <div class="text-3xl font-black text-yellow-400 font-mono tracking-wider">
+                                    <span id="live-home-score">0</span>-<span id="live-away-score">0</span>
+                                </div>
+                                <div id="live-match-time" class="text-xl font-black mt-1 text-green-400">00'</div>
+                            </div>
+                            <div class="w-1/3 flex flex-col items-center">
+                                <img id="live-away-logo" src="" class="h-10 w-10 mb-1 object-contain">
+                                <span id="live-away-name" class="font-bold text-xs truncate w-full text-center">Fora</span>
+                            </div>
                         </div>
-                        <div id="live-match-time" class="text-2xl font-bold mt-2 text-green-400">00'</div>
+
+                        <div class="bg-black p-3 rounded-lg h-40 overflow-y-auto text-left font-mono text-xs space-y-1 border border-gray-700" id="live-commentary-box">
+                            <div class="text-gray-500">Aguardando o apito inicial...</div>
+                        </div>
+
+                        <div id="live-match-skip" class="mt-4 flex justify-center gap-3">
+                            <button id="btn-pause-match" onclick="toggleMatchPause()" class="bg-yellow-600 hover:bg-yellow-500 text-gray-900 font-black py-2.5 px-4 rounded-lg transition text-[11px] uppercase tracking-wider border-b-4 border-yellow-800 flex-1 shadow-lg">
+                                ⏸️ Pausar (3)
+                            </button>
+                            <button onclick="skipLiveMatch()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white font-bold py-2.5 px-4 rounded-lg transition text-[11px] uppercase tracking-wider border-b-4 border-gray-800 flex-1">
+                                ⏩ Pular
+                            </button>
+                        </div>
+                        
+                        <div id="live-match-actions" class="hidden mt-4 flex gap-3">
+                            <button onclick="showRoundResultsFromLive()" class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition text-xs uppercase tracking-wider border-b-4 border-blue-900">Resultados</button>
+                            <button onclick="finishRoundAndGoToHub()" class="w-1/2 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 rounded-lg transition text-xs uppercase tracking-wider border-b-4 border-gray-900">Menu</button>
+                        </div>
                     </div>
-                    <div class="w-1/3 text-left flex flex-col items-start">
-                        <img id="live-away-logo" src="" class="h-16 w-16 mb-2 object-contain">
-                        <span id="live-away-name" class="font-bold text-xl">Fora</span>
+
+                    <div class="bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-700 flex-1 flex flex-col min-h-0">
+                        <div class="flex justify-between items-center mb-2 border-b border-gray-700 pb-2">
+                            <h3 class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Seu Banco</h3>
+                            <span id="subs-left-count" class="text-yellow-400 text-xs font-black">5 Subs</span>
+                        </div>
+                        <div id="live-bench-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 overflow-y-auto custom-scrollbar pr-1">
+                            </div>
                     </div>
+
                 </div>
 
-                <div class="bg-black p-4 rounded-lg h-64 overflow-y-auto text-left font-mono text-sm space-y-2 border border-gray-700" id="live-commentary-box">
-                    <div class="text-gray-500">Aguardando o apito inicial...</div>
-                </div>
-
-                <!-- PAINEL DE STAMINA AO VIVO -->
-                <div id="live-stamina-panel" class="mt-4 bg-gray-900 rounded-lg p-4 text-left border border-gray-700">
-                    <h4 class="text-[10px] uppercase tracking-widest text-gray-500 mb-3 font-bold flex items-center gap-2">
-                        ⚡ Stamina dos Titulares
-                        <span class="text-gray-600 italic normal-case tracking-normal font-normal">(atualiza a cada 15min)</span>
-                    </h4>
-                    <div id="live-stamina-list" class="grid grid-cols-2 gap-x-6 gap-y-0.5">
-                        <div class="col-span-2 text-center text-gray-600 text-xs italic py-2">Aguardando início...</div>
+                <div class="bg-gray-800 p-4 rounded-xl shadow-xl border border-gray-700 h-[650px] overflow-y-auto custom-scrollbar" id="live-away-lineup-container">
                     </div>
-                </div>
-                <div id="live-match-skip" class="mt-4 flex justify-center">
-                    <button onclick="skipLiveMatch()" class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white font-bold py-2 px-6 rounded-full transition duration-300 text-xs uppercase tracking-wider border border-gray-600">
-                        ⏩ Pular para o resultado
-                    </button>
-                </div>
-                
-                <div id="live-match-actions" class="hidden mt-6 flex gap-4">
-                    <button onclick="showRoundResultsFromLive()" class="w-1/2 bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-4 rounded-lg transition">Ver Resultados</button>
-                    <button onclick="finishRoundAndGoToHub()" class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition">Ir para o Menu</button>
-                </div>
+
             </div>
         </div>
 
@@ -297,7 +404,7 @@
                     <div id="submenu-jogar" class="hidden flex-col gap-2 pl-4 border-l-2 border-gray-600 ml-2 mb-4 mt-2">
                         <button onclick="triggerLoadGame()" class="text-left text-green-400 font-bold text-lg hover:text-green-300 transition-colors py-2 flex items-center gap-2">📂 Carregar Jogo</button>
                         
-                        <button onclick="showScreen('team-selection-screen')" class="text-left text-white font-bold text-lg hover:text-yellow-400 transition-colors py-2 flex items-center gap-2">🏆 Nova Carreira</button>
+                        <button onclick="openTeamSelection()" class="text-left text-white font-bold text-lg hover:text-yellow-400 transition-colors py-2 flex items-center gap-2">🏆 Nova Carreira</button>
                         <button onclick="openFriendlySetup()" class="text-left text-gray-400 font-bold text-lg hover:text-white transition-colors py-2 flex items-center gap-2">⚽ Amistoso Rápido</button>
                     </div>
 
@@ -389,11 +496,10 @@
                     <span>❮</span> Voltar ao Menu
                 </button>
             </div>
-        </div>
-
-        <div id="team-selection-screen" class="screen hidden">
+        </div>     
     
-    </div> <div id="calendar-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999]">
+    </div> 
+    <div id="calendar-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999]">
         <div class="bg-gray-800 rounded-lg p-6 w-11/12 max-w-4xl border-2 border-gray-600 relative">
             <button onclick="closeModal('calendar-modal')" class="text-red-500 hover:text-red-400 font-bold text-2xl absolute top-4 right-4">X</button>
             
@@ -430,56 +536,68 @@
         </div>
     </div>
 
-    <div id="settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[9999]">
-        <div class="bg-gray-800 rounded-xl p-8 w-11/12 max-w-md border-2 border-gray-600 relative shadow-2xl">
-            <h2 class="text-3xl font-black text-white uppercase tracking-widest mb-6 border-b border-gray-700 pb-4">⚙️ Configurações</h2>
+    <div id="settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[9999] p-4">
+        
+        <div class="relative w-full max-w-[1200px] h-[75vh] min-h-[550px] max-h-[800px] rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-gray-800 bg-[url('img/bg-estadio.jpg')] bg-cover bg-center">
             
-            <div class="space-y-6 text-gray-300">
-                <div>
-                    <label class="block text-sm font-bold uppercase tracking-wider mb-2 text-gray-400">Velocidade da Simulação (Ao Vivo)</label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button onclick="setGameSpeed(250, this)" class="speed-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 rounded border-b-4 border-gray-900 transition flex flex-col items-center">
-                            <span>Rápida</span><span class="text-[10px] text-gray-400 font-normal">0.25 seg/min</span>
-                        </button>
-                        <button onclick="setGameSpeed(500, this)" class="speed-btn bg-blue-600 text-white font-bold py-2 rounded border-b-4 border-blue-900 transition ring-2 ring-yellow-400 flex flex-col items-center">
-                            <span>Normal</span><span class="text-[10px] text-blue-200 font-normal">0.50 seg/min</span>
-                        </button>
-                        <button onclick="setGameSpeed(1500, this)" class="speed-btn bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 rounded border-b-4 border-gray-900 transition flex flex-col items-center">
-                            <span>Realista</span><span class="text-[10px] text-gray-400 font-normal">1.5 seg/min</span>
-                        </button>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#1e293b] via-[#1e293b]/95 to-transparent z-0"></div>
+
+            <button onclick="closeModal('settings-modal')" class="absolute top-6 right-8 text-white hover:text-yellow-400 text-4xl font-black z-50 transition transform hover:scale-110 drop-shadow-lg">&times;</button>
+
+            <div class="relative z-10 flex h-full w-full">
+                
+                <div class="w-full md:w-3/5 lg:w-1/2 p-8 md:p-12 lg:pl-20 flex flex-col justify-center">
+                    
+                    <h2 class="text-5xl md:text-6xl lg:text-7xl font-black text-yellow-300 uppercase tracking-tighter mb-10 drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]">
+                        Configurações
+                    </h2>
+                    
+                    <div class="space-y-6 w-full max-w-md">
+                        
+                        <div>
+                            <div class="flex justify-between items-end mb-3">
+                                <label class="text-yellow-400 text-xl md:text-2xl font-black uppercase tracking-wider drop-shadow-md">Duração da Partida</label>
+                                <span id="match-duration-label" class="text-yellow-400 text-lg md:text-xl font-black uppercase drop-shadow-md">2 Minutos</span>
+                            </div>
+                            <input type="range" min="2" max="10" step="1" value="2" 
+                                   class="w-full h-5 bg-gray-600 rounded-full appearance-none cursor-pointer accent-yellow-400 border border-gray-800 shadow-inner"
+                                   oninput="setMatchDuration(this.value)">
+                        </div>
+
+                        <div>
+                            <label class="block text-yellow-400 text-xl md:text-2xl font-black uppercase tracking-wider mb-3 drop-shadow-md">Dificuldade da CPU</label>
+                            <div class="relative">
+                                <select onchange="setDifficulty(this.value)" class="w-full bg-green-700 border-b-4 border-green-900 text-yellow-300 font-black text-xl md:text-2xl py-4 rounded-lg appearance-none cursor-pointer focus:outline-none shadow-lg uppercase text-center tracking-wider pl-12 pr-4">
+                                    <option value="easy">Amador</option>
+                                    <option value="normal" selected>Normal</option>
+                                    <option value="hard">Lenda</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 left-6 flex items-center text-yellow-300 text-4xl font-black drop-shadow-md">
+                                    <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 flex flex-col gap-4">
+                            <button onclick="clearCacheData()" class="w-full bg-red-600 hover:bg-red-500 text-white font-black text-xl md:text-2xl py-3 rounded-lg transition uppercase tracking-wider shadow-[0_6px_0_#991b1b] active:shadow-none active:translate-y-1">
+                                Limpar Cache
+                            </button>
+                            <button onclick="closeModal('settings-modal')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black text-xl md:text-2xl py-4 rounded-lg transition uppercase tracking-wider shadow-[0_6px_0_#1e3a8a] active:shadow-none active:translate-y-1">
+                                Salvar e Sair
+                            </button>
+                        </div>
+
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-bold uppercase tracking-wider mb-2 text-gray-400">Dificuldade da CPU</label>
-                    <select onchange="setDifficulty(this.value)" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white font-bold focus:outline-none focus:border-yellow-500 appearance-none">
-                        <option value="easy">Amador (CPU -10% Força)</option>
-                        <option value="normal" selected>Profissional (Equilibrado)</option>
-                        <option value="hard">Lenda (CPU +15% Força)</option>
-                    </select>
-                </div>
-                    <p class="text-[10px] text-gray-500 mt-2 italic">*Define a velocidade que os minutos passam no campo.</p>
+                <div class="hidden md:flex md:w-2/5 lg:w-1/2 relative items-end justify-end">
+                    <img src="img/configuracoes.png" class="h-full object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.8)] pointer-events-none z-30 pr-8 lg:pr-16 pb-3" alt="Jogador Configurações">
                 </div>
 
-                <div>
-                    <label class="block text-sm font-bold uppercase tracking-wider mb-2 text-gray-400">Dificuldade da CPU</label>
-                    <select onchange="setDifficulty(this.value)" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white font-bold focus:outline-none focus:border-yellow-500 appearance-none">
-                        <option value="easy">Amador (CPU -10% Força)</option>
-                        <option value="normal" selected>Profissional (Equilibrado)</option>
-                        <option value="hard">Lenda (CPU +15% Força)</option>
-                    </select>
-                </div>
-                
-                <div class="pt-4 border-t border-gray-700 mt-4">
-                    <button onclick="clearCacheData()" class="w-full bg-red-900/50 hover:bg-red-800 text-red-300 font-bold py-3 rounded-lg border border-red-800 transition uppercase tracking-wider text-xs flex items-center justify-center gap-2">
-                        <span>🗑️</span> Limpar Cache do Navegador
-                    </button>
-                </div>
             </div>
+            
+            <div class="absolute bottom-0 w-full h-3 bg-green-600 border-t border-green-400 z-20"></div>
 
-            <button onclick="closeModal('settings-modal')" class="mt-8 w-full bg-green-600 hover:bg-green-500 text-white font-black py-4 rounded-xl uppercase tracking-widest transition shadow-[0_0_15px_rgba(22,163,74,0.4)] border-b-4 border-green-800">
-                Salvar e Fechar
-            </button>
         </div>
     </div>
 

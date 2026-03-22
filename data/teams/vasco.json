@@ -1,6 +1,17 @@
 {
   "id": 18,
   "name": "Vasco da Gama",
+  "founded": 1898,
+  "description": "O Vasco da Gama é um clube do Rio de Janeiro, fundado em 1898. Disputa atualmente o Campeonato Brasileiro Série A, primeiro nível do futebol no país (Brasil). Fundado inicialmente por imigrantes portugueses como um clube de regatas para disputas de remo, o Gigante da Colina é historicamente reconhecido por sua luta pioneira contra o racismo e a desigualdade social no esporte, eternizada na 'Resposta Histórica' de 1924. Conhecido pela paixão incondicional de sua torcida — que ergueu o estádio de São Januário com recursos próprios —, o Cruzmaltino protagonizou um dos maiores feitos de sua história no ano de seu centenário: em 1998, conquistou a cobiçada Taça Libertadores da América, coroando uma das gerações mais brilhantes e vitoriosas do clube.",
+  "titles": [
+    "Campeonato Sul-Americano de Campeões (1948)",
+    "Copa Libertadores da América (1998)",
+    "Copa Mercosul (2000)",
+    "4x Campeonato Brasileiro (1974, 1989, 1997, 2000)",
+    "Copa do Brasil (2011)",
+    "3x Torneio Rio-São Paulo (1958, 1966, 1999)",
+    "24x Campeonato Carioca"
+  ],
   "logo": "img/times/VascodaGama.png",
   "stadium": "São Januário",
   "stadiumPhoto": "img/estadios/SaoJanuario.jpg",

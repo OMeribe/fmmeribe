@@ -1,35 +1,482 @@
 {
   "id": 1,
+  "founded": 1908,
   "name": "Atlético Mineiro",
   "logo": "img/times/Atletico_mineiro.png",
   "stadium": "Arena MRV",
-  "stadiumPhoto": "img/estadios/ArenaMRV.jpg",
   "finances": 50,
+  "stadiumPhoto": "img/estadios/ArenaMRV.jpg",
+  "description": "O Atlético Mineiro é um clube de Belo Horizonte, fundado em 1908. Disputa atualmente o Campeonato Brasileiro Série A. Conhecido como o Galo, o clube possui uma das torcidas mais fanáticas do Brasil. Sua história é marcada por times intensos e grandes conquistas, com destaque para 2013, quando, liderado por Ronaldinho Gaúcho, protagonizou viradas épicas e conquistou sua primeira Copa Libertadores da América.",
+  "titles": [
+    "Copa Libertadores da América (2013)",
+    "Recopa Sul-Americana (2014)",
+    "2x Copa Conmebol (1992, 1997)",
+    "3x Campeonato Brasileiro (1937, 1971, 2021)",
+    "2x Copa do Brasil (2014, 2021)",
+    "Supercopa do Brasil (2022)",
+    "49x Campeonato Mineiro"
+  ],
   "players": [
     {
-      "name": "Pedro",
-      "number": 9,
-      "photo": "img/players/pedro_fla.png",
-      "birthdate": "1997-06-20",
-      "primaryPosition": "ATA",
-      "secondaryPositions": ["SA"],
+      "name": "Everson",
+      "number": 22,
+      "photo": "img/players/AtleticoMineiro/Everson.png",
+      "birthdate": "1990-07-22",
+      "primaryPosition": "GOL",
+      "secondaryPositions": [],
       "attributes": {
-        "finishing": 88, "heading": 85, "shot_power": 82, "strength": 80, "speed": 75,
-        "passing": 70, "dribbling": 78, "tackling": 30, "marking": 25, "crossing": 60,
-        "long_shots": 75, "vision": 72, "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+        "reflexes": 79, "handling": 78, "positioning_gk": 79, "kicking": 75,
+        "finishing": 12, "heading": 15, "shot_power": 65, "strength": 75, "speed": 40,
+        "passing": 65, "dribbling": 25, "tackling": 15, "marking": 15, "crossing": 12,
+        "long_shots": 15, "vision": 55
       }
     },
     {
-      "name": "Arrascaeta",
-      "number": 10,
-      "photo": "img/players/arrascaeta_fla.png",
-      "birthdate": "1994-06-01",
-      "primaryPosition": "MEI",
-      "secondaryPositions": ["PE", "MC"],
+      "name": "Gabriel Delfim",
+      "number": 1,
+      "photo": "img/players/AtleticoMineiro/GabrielDelfim.png",
+      "birthdate": "2002-07-10",
+      "primaryPosition": "GOL",
+      "secondaryPositions": [],
       "attributes": {
-        "vision": 89, "passing": 87, "dribbling": 86, "finishing": 80, "long_shots": 82,
-        "speed": 76, "strength": 65, "tackling": 45, "marking": 40, "heading": 60,
-        "crossing": 85, "shot_power": 78, "reflexes": 10, "handling": 10, "kicking": 10, "positioning_gk": 10
+        "reflexes": 78, "handling": 72, "positioning_gk": 71, "kicking": 68,
+        "finishing": 10, "heading": 12, "shot_power": 55, "strength": 71, "speed": 45,
+        "passing": 60, "dribbling": 18, "tackling": 12, "marking": 10, "crossing": 10,
+        "long_shots": 10, "vision": 48
+      }
+    },
+    {
+      "name": "Pedro Cobra",
+      "number": 46,
+      "photo": "img/players/AtleticoMineiro/PedroCobra.png",
+      "birthdate": "2006-05-16",
+      "primaryPosition": "GOL",
+      "secondaryPositions": [],
+      "attributes": {
+        "reflexes": 68, "handling": 65, "positioning_gk": 64, "kicking": 61,
+        "finishing": 10, "heading": 12, "shot_power": 50, "strength": 70, "speed": 40,
+        "passing": 58, "dribbling": 15, "tackling": 10, "marking": 10, "crossing": 10,
+        "long_shots": 10, "vision": 45
+      }
+    },
+    {
+      "name": "Samuel Lima Barros",
+      "number": 34,
+      "photo": "img/players/AtleticoMineiro/SamuelLima.png",
+      "birthdate": "2006-02-09",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": ["LE"],
+      "attributes": {
+        "tackling": 64, "marking": 67, "crossing": 45, "speed": 59,
+        "dribbling": 55, "passing": 75, "finishing": 35, "heading": 69,
+        "shot_power": 60, "strength": 70, "long_shots": 40, "vision": 65,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Renan Lodi",
+      "number": 16,
+      "photo": "img/players/AtleticoMineiro/RenanLodi.png",
+      "birthdate": "1998-04-08",
+      "primaryPosition": "LE",
+      "secondaryPositions": ["ME"],
+      "attributes": {
+        "tackling": 75, "marking": 73, "crossing": 84, "speed": 83,
+        "dribbling": 79, "passing": 78, "finishing": 60, "heading": 62,
+        "shot_power": 75, "strength": 70, "long_shots": 72, "vision": 75,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Angelo Preciado",
+      "number": 23,
+      "photo": "img/players/AtleticoMineiro/AngeloPreciado.png",
+      "birthdate": "1998-02-18",
+      "primaryPosition": "LD",
+      "secondaryPositions": [""],
+      "attributes": {
+        "tackling": 72, "marking": 70, "crossing": 78, "speed": 87,
+        "dribbling": 76, "passing": 74, "finishing": 55, "heading": 60,
+        "shot_power": 72, "strength": 71, "long_shots": 68, "vision": 68,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Natanael",
+      "number": 2,
+      "photo": "img/players/AtleticoMineiro/Natanael.png",
+      "birthdate": "2002-04-25",
+      "primaryPosition": "LD",
+      "secondaryPositions": ["MD"],
+      "attributes": {
+        "tackling": 73, "marking": 71, "crossing": 73, "speed": 79,
+        "dribbling": 71, "passing": 70, "finishing": 45, "heading": 65,
+        "shot_power": 62, "strength": 68, "long_shots": 55, "vision": 65,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Kauã Pascini",
+      "number": 36,
+      "photo": "img/players/AtleticoMineiro/KauaPascini.png",
+      "birthdate": "2006-03-22",
+      "primaryPosition": "LD",
+      "secondaryPositions": ["LE"],
+      "attributes": {
+        "tackling": 68, "marking": 66, "crossing": 69, "speed": 77,
+        "dribbling": 68, "passing": 65, "finishing": 40, "heading": 55,
+        "shot_power": 55, "strength": 62, "long_shots": 45, "vision": 58,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Mamady Cissé",
+      "number": 39,
+      "photo": "img/players/AtleticoMineiro/MamadyCisse.png",
+      "birthdate": "2007-01-01",
+      "primaryPosition": "MC",
+      "secondaryPositions": ["MEI", "VOL"],
+      "attributes": {
+        "passing": 72, "dribbling": 71, "vision": 70, "tackling": 67,
+        "long_shots": 65, "marking": 64, "crossing": 65, "speed": 75,
+        "finishing": 60, "heading": 55, "shot_power": 65, "strength": 66,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Luís Gustavo",
+      "number": 32,
+      "photo": "img/players/AtleticoMineiro/LuisGustavo.png",
+      "birthdate": "2006-03-24",
+      "primaryPosition": "LD",
+      "secondaryPositions": ["ZAG"],
+      "attributes": {
+        "tackling": 68, "marking": 71, "crossing": 63, "speed": 68,
+        "dribbling": 59, "passing": 65, "finishing": 42, "heading": 75,
+        "shot_power": 60, "strength": 76, "long_shots": 50, "vision": 58,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Junior Alonso",
+      "number": 6,
+      "photo": "img/players/AtleticoMineiro/JuniorAlonso.png",
+      "birthdate": "1993-02-09",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": ["LE"],
+      "attributes": {
+        "tackling": 77, "marking": 79, "crossing": 68, "speed": 60,
+        "dribbling": 62, "passing": 76, "finishing": 45, "heading": 76,
+        "shot_power": 65, "strength": 75, "long_shots": 50, "vision": 65,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Lyanco",
+      "number": 13,
+      "photo": "img/players/AtleticoMineiro/Lyanco.png",
+      "birthdate": "1997-02-01",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 78, "marking": 76, "crossing": 45, "speed": 67,
+        "dribbling": 55, "passing": 65, "finishing": 38, "heading": 82,
+        "shot_power": 60, "strength": 85, "long_shots": 40, "vision": 50,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Ruan Tressoldi",
+      "number": 4,
+      "photo": "img/players/AtleticoMineiro/RuanTressoldi.png",
+      "birthdate": "1999-06-07",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 75, "marking": 75, "crossing": 50, "speed": 77,
+        "dribbling": 58, "passing": 68, "finishing": 35, "heading": 78,
+        "shot_power": 55, "strength": 79, "long_shots": 35, "vision": 55,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Vitor Hugo",
+      "number": 14,
+      "photo": "img/players/AtleticoMineiro/VitorHugo.png",
+      "birthdate": "1991-05-20",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 70, "marking": 73, "crossing": 40, "speed": 49,
+        "dribbling": 45, "passing": 62, "finishing": 50, "heading": 80,
+        "shot_power": 65, "strength": 79, "long_shots": 45, "vision": 50,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Iván Román",
+      "number": 3,
+      "photo": "img/players/AtleticoMineiro/IvanRoman.png",
+      "birthdate": "2006-07-12",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 72, "marking": 71, "crossing": 42, "speed": 69,
+        "dribbling": 52, "passing": 61, "finishing": 30, "heading": 74,
+        "shot_power": 48, "strength": 73, "long_shots": 30, "vision": 48,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Vitão",
+      "number": 40,
+      "photo": "img/players/AtleticoMineiro/Vitao.png",
+      "birthdate": "2008-03-05",
+      "primaryPosition": "ZAG",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 63, "marking": 62, "crossing": 44, "speed": 54,
+        "dribbling": 54, "passing": 64, "finishing": 33, "heading": 69,
+        "shot_power": 50, "strength": 71, "long_shots": 32, "vision": 52,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Maycon",
+      "number": 8,
+      "photo": "img/players/AtleticoMineiro/Maycon.png",
+      "birthdate": "1997-07-15",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "tackling": 74, "marking": 73, "crossing": 72, "speed": 71,
+        "dribbling": 76, "passing": 79, "finishing": 68, "heading": 65,
+        "shot_power": 78, "strength": 71, "long_shots": 77, "vision": 80,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Alexsander",
+      "number": 5,
+      "photo": "img/players/AtleticoMineiro/Alexsander.png",
+      "birthdate": "2003-10-07",
+      "primaryPosition": "VOL",
+      "secondaryPositions": ["MC"],
+      "attributes": {
+        "tackling": 78, "marking": 76, "crossing": 68, "speed": 76,
+        "dribbling": 74, "passing": 76, "finishing": 60, "heading": 65,
+        "shot_power": 72, "strength": 72, "long_shots": 68, "vision": 75,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Patrick",
+      "number": 20,
+      "photo": "img/players/AtleticoMineiro/Patrick.png",
+      "birthdate": "2004-03-19",
+      "primaryPosition": "MC",
+      "secondaryPositions": ["ME", "VOL"],
+      "attributes": {
+        "tackling": 67, "marking": 60, "crossing": 45, "speed": 68,
+        "dribbling": 70, "passing": 78, "finishing": 50, "heading": 70,
+        "shot_power": 65, "strength": 72, "long_shots": 60, "vision": 67,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Alan Franco",
+      "number": 21,
+      "photo": "img/players/AtleticoMineiro/AlanFranco.png",
+      "birthdate": "1998-08-21",
+      "primaryPosition": "MC",
+      "secondaryPositions": ["VOL"],
+      "attributes": {
+        "tackling": 73, "marking": 74, "crossing": 70, "speed": 74,
+        "dribbling": 72, "passing": 76, "finishing": 65, "heading": 60,
+        "shot_power": 70, "strength": 70, "long_shots": 70, "vision": 73,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Victor Hugo",
+      "number": 30,
+      "photo": "img/players/AtleticoMineiro/VictorHugo.png",
+      "birthdate": "2004-05-11",
+      "primaryPosition": "MC",
+      "secondaryPositions": ["VOL", "ME"],
+      "attributes": {
+        "tackling": 72, "marking": 65, "crossing": 45, "speed": 70,
+        "dribbling": 71, "passing": 79, "finishing": 50, "heading": 68,
+        "shot_power": 65, "strength": 70, "long_shots": 59, "vision": 67,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Gustavo Scarpa",
+      "number": 10,
+      "photo": "img/players/AtleticoMineiro/GustavoScarpa.png",
+      "birthdate": "1994-01-05",
+      "primaryPosition": "MEI",
+      "secondaryPositions": ["MD", "ME"],
+      "attributes": {
+        "tackling": 55, "marking": 50, "crossing": 87, "speed": 73,
+        "dribbling": 80, "passing": 83, "finishing": 76, "heading": 55,
+        "shot_power": 86, "strength": 68, "long_shots": 86, "vision": 83,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Reinier",
+      "number": 19,
+      "photo": "img/players/AtleticoMineiro/Reinier.png",
+      "birthdate": "2002-01-19",
+      "primaryPosition": "MEI",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 45, "marking": 40, "crossing": 72, "speed": 76,
+        "dribbling": 79, "passing": 76, "finishing": 74, "heading": 65,
+        "shot_power": 74, "strength": 71, "long_shots": 71, "vision": 75,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Tomás Pérez",
+      "number": 25,
+      "photo": "img/players/AtleticoMineiro/TomasPerez.png",
+      "birthdate": "2005-08-26",
+      "primaryPosition": "MEI",
+      "secondaryPositions": ["MC", "SA"],
+      "attributes": {
+        "tackling": 48, "marking": 45, "crossing": 60, "speed": 73,
+        "dribbling": 71, "passing": 73, "finishing": 67, "heading": 62,
+        "shot_power": 68, "strength": 65, "long_shots": 66, "vision": 72,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Bernard",
+      "number": 11,
+      "photo": "img/players/AtleticoMineiro/Bernard.png",
+      "birthdate": "1992-09-08",
+      "primaryPosition": "MD",
+      "secondaryPositions": ["MEI", "PD","ME", "PE"],
+      "attributes": {
+        "tackling": 40, "marking": 35, "crossing": 78, "speed": 75,
+        "dribbling": 82, "passing": 78, "finishing": 70, "heading": 45,
+        "shot_power": 70, "strength": 55, "long_shots": 73, "vision": 80,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Igor Gomes",
+      "number": 17,
+      "photo": "img/players/AtleticoMineiro/IgorGomes.png",
+      "birthdate": "1999-03-17",
+      "primaryPosition": "MC",
+      "secondaryPositions": ["MEI", "VOL"],
+      "attributes": {
+        "tackling": 62, "marking": 60, "crossing": 74, "speed": 72,
+        "dribbling": 76, "passing": 78, "finishing": 68, "heading": 58,
+        "shot_power": 73, "strength": 68, "long_shots": 75, "vision": 78,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Mateus Iseppe",
+      "number": 48,
+      "photo": "img/players/AtleticoMineiro/MateusIseppe.png",
+      "birthdate": "2006-05-02",
+      "primaryPosition": "MEI",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 40, "marking": 38, "crossing": 70, "speed": 74,
+        "dribbling": 68, "passing": 66, "finishing": 60, "heading": 50,
+        "shot_power": 72, "strength": 58, "long_shots": 64, "vision": 67,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Hulk",
+      "number": 7,
+      "photo": "img/players/AtleticoMineiro/Hulk.png",
+      "birthdate": "1986-07-25",
+      "primaryPosition": "ATA",
+      "secondaryPositions": ["PD", "PE", "SA"],
+      "attributes": {
+        "tackling": 40, "marking": 35, "crossing": 78, "speed": 66,
+        "dribbling": 82, "passing": 80, "finishing": 84, "heading": 72,
+        "shot_power": 92, "strength": 89, "long_shots": 90, "vision": 82,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Dudu",
+      "number": 92,
+      "photo": "img/players/AtleticoMineiro/Dudu.png",
+      "birthdate": "1992-01-07",
+      "primaryPosition": "PE",
+      "secondaryPositions": ["PD", "ME", "MD"],
+      "attributes": {
+        "tackling": 45, "marking": 42, "crossing": 78, "speed": 76,
+        "dribbling": 83, "passing": 81, "finishing": 74, "heading": 55,
+        "shot_power": 78, "strength": 65, "long_shots": 77, "vision": 84,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Mateo Cassierra",
+      "number": 9,
+      "photo": "img/players/AtleticoMineiro/MateoCassierra.png",
+      "birthdate": "1997-04-13",
+      "primaryPosition": "ATA",
+      "secondaryPositions": [],
+      "attributes": {
+        "tackling": 35, "marking": 30, "crossing": 65, "speed": 77,
+        "dribbling": 78, "passing": 72, "finishing": 77, "heading": 74,
+        "shot_power": 76, "strength": 73, "long_shots": 75, "vision": 70,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Alan Minda",
+      "number": 27,
+      "photo": "img/players/AtleticoMineiro/AlanMinda.png",
+      "birthdate": "2003-05-14",
+      "primaryPosition": "PD",
+      "secondaryPositions": ["PE"],
+      "attributes": {
+        "tackling": 42, "marking": 38, "crossing": 67, "speed": 81,
+        "dribbling": 76, "passing": 64, "finishing": 69, "heading": 55,
+        "shot_power": 75, "strength": 64, "long_shots": 70, "vision": 72,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Tomás Cuello",
+      "number": 28,
+      "photo": "img/players/AtleticoMineiro/TomasCuello.png",
+      "birthdate": "2000-03-05",
+      "primaryPosition": "PE",
+      "secondaryPositions": ["ME"],
+      "attributes": {
+        "tackling": 55, "marking": 50, "crossing": 75, "speed": 81,
+        "dribbling": 79, "passing": 72, "finishing": 69, "heading": 58,
+        "shot_power": 74, "strength": 68, "long_shots": 72, "vision": 74,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
+      }
+    },
+    {
+      "name": "Cauã Soares",
+      "number": 29,
+      "photo": "img/players/AtleticoMineiro/CauaSoares.png",
+      "birthdate": "2008-06-30",
+      "primaryPosition": "SA",
+      "secondaryPositions": ["ATA"],
+      "attributes": {
+        "tackling": 30, "marking": 25, "crossing": 60, "speed": 71,
+        "dribbling": 66, "passing": 58, "finishing": 61, "heading": 65,
+        "shot_power": 70, "strength": 60, "long_shots": 68, "vision": 55,
+        "reflexes": 15, "handling": 10, "kicking": 15, "positioning_gk": 10
       }
     }
   ]

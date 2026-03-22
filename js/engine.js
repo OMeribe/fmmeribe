@@ -45,6 +45,9 @@ async function loadAllTeamsFromJson() {
             if (!response.ok) throw new Error(`Erro ao carregar ${filename}`);
             
             const teamJson = await response.json();
+
+            // Ignora o ID escrito no arquivo e usa o nome do arquivo para garantir CPF único!
+            teamJson.id = filename.replace('.json', '');
             
             // Agora processamos os jogadores do JSON
             teamJson.players = teamJson.players.map(pData => {
@@ -202,45 +205,65 @@ function autoSelectStarters(team, formationName) {
         availablePlayers = availablePlayers.filter(p => p.id !== player.id);
     }
 
-    // --- FASE 1: OS ESPECIALISTAS (Posição Primária) ---
-    // Garante que os craques joguem onde rendem mais (Ex: Gabigol de ATA)
+    // ========================================================================
+    // A MÁGICA DA ROTAÇÃO DE ELENCO:
+    // A IA agora avalia a "Nota Efetiva" do jogador antes de escalar.
+    // ========================================================================
+    const getSelectionScore = (p) => {
+        const sta = p.currentStamina ?? 100;
+        if (sta >= 75) return p.overallRating; // Descansado: joga o que sabe
+        if (sta >= 50) return p.overallRating * 0.85; // Cansado: treinador tira 15% do OVR na avaliação
+        return p.overallRating * 0.50; // Morto: cai 50% na avaliação (vai pro banco com certeza)
+    };
+
+    // --- FASE 1: OS ESPECIALISTAS (Posição Primária Exata) ---
     formationSlots.forEach(slot => {
         if (slot.filled) return;
         const specialists = availablePlayers
             .filter(p => p.primaryPosition === slot.position)
-            .sort((a, b) => b.overallRating - a.overallRating);
+            .sort((a, b) => getSelectionScore(b) - getSelectionScore(a));
         
         if (specialists.length > 0) assignPlayerToSlot(slot, specialists[0]);
     });
 
-    // --- FASE 2: OS POLIVALENTES (Posição Secundária) ---
-    // Cobre os buracos com quem sabe jogar ali (Ex: Ponta jogando de Meia)
+    // --- FASE 2: OS POLIVALENTES (Posição Secundária Oficial) ---
+    // Movemos para cá! O treinador primeiro busca quem sabe fazer a função.
     formationSlots.forEach(slot => {
         if (slot.filled) return;
         const adaptables = availablePlayers
             .filter(p => p.secondaryPositions && p.secondaryPositions.includes(slot.position))
-            .sort((a, b) => b.overallRating - a.overallRating);
+            .sort((a, b) => getSelectionScore(b) - getSelectionScore(a));
         
         if (adaptables.length > 0) assignPlayerToSlot(slot, adaptables[0]);
     });
 
-    // --- FASE 3: IMPROVISO DE SETOR (Mesmo Grupo) ---
-    // Cobre buracos com jogadores da mesma área (Ex: Falta LD, puxa um ZAG)
+    // --- FASE 3: POSIÇÕES IRMÃS (O Improviso Justo) ---
+    // Se não tem especialista nem polivalente, improvisa o ponta no meio, o volante no MC, etc.
+    formationSlots.forEach(slot => {
+        if (slot.filled) return;
+        const sisters = SISTER_POSITIONS[slot.position] || [];
+        const sisterPlayers = availablePlayers
+            .filter(p => sisters.includes(p.primaryPosition))
+            .sort((a, b) => getSelectionScore(b) - getSelectionScore(a));
+
+        if (sisterPlayers.length > 0) assignPlayerToSlot(slot, sisterPlayers[0]);
+    });
+
+    // --- FASE 4: IMPROVISO DE SETOR (Mesmo Grupo, ex: Zagueiro na Lateral) ---
     formationSlots.forEach(slot => {
         if (slot.filled) return;
         const slotGroup = POSITIONS[slot.position].group;
         const sameGroupPlayers = availablePlayers
             .filter(p => POSITIONS[p.primaryPosition].group === slotGroup)
-            .sort((a, b) => b.overallRating - a.overallRating);
+            .sort((a, b) => getSelectionScore(b) - getSelectionScore(a));
         
         if (sameGroupPlayers.length > 0) assignPlayerToSlot(slot, sameGroupPlayers[0]);
     });
 
-    // --- FASE 4: O DESESPERO TOTAL (Maior OVR Restante) ---
-    // Último recurso para o campo nunca ficar vazio
+    // --- FASE 5: O DESESPERO TOTAL (Goleiro na linha, Atacante na Zaga) ---
     formationSlots.forEach(slot => {
         if (slot.filled) return;
-        const anyRemaining = availablePlayers.sort((a, b) => b.overallRating - a.overallRating);
+        const anyRemaining = availablePlayers.sort((a, b) => getSelectionScore(b) - getSelectionScore(a));
         if (anyRemaining.length > 0) assignPlayerToSlot(slot, anyRemaining[0]);
     });
 }
@@ -272,45 +295,109 @@ function autoSelectBestLineup(team) {
     team.currentFormation = bestFormation; // Avisa a interface qual tática a CPU escolheu
 }
 
+// COLE ESSA NOVA FUNÇÃO LOGO ABAIXO DA AUTOSELECTBESTLINEUP:
+function autoAssignRoles(team) {
+    const starters = team.players.filter(p => p.isStarter);
+    if (starters.length === 0) return;
+
+    let bestCaptain = starters[0], bestPen = starters[0], bestFk = starters[0], bestCorner = starters[0];
+    let maxCap = -1, maxPen = -1, maxFk = -1, maxCorner = -1;
+
+    starters.forEach(p => {
+        // Capitão: Experiência, Overall alto e preferência por Zagueiros/Volantes/Meias
+        let capScore = p.overallRating + (p.age > 28 ? 10 : 0) + (['ZAG', 'VOL', 'MC'].includes(p.primaryPosition) ? 5 : 0);
+        if (capScore > maxCap) { maxCap = capScore; bestCaptain = p; }
+
+        // Pênaltis: Finalização + Força do Chute
+        let penScore = (p.attributes.finishing || 50) + (p.attributes.shot_power || 50);
+        if (penScore > maxPen) { maxPen = penScore; bestPen = p; }
+
+        // Faltas: Chute Longe + Passe
+        let fkScore = (p.attributes.long_shots || 50) + (p.attributes.passing || 50);
+        if (fkScore > maxFk) { maxFk = fkScore; bestFk = p; }
+
+        // Escanteios: Cruzamento
+        let cornerScore = (p.attributes.crossing || 50);
+        if (cornerScore > maxCorner) { maxCorner = cornerScore; bestCorner = p; }
+    });
+
+    // Salva as escolhas na memória do time
+    team.roles = {
+        captain: bestCaptain.name,
+        penalties: bestPen.name,
+        freeKicks: bestFk.name,
+        corners: bestCorner.name
+    };
+}
+
 function assignGoalsToPlayers(team, goals) {
     const goalEvents = [];
     let availablePlayers = team.players.filter(p => p.isStarter);
     if(availablePlayers.length === 0) availablePlayers = team.players.slice(0, 11);
 
     for(let i=0; i<goals; i++) {
-        // Sorteia o Artilheiro
-        const weightedPlayers = [];
-        availablePlayers.forEach(p => {
-            let weight = 1;
-            if(p.primaryPosition === 'ATA' || p.primaryPosition === 'SA') weight = 10;
-            else if(['PE', 'PD', 'MEI'].includes(p.primaryPosition)) weight = 5;
-            else if(['MC', 'VOL'].includes(p.primaryPosition)) weight = 2;
-            else if(p.primaryPosition === 'GOL') weight = 0;
-            for(let w=0; w<weight; w++) weightedPlayers.push(p);
-        });
-        const scorer = weightedPlayers[Math.floor(Math.random() * weightedPlayers.length)];
-        
-        // Sorteia o Garçom (Assistência)
+        // Decide como o gol aconteceu
+        let rand = Math.random();
+        let goalType = 'open_play';
+        if (rand < 0.12) goalType = 'penalty';      // 12% dos gols são de pênalti
+        else if (rand < 0.20) goalType = 'freekick'; // 8% são de falta direta
+        else if (rand < 0.35) goalType = 'corner';   // 15% são de escanteio
+
+        let scorer = null;
         let assister = null;
-        if (Math.random() < 0.7 && scorer) { // 70% de chance de ter assistência
-            const assistWeights = [];
-            availablePlayers.filter(p => p.id !== scorer.id).forEach(p => {
-                let w = 1;
-                // Meias e Laterais têm mais chance de dar assistência
-                if(['MEI', 'MC', 'PE', 'PD', 'LE', 'LD'].includes(p.primaryPosition)) w = 8;
-                else if(['VOL', 'SA', 'ATA'].includes(p.primaryPosition)) w = 4;
-                for(let k=0; k<w; k++) assistWeights.push(p);
+
+        // Se for bola parada, o cobrador oficial tem prioridade máxima!
+        if (goalType === 'penalty' && team.roles?.penalties) {
+            scorer = availablePlayers.find(p => p.name === team.roles.penalties);
+        } else if (goalType === 'freekick' && team.roles?.freeKicks) {
+            scorer = availablePlayers.find(p => p.name === team.roles.freeKicks);
+        }
+
+        // Se for bola rolando, escanteio, ou se o time não tem batedor definido:
+        if (!scorer) {
+            const weightedPlayers = [];
+            availablePlayers.forEach(p => {
+                let weight = 1;
+                // Atacantes e Pontas são os reis da bola rolando
+                if(p.primaryPosition === 'ATA' || p.primaryPosition === 'SA') weight = 12;
+                else if(['PE', 'PD', 'MEI'].includes(p.primaryPosition)) weight = 6;
+                else if(['MC', 'ME', 'MD'].includes(p.primaryPosition)) weight = 3;
+                else if(['VOL'].includes(p.primaryPosition)) weight = 1;
+                else if(['ZAG'].includes(p.primaryPosition)) {
+                    // Zagueiros têm 8x mais chance de marcar se for um cruzamento de escanteio!
+                    weight = goalType === 'corner' ? 8 : 1; 
+                }
+                
+                for(let w=0; w<weight; w++) weightedPlayers.push(p);
             });
-            if (assistWeights.length > 0) {
-                assister = assistWeights[Math.floor(Math.random() * assistWeights.length)];
+            scorer = weightedPlayers[Math.floor(Math.random() * weightedPlayers.length)];
+        }
+
+        // Lógica da Assistência
+        if (goalType !== 'penalty' && goalType !== 'freekick' && Math.random() < 0.75 && scorer) {
+            // No escanteio, o batedor oficial ganha a assistência!
+            if (goalType === 'corner' && team.roles?.corners) {
+                assister = availablePlayers.find(p => p.name === team.roles.corners);
+            }
+            if (!assister) {
+                const assistWeights = [];
+                availablePlayers.filter(p => p?.id !== scorer.id).forEach(p => {
+                    let w = 1;
+                    if(['MEI', 'MC', 'PE', 'PD', 'LE', 'LD', 'ME', 'MD'].includes(p.primaryPosition)) w = 8;
+                    else if(['VOL', 'SA', 'ATA'].includes(p.primaryPosition)) w = 3;
+                    for(let k=0; k<w; k++) assistWeights.push(p);
+                });
+                if (assistWeights.length > 0) {
+                    assister = assistWeights[Math.floor(Math.random() * assistWeights.length)];
+                }
             }
         }
 
         if(scorer) {
             scorer.goals += 1;
             if(assister) assister.assists += 1;
-            // Agora retornamos um objeto com os dois jogadores!
-            goalEvents.push({ scorer: scorer, assister: assister }); 
+            // Salva o "TIPO" do gol para o narrador saber o que falar ao vivo!
+            goalEvents.push({ scorer: scorer, assister: assister, type: goalType }); 
         }
     }
     return goalEvents;
@@ -420,32 +507,41 @@ function simulateMatch(homeTeam, awayTeam) {
     const homeSectors = calculateSectorOveralls(homeTeam);
     const awaySectors = calculateSectorOveralls(awayTeam);
 
-    // --- NOVA MECÂNICA: BÔNUS DAS OPÇÕES AVANÇADAS ---
-    // Aplica o bônus apenas para o time do jogador (já que a IA ainda não tem essa inteligência)
+    // --- O FATOR "DIA DE JOGO" (A Magia da Zebra) ---
+    // Simula se o time acordou inspirado ou num dia péssimo (Varia de -5 a +5 nas notas gerais do time)
+    // Isso permite que o Vasco num dia iluminado (+4) jogue de igual para igual com um Flamengo num dia ruim (-3)
+    const homeDayForm = Math.floor(Math.random() * 11) - 5; 
+    const awayDayForm = Math.floor(Math.random() * 11) - 5;
+
+    homeSectors.defense += homeDayForm; homeSectors.midfield += homeDayForm; homeSectors.attack += homeDayForm;
+    awaySectors.defense += awayDayForm; awaySectors.midfield += awayDayForm; awaySectors.attack += awayDayForm;
+
+    // --- NOVA MECÂNICA: BÔNUS DAS OPÇÕES AVANÇADAS JUSTO PARA TODOS ---
     if (homeTeam.id === gameState.playerTeam.id) {
         applyRolesBonus(homeTeam, homeSectors, gameState.roles);
-    } else if (awayTeam.id === gameState.playerTeam.id) {
-        applyRolesBonus(awayTeam, awaySectors, gameState.roles);
+    } else {
+        // Se a IA ainda não gerou seus batedores (ex: num amistoso direto), gera agora
+        if (!homeTeam.roles) autoAssignRoles(homeTeam);
+        applyRolesBonus(homeTeam, homeSectors, homeTeam.roles);
     }
 
-    // --- NOVA MECÂNICA: BÔNUS DAS OPÇÕES AVANÇADAS ---
-    // Aplica o bônus apenas para o time do jogador (já que a IA ainda não tem essa inteligência)
-    if (homeTeam.id === gameState.playerTeam.id) {
-        applyRolesBonus(homeTeam, homeSectors, gameState.roles);
-    } else if (awayTeam.id === gameState.playerTeam.id) {
+    if (awayTeam.id === gameState.playerTeam.id) {
         applyRolesBonus(awayTeam, awaySectors, gameState.roles);
+    } else {
+        if (!awayTeam.roles) autoAssignRoles(awayTeam);
+        applyRolesBonus(awayTeam, awaySectors, awayTeam.roles);
     }
 
     // ==========================================================
-    // --- NOVA MECÂNICA: DIFICULDADE DA CPU ---
+    // --- MECÂNICA: DIFICULDADE DA CPU (AGORA BALANCEADA) ---
     // ==========================================================
     const applyDifficulty = (sectors, isPlayerTeam) => {
-        if (isPlayerTeam) return; // Não altera as notas do seu próprio time!
+        if (isPlayerTeam) return; 
         
         let mod = 1.0;
         if (typeof cpuDifficulty !== 'undefined') {
-            if (cpuDifficulty === 'easy') mod = 0.90; // CPU perde 10%
-            if (cpuDifficulty === 'hard') mod = 1.15; // CPU ganha 15%
+            if (cpuDifficulty === 'easy') mod = 0.95; // CPU perde só 5% da força
+            if (cpuDifficulty === 'hard') mod = 1.08; // CPU ganha 8% (Muito mais realista)
         }
         
         sectors.defense = Math.round(sectors.defense * mod);
@@ -453,13 +549,9 @@ function simulateMatch(homeTeam, awayTeam) {
         sectors.attack = Math.round(sectors.attack * mod);
     };
 
-    // Aplica o buff/nerf apenas se o time for controlado pelo computador
     applyDifficulty(homeSectors, homeTeam.id === gameState.playerTeam.id);
     applyDifficulty(awaySectors, awayTeam.id === gameState.playerTeam.id);
     // ==========================================================
-
-    // --- PENALIDADE DE STAMINA NOS SETORES ---
-    // Times cansados jogam abaixo do seu potencial real.
 
     // --- PENALIDADE DE STAMINA NOS SETORES ---
     // Times cansados jogam abaixo do seu potencial real.
@@ -484,44 +576,68 @@ function simulateMatch(homeTeam, awayTeam) {
     awaySectors.midfield = Math.round(awaySectors.midfield * awayFactor);
     awaySectors.attack   = Math.round(awaySectors.attack   * awayFactor);
 
-    // 1. A BATALHA DO MEIO-CAMPO (Define a Posse de Bola)
-    // Comparamos os meios-campos (com vantagem para o time da casa)
-    const midDiff = (homeSectors.midfield + homeAdvantage) - awaySectors.midfield;
+    // 1. A BATALHA DO MEIO-CAMPO (Volume de Jogo / Chances Criadas)
+    // O Meio Campo define quantas bolas chegam no ataque.
+    const homeMid = homeSectors.midfield + homeAdvantage;
+    const awayMid = awaySectors.midfield;
     
-    // Partimos de 50%. Cada ponto de diferença dá 1.5% a mais de posse de bola
-    let homePossession = 50 + (midDiff * 1.5); 
+    // Um jogo normal tem cerca de 8 a 10 "chances reais" de gol distribuídas.
+    const baseChances = 5;
     
-    // Adiciona o fator "imprevisibilidade do futebol" (Sorteia entre -5% e +5%)
-    homePossession += (Math.random() * 10 - 5);
+    // Aumentamos o caos de criação: a sorte agora varia de -1 a +3 chances do nada.
+    let homeChances = baseChances + ((homeMid - awayMid) / 4) + (Math.random() * 4 - 1);
+    let awayChances = baseChances + ((awayMid - homeMid) / 4) + (Math.random() * 4 - 1);
     
-    // Trava a posse de bola para não passar de 75% nem cair de 25% (realismo)
-    homePossession = Math.max(25, Math.min(75, Math.round(homePossession))); 
+    homeChances = Math.max(1, Math.round(homeChances)); // Nunca menos de 1 chance
+    awayChances = Math.max(1, Math.round(awayChances));
+
+    // A posse de bola agora é um reflexo direto de quem teve mais volume de chances
+    let homePossession = Math.max(30, Math.min(70, Math.round((homeChances / (homeChances + awayChances)) * 100)));
     let awayPossession = 100 - homePossession;
 
-    // 2. ATAQUE vs DEFESA (Chances de Gol)
-    // Quem tem mais posse de bola, ataca mais vezes! (Multiplicador de Volume de Jogo)
-    const homePossessionMultiplier = homePossession / 50;
-    const awayPossessionMultiplier = awayPossession / 50;
-
-    // Força de Ataque = (Qualidade do Ataque + Casa) * Volume de Jogo
-    const homeAttackPower = (homeSectors.attack + homeAdvantage) * homePossessionMultiplier;
+    // 2. CONVERSÃO DE CHANCES (Ataque vs Defesa)
+    // O Ataque define a eficácia. Um ataque de 90 converte até tijolo em gol se o meio campo mandar.
+    const homeAttackPower = homeSectors.attack + homeAdvantage;
     const awayDefensePower = awaySectors.defense;
-
-    const awayAttackPower = awaySectors.attack * awayPossessionMultiplier;
+    
+    const awayAttackPower = awaySectors.attack;
     const homeDefensePower = homeSectors.defense + homeAdvantage;
 
-    // 3. MATEMÁTICA DOS GOLS (Fura-Retranca)
-    // Calculamos o gol comparando a Força de Ataque com a Força da Defesa adversária
-    let homeExpectedGoals = Math.pow(homeAttackPower / 72, 2) * (homeAttackPower / awayDefensePower);
-    let awayExpectedGoals = Math.pow(awayAttackPower / 72, 2) * (awayAttackPower / homeDefensePower);
+    // Probabilidade de cada chance virar gol (Fórmula base de 12%, multiplicada pela força)
+    let homeConversionRate = 0.12 * Math.pow(homeAttackPower / awayDefensePower, 1.8);
+    let awayConversionRate = 0.12 * Math.pow(awayAttackPower / homeDefensePower, 1.8);
 
-    // Adiciona o fator sorte final nas finalizações (+ ou - gols perdidos)
-    homeExpectedGoals += (Math.random() * 1.4 - 0.5); 
-    awayExpectedGoals += (Math.random() * 1.4 - 0.5);
+    // 3. MATEMÁTICA DOS GOLS (Chances x Conversão)
+    let homeExpectedGoals = homeChances * homeConversionRate;
+    let awayExpectedGoals = awayChances * awayConversionRate;
 
-    // ... (cálculo dos gols que já fizemos antes)
-    let homeGoals = Math.max(0, Math.round(homeExpectedGoals));
-    let awayGoals = Math.max(0, Math.round(awayExpectedGoals));
+    // Fator sorte na finalização EXTREMO (A bola pune!)
+    // Antes variava só 0.4. Agora varia de -1.2 a +1.2.
+    // O Flamengo pode criar chances para 2 gols, mas a sorte tirar 1.2, resultando em 0.
+    homeExpectedGoals += (Math.random() * 2.4 - 1.2); 
+    awayExpectedGoals += (Math.random() * 2.4 - 1.2);
+
+    let homeGoalsRaw = Math.max(0, Math.round(homeExpectedGoals));
+    let awayGoalsRaw = Math.max(0, Math.round(awayExpectedGoals));
+
+    // --- TRAVA DINÂMICA E FATOR JOGO MALUCO (O Rolar de Dados) ---
+    function applyRealisticGoalFilter(goals) {
+        if (goals <= 3) return goals; 
+        let finalGoals = 3;
+        for (let i = 4; i <= goals; i++) {
+            let chance = Math.max(0.05, 0.8 - ((i - 3) * 0.2));
+            if (Math.random() < chance) finalGoals++;
+        }
+        return finalGoals;
+    }
+
+    let homeGoals = applyRealisticGoalFilter(homeGoalsRaw);
+    let awayGoals = applyRealisticGoalFilter(awayGoalsRaw);
+
+    if (Math.random() < 0.015) { // 1.5% de chance de um jogo histórico e maluco
+        homeGoals += Math.floor(Math.random() * 4); 
+        awayGoals += Math.floor(Math.random() * 4); 
+    }
 
     const homeScorers = assignGoalsToPlayers(homeTeam, homeGoals);
     const awayScorers = assignGoalsToPlayers(awayTeam, awayGoals);
@@ -541,11 +657,46 @@ function simulateMatch(homeTeam, awayTeam) {
     let homeShots = homeGoals + Math.floor((homeAttackPower / 12) + (Math.random() * 4));
     let awayShots = awayGoals + Math.floor((awayAttackPower / 12) + (Math.random() * 4));
 
+    // --- 5. ESTATÍSTICAS DE CARTÕES (Para todos os jogos) ---
+    function assignCards(team, possession) {
+        const cards = [];
+        const starters = team.players.filter(p => p.isStarter);
+        if (starters.length === 0) return cards;
+
+        // Lógica: Quem tem menos posse de bola corre mais atrás do adversário e bate mais
+        const baseCards = (Math.random() * 2.5) + (possession < 45 ? 1 : 0);
+        const totalCards = Math.round(baseCards);
+
+        for (let i = 0; i < totalCards; i++) {
+            const weightedPlayers = [];
+            starters.forEach(p => {
+                let w = 1;
+                // Zagueiros e Volantes são os que mais fazem faltas duras
+                if (['ZAG', 'VOL'].includes(p.primaryPosition)) w = 6;
+                else if (['LE', 'LD', 'MC'].includes(p.primaryPosition)) w = 3;
+                
+                for (let k = 0; k < w; k++) weightedPlayers.push(p);
+            });
+            
+            const offender = weightedPlayers[Math.floor(Math.random() * weightedPlayers.length)];
+            const isRed = Math.random() < 0.08; // 8% de chance do cartão ser vermelho direto
+
+            if (isRed) offender.redCards = (offender.redCards || 0) + 1;
+            else offender.yellowCards = (offender.yellowCards || 0) + 1;
+
+            cards.push({ player: offender, isRed: isRed });
+        }
+        return cards;
+    }
+
+    const homeCards = assignCards(homeTeam, homePossession);
+    const awayCards = assignCards(awayTeam, awayPossession);
+
     // --- DRENA A STAMINA DOS JOGADORES APÓS A PARTIDA ---
     applyMatchStaminaDrain(homeTeam);
     applyMatchStaminaDrain(awayTeam);
 
-    // Retornamos tudo para a interface exibir
+    // ATUALIZE O RETURN PARA INCLUIR OS CARTÕES!
     return { 
         homeTeam, awayTeam, 
         homeGoals, awayGoals, 
@@ -553,7 +704,8 @@ function simulateMatch(homeTeam, awayTeam) {
         homePossession, awayPossession,
         homePasses, awayPasses,
         homePassAcc, awayPassAcc,
-        homeShots, awayShots
+        homeShots, awayShots,
+        homeCards, awayCards // <-- Adicione isso aqui
     };
 }
 
@@ -676,79 +828,134 @@ function generateNewsAfterRound(results) {
     // Insere as novas no topo e limita a 8 itens
     gameState.news = [...newItems, ...gameState.news].slice(0, 8);
 }
+
 function generateMatchEvents(matchResult) {
     const events = [];
-    // Pool de 89 minutos embaralhados — garante unicidade sem loop infinito
-    const minutePool = Array.from({ length: 89 }, (_, i) => i + 1)
-        .sort(() => Math.random() - 0.5);
+    const minutePool = Array.from({ length: 89 }, (_, i) => i + 1).sort(() => Math.random() - 0.5);
     let minuteCursor = 0;
+    const getUniqueMinute = () => minuteCursor >= minutePool.length ? 89 : minutePool[minuteCursor++];
 
-    function getUniqueMinute() {
-        // Se esgotar o pool (impossível na prática), retorna o último minuto disponível
-        if (minuteCursor >= minutePool.length) return 89;
-        return minutePool[minuteCursor++];
-    }
+    // GERAÇÃO DE GOLS COM TEXTOS ESPECÍFICOS E DADOS DO JOGADOR
+    const createGoalEvent = (eventData, teamName, teamType) => {
+        let text = "";
+        if (eventData.type === 'penalty') {
+            text = `GOOOOOL DE PÊNALTI! ${eventData.scorer.name} bate com extrema frieza e desloca o goleiro!`;
+        } else if (eventData.type === 'freekick') {
+            text = `GOLAÇO DE FALTA! ${eventData.scorer.name} cobra com perfeição por cima da barreira, no ângulo!`;
+        } else if (eventData.type === 'corner') {
+            text = `GOOOOOL! Após escanteio muito bem batido${eventData.assister ? ` por ${eventData.assister.name}` : ''}, ${eventData.scorer.name} sobe no 3º andar e testa firme pro fundo da rede!`;
+        } else {
+            text = `GOOOOOL DO ${teamName.toUpperCase()}! ${eventData.scorer.name} manda pro fundo das redes${eventData.assister ? ` após grande jogada e passe de ${eventData.assister.name}` : ''}!`;
+        }
+        // AGORA SALVAMOS O JOGADOR NO EVENTO (player: eventData.scorer)
+        events.push({ minute: getUniqueMinute(), team: teamType, type: 'goal', text: text, player: eventData.scorer });
+    };
 
-    matchResult.homeScorers.forEach(eventData => {
-        const assistText = eventData.assister ? ` após passe magistral de ${eventData.assister.name}` : '';
-        events.push({ minute: getUniqueMinute(), team: 'home', type: 'goal', text: `GOOOOOL DO ${matchResult.homeTeam.name.toUpperCase()}! ${eventData.scorer.name} manda pro fundo das redes${assistText}!` });
+    matchResult.homeScorers.forEach(ev => createGoalEvent(ev, matchResult.homeTeam.name, 'home'));
+    matchResult.awayScorers.forEach(ev => createGoalEvent(ev, matchResult.awayTeam.name, 'away'));
+    
+    // GERAÇÃO DOS EVENTOS DE CARTÕES REAIS (COM DADOS DO JOGADOR)
+    matchResult.homeCards?.forEach(c => {
+        let text = c.isRed ? `CARTÃO VERMELHO direto para ${c.player.name} (${matchResult.homeTeam.name})! Expulsão claríssima!` : `Cartão amarelo para ${c.player.name} (${matchResult.homeTeam.name}) após chegar atrasado no lance.`;
+        events.push({ minute: getUniqueMinute(), team: 'home', type: 'card', text: text, player: c.player, isRed: c.isRed });
     });
 
-    matchResult.awayScorers.forEach(eventData => {
-        const assistText = eventData.assister ? ` com assistência de ${eventData.assister.name}` : '';
-        events.push({ minute: getUniqueMinute(), team: 'away', type: 'goal', text: `GOOOOOL DO ${matchResult.awayTeam.name.toUpperCase()}! ${eventData.scorer.name} não perdoa e marca${assistText}!` });
+    matchResult.awayCards?.forEach(c => {
+        let text = c.isRed ? `CARTÃO VERMELHO direto para ${c.player.name} (${matchResult.awayTeam.name})! Expulsão claríssima!` : `Cartão amarelo para ${c.player.name} (${matchResult.awayTeam.name}) após chegar atrasado no lance.`;
+        events.push({ minute: getUniqueMinute(), team: 'away', type: 'card', text: text, player: c.player, isRed: c.isRed });
     });
     
-    // Faltas e passes com nomes de jogadores
-    // Faltas, passes e escanteios com os jogadores designados
-    const randomEvents = ['foul', 'corner', 'card', 'normal', 'normal', 'normal'];
-    for(let i=0; i<15; i++) {
+    // GERAÇÃO DE LANCES DE PERIGO E FALHAS DE BOLA PARADA
+    const randomEvents = ['foul', 'corner', 'penalty_miss', 'normal', 'normal', 'normal', 'normal'];
+    for(let i=0; i<18; i++) {
         const rEvent = randomEvents[Math.floor(Math.random() * randomEvents.length)];
         const isHomeEvent = Math.random() > 0.5;
         const activeTeam = isHomeEvent ? matchResult.homeTeam : matchResult.awayTeam;
         const activePlayers = activeTeam.players.filter(p => p.isStarter);
         const randomPlayer = activePlayers[Math.floor(Math.random() * activePlayers.length)]?.name || "Jogador";
-        
         const isPlayerTeam = activeTeam.id === gameState.playerTeam.id;
+        
         let text = "";
 
         if(rEvent === 'foul') {
             if (isPlayerTeam && gameState.roles.freeKicks) {
-                text = `Falta perigosa a favor do ${activeTeam.name}! ${gameState.roles.freeKicks} ajeita a bola com carinho e bate... passou raspando a trave!`;
+                text = `Falta muito perigosa a favor do ${activeTeam.name}! ${gameState.roles.freeKicks} bate direto... UUUUH! A bola tira tinta da trave! Quase o gol.`;
             } else {
-                text = `Falta dura cometida por ${randomPlayer} (${activeTeam.name}). O juiz marca!`;
+                text = `Falta dura cometida pela zaga. ${randomPlayer} cobra a falta, mas a bola explode na barreira.`;
             }
         }
         else if(rEvent === 'corner') {
             if (isPlayerTeam && gameState.roles.corners) {
-                text = `Escanteio para o ${activeTeam.name}. ${gameState.roles.corners} levanta na área, mas a zaga corta o perigo.`;
+                text = `Escanteio para o ${activeTeam.name}. ${gameState.roles.corners} levanta com veneno na grande área, mas o goleiro sai de soco e afasta.`;
             } else {
-                text = `Escanteio cobrado por ${randomPlayer}, a bola viaja pela grande área.`;
+                text = `Escanteio cobrado por ${randomPlayer}, a bola viaja na área e a defesa corta.`;
             }
         }
-        else if(rEvent === 'card') {
-            // Encontra o objeto do jogador para incrementar a contagem real
-            const cardedPlayerObj = activePlayers.find(p => p.name === randomPlayer);
-            const isRed = Math.random() < 0.12; // 12% de chance de ser vermelho
-
-            if (cardedPlayerObj) {
-                if (isRed) {
-                    cardedPlayerObj.redCards = (cardedPlayerObj.redCards || 0) + 1;
-                } else {
-                    cardedPlayerObj.yellowCards = (cardedPlayerObj.yellowCards || 0) + 1;
-                }
+        else if(rEvent === 'penalty_miss') {
+            if (isPlayerTeam && gameState.roles.penalties) {
+                text = `PÊNALTI MARCADO PARA O ${activeTeam.name}! ${gameState.roles.penalties} corre pra bola, bate forte... DEFENDEU O GOLEIRO! Perdeu a grande chance do jogo!`;
+            } else {
+                text = `PÊNALTI PARA O ${activeTeam.name}! ${randomPlayer} cobra no cantinho... NA TRAVE! Inacreditável!`;
             }
-
-            text = isRed
-                ? `CARTÃO VERMELHO para ${randomPlayer} (${activeTeam.name})! Expulsão polêmica!`
-                : `Cartão amarelo para ${randomPlayer} (${activeTeam.name}) após carrinho perigoso.`;
         }
         else if(rEvent === 'normal') {
-            text = `${randomPlayer} tenta acionar o ataque, mas a marcação afasta.`;
+            text = `${randomPlayer} tenta acionar o ataque em profundidade, mas a marcação antecipa muito bem.`;
         }
         
         events.push({ minute: getUniqueMinute(), team: 'none', type: rEvent, text: text });
     }
     
     return events.sort((a, b) => a.minute - b.minute);
+}
+
+// --- INTELIGÊNCIA ARTIFICIAL DO BANCO DE RESERVAS ---
+function getBalancedBench(team) {
+    // 1. Pega todos os jogadores que não estão no time titular e ordena do melhor pro pior
+    const nonStarters = team.players.filter(p => !p.isStarter).sort((a,b) => b.overallRating - a.overallRating);
+    const bench = [];
+    const remaining = [...nonStarters];
+
+    // Função auxiliar que pesca 'count' jogadores que batam com a 'condition'
+    const pickPlayers = (condition, count) => {
+        let picked = 0;
+        for (let i = 0; i < remaining.length && picked < count; i++) {
+            if (condition(remaining[i])) {
+                bench.push(remaining[i]);
+                remaining.splice(i, 1);
+                i--; // Ajusta o índice porque removemos o item
+                picked++;
+            }
+        }
+    };
+
+    // 2. O Funil de Balanceamento do Banco (10 vagas)
+    pickPlayers(p => p.primaryPosition === 'GOL', 1); // 1 Goleiro reserva
+    pickPlayers(p => p.primaryPosition === 'ZAG', 2); // 2 Zagueiros
+    pickPlayers(p => ['LE', 'LD'].includes(p.primaryPosition), 2); // 2 Laterais
+    pickPlayers(p => ['VOL', 'MC'].includes(p.primaryPosition), 2); // 2 Meias defensivos
+    pickPlayers(p => ['MEI', 'ME', 'MD', 'PE', 'PD'].includes(p.primaryPosition), 2); // 2 Meias ofensivos/Pontas
+    pickPlayers(p => ['SA', 'ATA'].includes(p.primaryPosition), 1); // 1 Centroavante
+
+    // 3. Se faltou alguém nas regras acima (time com elenco curto), preenche com os melhores que sobraram
+    while (bench.length < 10 && remaining.length > 0) {
+        bench.push(remaining.shift());
+    }
+
+    // 4. Ordena o banco bonitinho para aparecer organizado na interface (Goleiro no começo, Atacante no final)
+    const posOrder = ['GOL', 'LE', 'LD', 'ZAG', 'VOL', 'MC', 'MEI', 'ME', 'MD', 'PE', 'PD', 'SA', 'ATA'];
+    bench.sort((a,b) => {
+        const posA = posOrder.indexOf(a.primaryPosition);
+        const posB = posOrder.indexOf(b.primaryPosition);
+        if (posA !== posB) return posA - posB;
+        return b.overallRating - a.overallRating;
+    });
+
+    remaining.sort((a,b) => {
+        const posA = posOrder.indexOf(a.primaryPosition);
+        const posB = posOrder.indexOf(b.primaryPosition);
+        if (posA !== posB) return posA - posB;
+        return b.overallRating - a.overallRating;
+    });
+
+    return { bench, unlisted: remaining };
 }
