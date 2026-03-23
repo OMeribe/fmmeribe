@@ -3,6 +3,19 @@
 // --- NOTAS DE ATUALIZAÇÃO (PATCH NOTES) ---
 const patchNotes = [
     {
+        version: "0.3.1",
+        date: "23/03/2026",
+        title: "Operação Pente Fino (Correções Massivas)",
+        changes: [
+            "⚙️ Fim da 'Fonte da Juventude': A CPU agora sofre desgaste real de stamina contínuo entre os jogos simulados, forçando a IA a rotacionar os elencos.",
+            "📊 Artilharia Precisa: Gols e assistências gerados pelo 'Dedo do Treinador' (Momentum Shift) agora entram oficialmente para a artilharia do Brasileirão.",
+            "🩹 Saves Blindados: Consertado o bug de geração de IDs duplicados ao carregar arquivos .json antigos, o que proteje o Drag & Drop de quebrar.",
+            "📰 Fake News Eliminadas: O jornal do clube agora respeita o resultado do jogo Ao Vivo antes de publicar a matéria da rodada.",
+            "🏟️ Correção de Exploits: Fechada a brecha onde clicar em 'Revanche' nos Amistosos corrompia o fôlego do time no Modo Carreira.",
+            "🔄 Polimento da Partida: Jogadores já substituídos não aparecem mais como 'fantasmas' no banco e a limpeza de cache recarrega a página automaticamente."
+        ]
+    },
+    {
         version: "0.3.0",
         date: "21/03/2026",
         title: "O Almanaque & O Banco Inteligente",

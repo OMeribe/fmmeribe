@@ -5,6 +5,11 @@ function generatePlayerId() {
     return _playerIdCounter++;
 }
 
+// 👇 NOVA FUNÇÃO PARA O SAVE 👇
+function syncPlayerIdCounter(maxId) {
+    _playerIdCounter = maxId + 1;
+}
+
 function calculateOverallRating(player, position) {
     const weights = ATTRIBUTE_WEIGHTS[position];
     if (!weights) return 50; 
@@ -435,19 +440,33 @@ function getStaminaPenaltyFactor(avgStamina) {
 }
 
 // --- SISTEMA DE STAMINA: Desgaste pós-partida ---
-// Chamada após cada partida. Drena a currentStamina dos titulares.
-// Posições que correm mais perdem mais. Stamina alta = base de desgaste menor.
 function applyMatchStaminaDrain(team) {
-    const starters = team.players.filter(p => p.isStarter);
-    starters.forEach(p => {
+    const playedPlayers = team.players.filter(p => p.isStarter || p.subbedOut);
+    
+    playedPlayers.forEach(p => {
         const staminaStat = p.attributes.stamina || 70;
         const posMultiplier = STAMINA_DRAIN_BY_POSITION[p.primaryPosition] || 1.0;
-
-        // Jogador com stamina=100 perde 25 pts base; stamina=50 perde ~43 pts base
         const baseDrain = 25 + (100 - staminaStat) * 0.36;
         const totalDrain = baseDrain * posMultiplier;
 
-        p.currentStamina = Math.max(5, Math.round((p.currentStamina ?? 100) - totalDrain));
+        let playTime = 90;
+        if (p.subbedOut && p.subbedOutMinute) playTime = p.subbedOutMinute - (p.subbedInMinute || 0); 
+        else if (p.subbedInMinute) playTime = 90 - p.subbedInMinute; 
+
+        const progress = playTime / 90;
+        
+        // Usa o currentStamina se o preMatchStamina não existir (Jogos da CPU)
+        const baseStamina = p.preMatchStamina !== undefined ? p.preMatchStamina : (p.currentStamina ?? 100);
+        p.currentStamina = Math.max(5, Math.round(baseStamina - (totalDrain * progress)));
+    });
+
+    // 👇 FAXINA GLOBAL: Limpa a memória de jogo de TODOS os jogadores do elenco! 👇
+    team.players.forEach(p => {
+        delete p.preMatchStamina;
+        delete p.subbedOut;
+        delete p.subbedOutMinute;
+        delete p.subbedInMinute;
+        delete p.isBench;
     });
 }
 
@@ -497,7 +516,7 @@ function applyRolesBonus(team, sectors, roles) {
 }
 
 // --- NOVO SIMULADOR DE PARTIDAS (Baseado em Setores e Posse de Bola) ---
-function simulateMatch(homeTeam, awayTeam) {
+function simulateMatch(homeTeam, awayTeam, isLiveMatch = false) {
     const homeAdvantage = 3; // Fator casa
 
     homeTeam.players.filter(p => p.isStarter).forEach(p => p.gamesPlayed += 1);
@@ -692,11 +711,54 @@ function simulateMatch(homeTeam, awayTeam) {
     const homeCards = assignCards(homeTeam, homePossession);
     const awayCards = assignCards(awayTeam, awayPossession);
 
-    // --- DRENA A STAMINA DOS JOGADORES APÓS A PARTIDA ---
-    applyMatchStaminaDrain(homeTeam);
-    applyMatchStaminaDrain(awayTeam);
+    // 👇 O BLOCO CORRIGIDO ENTRA AQUI, DENTRO DA FUNÇÃO! 👇
+    // --- SIMULAÇÃO DE SUBSTITUIÇÕES E DESGASTE (Só para Quick Sim) ---
+    let homeSubs = [];
+    let awaySubs = [];
 
-    // ATUALIZE O RETURN PARA INCLUIR OS CARTÕES!
+    if (!isLiveMatch) {
+        function simulateAutoSubs(team, teamKey) {
+            const subs = [];
+            const starters = team.players.filter(p => p.isStarter);
+            const bench = getBalancedBench(team).bench.filter(p => !p.isStarter && !p.subbedOut && !p.subbedInMinute);
+            let subsMade = 0;
+            
+            const tiredPlayers = [...starters].sort((a, b) => {
+                const drainA = (100 - (a.attributes.stamina || 70)) * (STAMINA_DRAIN_BY_POSITION[a.primaryPosition] || 1.0);
+                const drainB = (100 - (b.attributes.stamina || 70)) * (STAMINA_DRAIN_BY_POSITION[b.primaryPosition] || 1.0);
+                return drainB - drainA;
+            });
+
+            for (let i = 0; i < tiredPlayers.length && subsMade < 5; i++) {
+                if (Math.random() < 0.65) { 
+                    const outP = tiredPlayers[i];
+                    let inP = bench.find(p => p.primaryPosition === outP.primaryPosition) || 
+                              bench.find(p => POSITIONS[p.primaryPosition].group === POSITIONS[outP.primaryPosition].group) || 
+                              bench[0]; 
+
+                    if (inP) {
+                        const min = 60 + Math.floor(Math.random() * 25); 
+                        outP.isStarter = false; outP.subbedOut = true; outP.subbedOutMinute = min;
+                        inP.isStarter = true; inP.subbedInMinute = min;
+                        subs.push({ minute: min, team: teamKey, type: 'sub', playerIn: inP, playerOut: outP });
+                        
+                        const bIdx = bench.indexOf(inP);
+                        if(bIdx > -1) bench.splice(bIdx, 1);
+                        subsMade++;
+                    }
+                }
+            }
+            return subs;
+        }
+
+        homeSubs = simulateAutoSubs(homeTeam, 'home');
+        awaySubs = simulateAutoSubs(awayTeam, 'away');
+
+        applyMatchStaminaDrain(homeTeam);
+        applyMatchStaminaDrain(awayTeam);
+    }
+
+    // ATUALIZE O RETURN PARA INCLUIR OS CARTÕES E AS SUBS!
     return { 
         homeTeam, awayTeam, 
         homeGoals, awayGoals, 
@@ -705,7 +767,8 @@ function simulateMatch(homeTeam, awayTeam) {
         homePasses, awayPasses,
         homePassAcc, awayPassAcc,
         homeShots, awayShots,
-        homeCards, awayCards // <-- Adicione isso aqui
+        homeCards, awayCards,
+        homeSubs, awaySubs
     };
 }
 
@@ -831,9 +894,17 @@ function generateNewsAfterRound(results) {
 
 function generateMatchEvents(matchResult) {
     const events = [];
-    const minutePool = Array.from({ length: 89 }, (_, i) => i + 1).sort(() => Math.random() - 0.5);
-    let minuteCursor = 0;
-    const getUniqueMinute = () => minuteCursor >= minutePool.length ? 89 : minutePool[minuteCursor++];
+    
+    // NOVA LÓGICA DE ESPAÇAMENTO DE TEMPO (Garante distância entre os lances)
+    let availableMinutes = Array.from({ length: 89 }, (_, i) => i + 1);
+    const getUniqueMinute = () => {
+        if (availableMinutes.length === 0) return 90; // Se encher demais, joga pros acréscimos
+        const idx = Math.floor(Math.random() * availableMinutes.length);
+        const min = availableMinutes[idx];
+        // Remove o minuto escolhido E os minutos colados a ele para espalhar os eventos!
+        availableMinutes = availableMinutes.filter(m => m < min - 1 || m > min + 1);
+        return min;
+    };
 
     // GERAÇÃO DE GOLS COM TEXTOS ESPECÍFICOS E DADOS DO JOGADOR
     const createGoalEvent = (eventData, teamName, teamType) => {
@@ -864,6 +935,10 @@ function generateMatchEvents(matchResult) {
         let text = c.isRed ? `CARTÃO VERMELHO direto para ${c.player.name} (${matchResult.awayTeam.name})! Expulsão claríssima!` : `Cartão amarelo para ${c.player.name} (${matchResult.awayTeam.name}) após chegar atrasado no lance.`;
         events.push({ minute: getUniqueMinute(), team: 'away', type: 'card', text: text, player: c.player, isRed: c.isRed });
     });
+
+    // Cole isso antes dos "Lances de perigo" na generateMatchEvents:
+    matchResult.homeSubs?.forEach(sub => events.push(sub));
+    matchResult.awaySubs?.forEach(sub => events.push(sub));
     
     // GERAÇÃO DE LANCES DE PERIGO E FALHAS DE BOLA PARADA
     const randomEvents = ['foul', 'corner', 'penalty_miss', 'normal', 'normal', 'normal', 'normal'];

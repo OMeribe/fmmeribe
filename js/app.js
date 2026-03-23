@@ -219,22 +219,40 @@ let liveSelectedPlayerId = null;
 
 let TICK_RATE = 1333; 
 
-function processEntireRound() {
+function processEntireRound(isLiveSim = false) {
     calculateTeamOveralls(); 
     const roundMatches = gameState.schedule[gameState.currentRound - 1];
     allRoundResults = [];
     
     roundMatches.forEach(match => {
-        const result = simulateMatch(match.home, match.away);
+        // CPU rotacionando o elenco que arrumamos antes
+        if (match.home.id !== gameState.playerTeam.id) autoSelectBestLineup(match.home);
+        if (match.away.id !== gameState.playerTeam.id) autoSelectBestLineup(match.away);
+
+        // Puxamos a variável para cima
+        const isPlayerMatch = match.home.id === gameState.playerTeam.id || match.away.id === gameState.playerTeam.id;
+        
+        // Passamos a flag para o motor
+        const result = simulateMatch(match.home, match.away, isLiveSim && isPlayerMatch);
         allRoundResults.push(result);
-        if (gameMode !== 'friendly') updateTableWithResult(result);
+
+        // --- CORREÇÃO AQUI: Só atualiza a tabela AGORA se NÃO for o seu jogo Ao Vivo ---
+        // (A linha duplicada foi apagada daqui!)
+        if (gameMode !== 'friendly') {
+            if (!(isLiveSim && isPlayerMatch)) {
+                updateTableWithResult(result);
+            }
+        }
 
         match.homeGoals = result.homeGoals;
         match.awayGoals = result.awayGoals;
         match.played = true;
     });
 
-    if (gameMode !== 'friendly') generateNewsAfterRound(allRoundResults);
+    // --- CORREÇÃO AQUI: Só gera o jornal se não for Ao Vivo ---
+    if (gameMode !== 'friendly' && !isLiveSim) {
+        generateNewsAfterRound(allRoundResults);
+    }
 }
 
 function animateCalendarToNextMatch(callback) {
@@ -311,6 +329,27 @@ function startQuickSim() {
 }
 
 function showRoundResultsFromLive() {
+    // --- CORREÇÃO AQUI: Atualiza a Tabela e as Notícias com o placar FINAL do Ao Vivo ---
+    if (gameMode !== 'friendly') {
+        updateTableWithResult(liveResultData);
+        
+        // Garante que o calendário receba os gols finais (pós-Dedo do Treinador)
+        const matchInSchedule = gameState.schedule[gameState.currentRound - 1].find(m => m.home.id === gameState.playerTeam.id || m.away.id === gameState.playerTeam.id);
+        if (matchInSchedule) {
+            matchInSchedule.homeGoals = liveResultData.homeGoals;
+            matchInSchedule.awayGoals = liveResultData.awayGoals;
+        }
+        
+        // 👇 CORREÇÃO: Atualiza também a variável global antes do jornal ser impresso! 👇
+        const matchInResults = allRoundResults.find(r => r.homeTeam.id === gameState.playerTeam.id || r.awayTeam.id === gameState.playerTeam.id);
+        if (matchInResults) {
+            matchInResults.homeGoals = liveResultData.homeGoals;
+            matchInResults.awayGoals = liveResultData.awayGoals;
+        }
+
+        generateNewsAfterRound(allRoundResults);
+    }
+
     finishRoundAndGoToHub(); 
     if (gameMode === 'friendly') renderPlayerStatsModal(liveResultData); 
     else { renderMatchResultsModal(allRoundResults); renderPlayerStatsModal(liveResultData); }
@@ -323,25 +362,36 @@ function startDeepSim() {
     // Pega os 10 reservas balanceados do seu time
     const myBench = getBalancedBench(pTeam).bench;
     
+    // (Código existente)
     pTeam.players.forEach(p => {
         p.preMatchStamina = p.currentStamina ?? 100;
-        p.subbedOut = false;
-        p.subbedInMinute = 0;
-        // Agora só marca como banco quem a IA de balanceamento selecionou
-        p.isBench = myBench.some(b => b.id === p.id); 
+        p.subbedOut = false; p.subbedInMinute = 0; p.isBench = myBench.some(b => b.id === p.id); 
     });
+
+    // --- NOVA LÓGICA: LIMPA A CPU TAMBÉM ANTES DA BOLA ROLAR ---
+    const roundMatches = gameState.schedule[gameState.currentRound - 1];
+    const liveMatch = roundMatches.find(m => m.home.id === pTeam.id || m.away.id === pTeam.id);
+    const cpuTeam = liveMatch.home.id === pTeam.id ? liveMatch.away : liveMatch.home;
+    const cpuBench = getBalancedBench(cpuTeam).bench;
+    
+    cpuTeam.players.forEach(p => {
+        p.preMatchStamina = p.currentStamina ?? 100;
+        p.subbedOut = false; p.subbedInMinute = 0; p.isBench = cpuBench.some(b => b.id === p.id);
+    });
+    // -------------------------------------------------------------
 
     // 2. Reseta as variáveis da Partida
     liveIsPaused = false;
     livePausesLeft = 3;
     liveSubsLeft = 5;
+    liveCpuSubsLeft = 5;
     liveSelectedPlayerId = null;
     liveHomeScore = 0;
     liveAwayScore = 0;
     currentLiveMinute = 0;
 
     // 3. Simula o campeonato em background e pega o nosso jogo
-    processEntireRound();
+    processEntireRound(true);
     liveResultData = allRoundResults.find(r => r.homeTeam.id === gameState.playerTeam.id || r.awayTeam.id === gameState.playerTeam.id);
     liveResultData.events = generateMatchEvents(liveResultData); 
     liveEvents = liveResultData.events;
@@ -410,9 +460,65 @@ function liveMatchTick() {
 
     if (currentLiveMinute % 5 === 0) renderLiveMatchPanels(currentLiveMinute);
 
+    // --- INTELIGÊNCIA ARTIFICIAL: SUBSTITUIÇÕES DA CPU ---
+    // A CPU avalia o time a cada 10 minutos (a partir dos 60')
+    if (currentLiveMinute >= 60 && currentLiveMinute % 10 === 0 && liveCpuSubsLeft > 0) {
+        const playerIsHome = liveResultData.homeTeam.id === gameState.playerTeam.id;
+        const cpuTeam = playerIsHome ? liveResultData.awayTeam : liveResultData.homeTeam;
+        
+        // Acha o titular mais cansado em campo
+        let mostTired = null;
+        let lowestSta = 100;
+        
+        cpuTeam.players.filter(p => p.isStarter).forEach(p => {
+            const playTime = currentLiveMinute - (p.subbedInMinute || 0);
+            const drain = (25 + (100 - (p.attributes.stamina || 70)) * 0.36) * (STAMINA_DRAIN_BY_POSITION[p.primaryPosition] || 1.0);
+            const sta = Math.max(5, (p.preMatchStamina ?? 100) - (drain * (playTime / 90)));
+            if (sta < lowestSta) { lowestSta = sta; mostTired = p; }
+        });
+
+        // Se o cara estiver com menos de 55 de energia, o treinador da CPU saca ele!
+        if (lowestSta < 55 && mostTired) {
+            const cpuBench = getBalancedBench(cpuTeam).bench.filter(p => !p.isStarter && !p.subbedOut);
+            
+            // Busca um reserva da MESMA POSIÇÃO ou do MESMO GRUPO (ex: sai ZAG, entra ZAG/LE/LD)
+            let sub = cpuBench.find(p => p.primaryPosition === mostTired.primaryPosition);
+            if (!sub) sub = cpuBench.find(p => POSITIONS[p.primaryPosition].group === POSITIONS[mostTired.primaryPosition].group);
+            if (!sub) sub = cpuBench[0]; // Desespero tático
+            
+            if (sub) {
+                mostTired.isStarter = false;
+                mostTired.subbedOut = true;
+                mostTired.subbedOutMinute = currentLiveMinute;
+                
+                sub.isStarter = true;
+                sub.subbedInMinute = currentLiveMinute;
+                liveCpuSubsLeft--;
+                
+                addLiveCommentary(`${currentLiveMinute}' - 🔄 SUBSTITUIÇÃO NA CPU: O ${cpuTeam.name} mexe no time! Sai ${mostTired.name} (esgotado), entra ${sub.name}.`, "info");
+
+                liveEvents.push({ 
+                    minute: currentLiveMinute, 
+                    // Se o jogador é o time da casa, a CPU é o 'away', e vice-versa
+                    team: playerIsHome ? 'away' : 'home', 
+                    type: 'sub', 
+                    playerIn: sub, 
+                    playerOut: mostTired 
+                });
+                calculateTeamOveralls();
+                renderLiveMatchPanels(currentLiveMinute);
+            }
+        }
+    }
+    // -----------------------------------------------------
+
     if (currentLiveMinute >= 90) {
         clearInterval(liveMatchTimer);
-        addLiveCommentary("Fim de papo! O juiz encerra a partida.", "info");
+        addLiveCommentary("Fim de papo! O árbitro encerra a partida.", "info");
+        
+        // 👉 ADICIONE ESTAS DUAS LINHAS AQUI:
+        applyMatchStaminaDrain(liveResultData.homeTeam);
+        applyMatchStaminaDrain(liveResultData.awayTeam);
         
         document.getElementById('live-match-skip').classList.add('hidden'); 
         document.getElementById('btn-pause-match').classList.add('hidden'); 
@@ -496,6 +602,7 @@ function handleLivePlayerClick(playerId) {
     // EFETUA A TROCA FÍSICA NO BANCO
     starter.isStarter = false;
     starter.subbedOut = true; 
+    starter.subbedOutMinute = currentLiveMinute; // ⏱️ GRAVA A HORA EXATA QUE ELE SAIU
     
     bench.isStarter = true;
     bench.subbedInMinute = currentLiveMinute; 
@@ -503,6 +610,15 @@ function handleLivePlayerClick(playerId) {
     liveSubsLeft--;
     document.getElementById('subs-left-count').textContent = `${liveSubsLeft} Subs`;
     addLiveCommentary(`${currentLiveMinute}' - 🔄 SUBSTITUIÇÃO: Sai ${starter.name}, entra ${bench.name}.`, "info");
+
+    const isHomeSub = liveResultData.homeTeam.id === pTeam.id;
+    liveEvents.push({ 
+        minute: currentLiveMinute, 
+        team: isHomeSub ? 'home' : 'away', 
+        type: 'sub', 
+        playerIn: bench, 
+        playerOut: starter 
+    });
     
     // =========================================================================
     // A MÁGICA: O FATOR MOMENTUM (IMPACTO TÁTICO NO MOTOR)
@@ -514,8 +630,21 @@ function handleLivePlayerClick(playerId) {
     // 1. FATOR DESTINO: O reserva "herda" todos os lances que seriam do cara cansado
     const futureEvents = liveEvents.filter(e => e.minute > currentLiveMinute);
     futureEvents.forEach(ev => {
+        // Transfere o evento e corrige as estatísticas da temporada!
+        if (ev.type === 'goal' && ev.player && ev.player.id === starter.id) {
+            ev.player = bench;
+            starter.goals = Math.max(0, (starter.goals || 0) - 1);
+            bench.goals = (bench.goals || 0) + 1;
+        }
+        if (ev.type === 'goal' && ev.assister && ev.assister.id === starter.id) {
+            ev.assister = bench;
+            starter.assists = Math.max(0, (starter.assists || 0) - 1);
+            bench.assists = (bench.assists || 0) + 1;
+        }
+        // Aplica a troca visual para Lances Normais, Faltas, etc.
         if (ev.player && ev.player.id === starter.id) ev.player = bench;
         if (ev.assister && ev.assister.id === starter.id) ev.assister = bench;
+        
         ev.text = ev.text.replace(new RegExp(starter.name, 'g'), bench.name);
     });
 
@@ -555,6 +684,11 @@ function handleLivePlayerClick(playerId) {
                 const oppGoalIndex = liveEvents.findIndex(e => e.minute > currentLiveMinute && e.type === 'goal' && e.team === oppTeamKey);
                 if (oppGoalIndex !== -1) {
                     const removedGoal = liveEvents[oppGoalIndex];
+
+                    if (removedGoal.assister) {
+                        removedGoal.assister.assists = Math.max(0, (removedGoal.assister.assists || 0) - 1);
+                    }
+
                     // Transforma o gol num desarme épico
                     liveEvents[oppGoalIndex].type = 'normal';
                     liveEvents[oppGoalIndex].text = `Incrível! O adversário ia marcar um gol certo, mas ${bench.name} (que acabou de entrar) volta numa velocidade absurda e salva o time!`;
@@ -605,8 +739,9 @@ function skipLiveMatch() {
 let gameMode = 'career'; // Pode ser 'career' ou 'friendly'
 let friendlyHomeIndex = 0;
 let friendlyAwayIndex = 1;
+let hasInitializedFriendly = false;
+let friendlyStaminaSnapshot = {};
 
-let hasInitializedFriendly = false; // Memória para saber se já escolhemos antes
 function openFriendlySetup() {
     gameMode = 'friendly';
     teamsData.sort((a, b) => a.name.localeCompare(b.name));
@@ -668,9 +803,19 @@ function startFriendlySession() {
     const homeTeam = teamsData[friendlyHomeIndex];
     const awayTeam = teamsData[friendlyAwayIndex];
 
-    // RECUPERA STAMINA PARA 100% SEMPRE NO AMISTOSO
-    homeTeam.players.forEach(p => p.currentStamina = 100);
-    awayTeam.players.forEach(p => p.currentStamina = 100);
+    // 👇 SÓ TIRA A FOTO SE ESTIVER VAZIA (Evita bugar na Revanche) 👇
+    if (Object.keys(friendlyStaminaSnapshot).length === 0) {
+        [homeTeam, awayTeam].forEach(team => {
+            team.players.forEach(p => {
+                friendlyStaminaSnapshot[p.id] = p.currentStamina ?? 100; // Salva o fôlego da Carreira
+            });
+        });
+    }
+    
+    // Enche para o Amistoso
+    [homeTeam, awayTeam].forEach(team => {
+        team.players.forEach(p => p.currentStamina = 100);
+    });
 
     gameState.playerTeam = homeTeam; 
     autoSelectBestLineup(gameState.playerTeam);
@@ -688,14 +833,28 @@ function rematchFriendly() {
     startFriendlySession(); // Joga com os mesmos times e stamina renovada
 }
 
+function restoreStaminaAfterFriendly() {
+    // CORREÇÃO: Varre TODOS os times e devolve a stamina exata pelo ID, ignorando índices.
+    teamsData.forEach(team => {
+        team.players.forEach(p => {
+            if (friendlyStaminaSnapshot[p.id] !== undefined) {
+                p.currentStamina = friendlyStaminaSnapshot[p.id]; 
+            }
+        });
+    });
+    friendlyStaminaSnapshot = {};
+}
+
 function backToFriendlySetup() {
     closeModal('player-stats-modal');
-    updateFriendlyUI(); // Abre a tela dupla já com os últimos times setados!
+    restoreStaminaAfterFriendly(); // DEVOLVE STAMINA DA CARREIRA
+    updateFriendlyUI(); 
     showScreen('friendly-setup-screen');
 }
 
 function exitToMainMenu() {
     closeModal('player-stats-modal');
+    restoreStaminaAfterFriendly(); // DEVOLVE STAMINA DA CARREIRA
     showScreen('main-menu-screen');
 }
 
@@ -773,6 +932,14 @@ function processSaveFile(event) {
                     });
                 });
             }
+
+            // 👇 NOVA LÓGICA: Atualiza o relógio de IDs para não clonar jogadores 👇
+            let maxIdEncontrado = 0;
+            teamsData.forEach(t => t.players.forEach(p => { 
+                if(p.id > maxIdEncontrado) maxIdEncontrado = p.id; 
+            }));
+            if(typeof syncPlayerIdCounter === 'function') syncPlayerIdCounter(maxIdEncontrado);
+            // 👆 ATÉ AQUI 👆
             
             gameMode = 'career';
             updateHub();
@@ -816,7 +983,22 @@ function clearCacheData() {
     if (confirmDelete) {
         localStorage.clear(); // Limpa resíduos de memory card antigo
         alert("🧹 Cache limpo com sucesso!");
+        location.reload(); // <-- FORÇA A LIMPEZA VISUAL
     }
+}
+
+// --- SISTEMA DE FUNÇÕES TÁTICAS (Capitão e Batedores) ---
+function setTeamRole(roleKey, playerName) {
+    // Atualiza a memória global do jogo com o jogador escolhido na interface
+    gameState.roles[roleKey] = playerName;
+    
+    // Como garantia, atualiza também dentro do objeto do próprio time
+    if (gameState.playerTeam) {
+        if (!gameState.playerTeam.roles) gameState.playerTeam.roles = {};
+        gameState.playerTeam.roles[roleKey] = playerName;
+    }
+    
+    console.log(`Função ${roleKey} atualizada para: ${playerName}`);
 }
 
 // INICIAR O JOGO QUANDO A PÁGINA CARREGAR

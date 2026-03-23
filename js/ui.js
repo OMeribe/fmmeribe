@@ -595,15 +595,22 @@ function renderPlayerStatsModal(res) {
     }
 
     // Timeline Compacta
-    const keyEvents = res.events.filter(e => e.type === 'goal' || e.type === 'card').sort((a, b) => a.minute - b.minute);
-    let eventsHTML = '';
+    // Adiciona o 'sub' no filtro
+    const keyEvents = res.events.filter(e => e.type === 'goal' || e.type === 'card' || e.type === 'sub').sort((a, b) => a.minute - b.minute);
     
+    let eventsHTML = '';
     if (keyEvents.length > 0) {
         const eventsList = keyEvents.map(ev => {
             const isHome = ev.team === 'home';
-            const icon = ev.type === 'goal' ? '⚽' : (ev.isRed ? '🟥' : '🟨');
-            const photoUrl = ev.player?.photo || 'https://placehold.co/28x28/2d3748/ffffff?text=?';
-            const playerName = ev.player?.name || 'Jogador';
+            // Escolhe o ícone: Gol, Troca ou Cartão
+            const icon = ev.type === 'goal' ? '⚽' : (ev.type === 'sub' ? '🔄' : (ev.isRed ? '🟥' : '🟨'));
+            // Pega a foto certa
+            const photoUrl = (ev.type === 'sub' ? ev.playerIn?.photo : ev.player?.photo) || 'https://placehold.co/28x28/2d3748/ffffff?text=?';
+            
+            // Escreve o nome baseado no tipo de evento
+            let playerName = 'Jogador';
+            if (ev.type === 'sub') playerName = `IN: ${ev.playerIn?.name.split(' ')[0]} | OUT: ${ev.playerOut?.name.split(' ')[0]}`;
+            else playerName = ev.player?.name || 'Jogador';        
 
             if (isHome) {
                 return `
@@ -1399,6 +1406,7 @@ function openPatchNotes() {
 }
 
 // --- NOVA FUNÇÃO: RENDERIZA OS TIMES E O BANCO AO VIVO ---
+// --- NOVA FUNÇÃO: RENDERIZA OS TIMES E O BANCO AO VIVO ---
 function renderLiveMatchPanels(currentMinute) {
     if (!liveResultData) return;
 
@@ -1406,26 +1414,35 @@ function renderLiveMatchPanels(currentMinute) {
     const renderTeamLineup = (team, containerId, isHome) => {
         const container = document.getElementById(containerId);
         const starters = team.players.filter(p => p.isStarter);
-        const progress = currentMinute / 90; // Ex: 45min = 0.5 (50% do jogo)
+        const isMyTeam = team.id === gameState.playerTeam.id; // Descobre se é o time do jogador
 
         let html = `<h3 class="text-center text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 border-b border-gray-700 pb-2">${team.name}</h3><div class="flex flex-col gap-1.5">`;
         
         starters.forEach(p => {
-            // Calcula o desgaste exato neste minuto
+            // CORREÇÃO: Calcula o cansaço SÓ baseado nos minutos que ele esteve em campo!
+            const playTime = currentMinute - (p.subbedInMinute || 0);
+            const realProgress = playTime / 90;
+
             const staminaStat = p.attributes.stamina || 70;
             const posMultiplier = STAMINA_DRAIN_BY_POSITION[p.primaryPosition] || 1.0;
             const totalDrain = (25 + (100 - staminaStat) * 0.36) * posMultiplier;
-            const estimated = Math.max(5, Math.round((p.preMatchStamina ?? 100) - (totalDrain * progress)));
+            const estimated = Math.max(5, Math.round((p.preMatchStamina ?? 100) - (totalDrain * realProgress)));
             
             const barColor = estimated >= 70 ? 'bg-green-500' : estimated >= 40 ? 'bg-yellow-500' : 'bg-red-500';
             const textColor = estimated >= 70 ? 'text-green-400' : estimated >= 40 ? 'text-yellow-400' : 'text-red-400';
-            const icon = estimated < 38 ? '⚠️' : ''; // Alerta visual
+            const icon = estimated < 38 ? '⚠️' : ''; 
+
+            // LÓGICA DE CLIQUE E SELEÇÃO (Faltava isso!)
+            const isSelected = typeof liveSelectedPlayerId !== 'undefined' && liveSelectedPlayerId === p.id;
+            const activeStyle = isSelected ? 'border-yellow-400 bg-yellow-900/50' : 'border-gray-700 bg-gray-900';
+            const clickEvent = isMyTeam ? `onclick="handleLivePlayerClick(${p.id})"` : '';
+            const cursorStyle = (isMyTeam && typeof liveIsPaused !== 'undefined' && liveIsPaused) ? 'cursor-pointer hover:border-yellow-500' : '';
 
             html += `
-                <div class="flex items-center justify-between bg-gray-900 p-2 rounded-lg border border-gray-700 shadow-sm">
+                <div ${clickEvent} class="flex items-center justify-between p-2 rounded-lg border shadow-sm transition-colors ${activeStyle} ${cursorStyle}">
                     <div class="flex items-center gap-2 w-7/12 min-w-0">
                         <span class="text-[9px] font-black text-gray-500 w-4 text-center">${p.number}</span>
-                        <img src="${p.photo}" class="h-7 w-7 rounded-full object-cover border border-gray-600 bg-gray-800 flex-shrink-0">
+                        <img src="${p.photo}" class="h-7 w-7 rounded-full object-cover border border-gray-600 bg-gray-800 flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/28x28/2d3748/ffffff?text=?';">
                         <div class="flex flex-col min-w-0">
                             <span class="text-[11px] font-bold text-gray-200 truncate" title="${p.name}">${p.name}</span>
                             <span class="text-[9px] text-gray-500 font-bold">${p.primaryPosition}</span>
@@ -1445,7 +1462,6 @@ function renderLiveMatchPanels(currentMinute) {
         container.innerHTML = html;
     };
 
-    // Desenha os 11 de cada lado
     renderTeamLineup(liveResultData.homeTeam, 'live-home-lineup-container', true);
     renderTeamLineup(liveResultData.awayTeam, 'live-away-lineup-container', false);
 
@@ -1453,19 +1469,21 @@ function renderLiveMatchPanels(currentMinute) {
     const isPlayerHome = liveResultData.homeTeam.id === gameState.playerTeam.id;
     const playerTeam = isPlayerHome ? liveResultData.homeTeam : liveResultData.awayTeam;
     
-    // Puxa os reservas já filtrados pela nossa IA de Balanceamento (Exatamente como nas Táticas)
-    const bench = getBalancedBench(playerTeam).bench;
-    
-    // Filtra os 10 primeiros que NÃO são titulares
-
+    const bench = getBalancedBench(playerTeam).bench.filter(p => !p.subbedOut);
     const benchContainer = document.getElementById('live-bench-container');
     let benchHtml = '';
+    
     bench.forEach(p => {
         const nameParts = p.name.split(' ');
         const shortName = nameParts.length > 1 ? nameParts[0] + ' ' + nameParts[nameParts.length-1] : p.name;
         
+        // LÓGICA DE CLIQUE PARA OS RESERVAS
+        const isSelected = typeof liveSelectedPlayerId !== 'undefined' && liveSelectedPlayerId === p.id;
+        const activeStyle = isSelected ? 'border-yellow-400 bg-yellow-900/50 opacity-100' : 'border-gray-700 bg-gray-900';
+        const cursorState = (typeof liveIsPaused !== 'undefined' && liveIsPaused) ? 'cursor-pointer hover:border-yellow-500 opacity-100' : 'cursor-not-allowed opacity-80';
+
         benchHtml += `
-            <div class="flex items-center justify-between bg-gray-900 p-2 rounded border border-gray-700 cursor-not-allowed opacity-80">
+            <div onclick="handleLivePlayerClick(${p.id})" class="flex items-center justify-between p-2 rounded border transition-colors ${activeStyle} ${cursorState}">
                 <div class="flex items-center gap-1.5 min-w-0">
                     <span class="text-[9px] font-black text-gray-500 w-3">${p.number}</span>
                     <span class="text-[10px] font-bold text-gray-300 truncate" title="${p.name}">${shortName}</span>
